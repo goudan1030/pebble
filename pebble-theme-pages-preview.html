@@ -2716,17 +2716,192 @@
         place-items: center;
         overflow: hidden;
         border-radius: 20px;
-        background:
-          radial-gradient(circle at 22% 24%, #ffffff 0 36px, transparent 37px),
-          radial-gradient(circle at 68% 62%, #d7e6dd 0 112px, transparent 113px),
-          linear-gradient(135deg, #f7ead6, #eeeeee);
+        background: #ffffff;
       }
 
-      .not-found-page__visual strong {
-        font-size: clamp(4.5rem, 10vw, 8rem);
+      .retro-tv-mini {
+        position: relative;
+        width: min(320px, 80%);
+        aspect-ratio: 480 / 260;
+        height: auto;
+        display: grid;
+        place-items: center;
+      }
+
+      .retro-tv-mini svg {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+      }
+
+      .retro-tv-mini__code {
+        position: absolute;
+        inset: auto 0 10px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        color: rgba(46, 46, 46, 0.34);
+        font-size: clamp(96px, 12vw, 148px);
         font-weight: 950;
-        letter-spacing: -0.1em;
-        line-height: 0.8;
+        line-height: 0.78;
+        letter-spacing: -0.12em;
+      }
+
+      .retro-tv-mini__set {
+        position: relative;
+        z-index: 1;
+        width: 146px;
+        height: 92px;
+      }
+
+      .retro-tv-mini__antenna {
+        position: absolute;
+        left: 50%;
+        top: -50px;
+        width: 72px;
+        height: 58px;
+        transform: translateX(-50%);
+      }
+
+      .retro-tv-mini__antenna::before,
+      .retro-tv-mini__antenna::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        width: 4px;
+        height: 58px;
+        border-radius: 999px;
+        background: #2e2e2e;
+        transform-origin: bottom center;
+      }
+
+      .retro-tv-mini__antenna::before {
+        left: 22px;
+        transform: rotate(-28deg);
+      }
+
+      .retro-tv-mini__antenna::after {
+        right: 22px;
+        transform: rotate(28deg);
+      }
+
+      .retro-tv-mini__antenna span {
+        position: absolute;
+        top: 4px;
+        width: 10px;
+        height: 10px;
+        border: 2px solid #2e2e2e;
+        border-radius: 50%;
+        background: #ffffff;
+      }
+
+      .retro-tv-mini__antenna span:first-child {
+        left: 5px;
+      }
+
+      .retro-tv-mini__antenna span:last-child {
+        right: 5px;
+      }
+
+      .retro-tv-mini__body {
+        position: absolute;
+        inset: 12px 0 8px;
+        display: grid;
+        grid-template-columns: 1fr 44px;
+        gap: 8px;
+        padding: 9px;
+        border: 4px solid #111111;
+        border-radius: 14px;
+        background: #d98620;
+        box-shadow: inset 0 0 0 2px rgba(255, 196, 88, 0.5), 0 10px 0 #1f1f1f;
+      }
+
+      .retro-tv-mini__screen {
+        position: relative;
+        overflow: hidden;
+        border: 3px solid #111111;
+        border-radius: 8px;
+        background:
+          repeating-radial-gradient(circle at 22% 30%, rgba(255, 255, 255, 0.9) 0 1px, transparent 1px 3px),
+          repeating-linear-gradient(0deg, #050505 0 2px, #e8e8e8 2px 3px, #2a2a2a 3px 5px);
+        animation: tv-static 0.55s steps(2, end) infinite;
+      }
+
+      .retro-tv-mini__screen::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+        transform: translateX(-100%);
+        animation: tv-scan 2.4s linear infinite;
+      }
+
+      .retro-tv-mini__screen span {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        padding: 3px 6px;
+        border-radius: 4px;
+        color: #ffffff;
+        background: rgba(17, 17, 17, 0.72);
+        font-size: 10px;
+        font-weight: 950;
+        text-transform: uppercase;
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
+      }
+
+      .retro-tv-mini__panel {
+        display: grid;
+        align-content: start;
+        justify-items: center;
+        gap: 8px;
+        padding-top: 4px;
+      }
+
+      .retro-tv-mini__dial {
+        width: 24px;
+        height: 24px;
+        border: 3px solid #111111;
+        border-radius: 50%;
+        background: #c06f18;
+        box-shadow: inset 5px 0 0 rgba(255, 255, 255, 0.22);
+      }
+
+      .retro-tv-mini__speaker {
+        display: grid;
+        gap: 4px;
+        width: 28px;
+      }
+
+      .retro-tv-mini__speaker span {
+        height: 3px;
+        border-radius: 999px;
+        background: #111111;
+      }
+
+      .retro-tv-mini__base {
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        bottom: 0;
+        height: 8px;
+        background: #111111;
+      }
+
+      @keyframes tv-static {
+        0% {
+          background-position: 0 0, 0 0;
+        }
+        100% {
+          background-position: 8px -12px, 0 7px;
+        }
+      }
+
+      @keyframes tv-scan {
+        to {
+          transform: translateX(100%);
+        }
       }
 
       .not-found-page__copy {
@@ -4403,46 +4578,35 @@
               </div>
               <div class="auth-spec-grid">
                 <article class="auth-card">
-                  <h3>Sign in to see your custom gifts.</h3>
-                  <p>Use this for account login, order tracking prompts, and saved design access.</p>
-                  <div class="field">
-                    <label>Email</label>
-                    <input class="input" placeholder="you@example.com" />
-                  </div>
-                  <div class="field">
-                    <label>Password</label>
-                    <input class="input" placeholder="Enter password" type="password" />
-                  </div>
+                  <h3>Account modal surface.</h3>
+                  <p>Login, register and forgot password open in a global modal instead of navigating away from shopping pages.</p>
                   <div class="auth-actions">
-                    <button class="btn btn-primary" type="button">Sign in <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg?v=2" alt="" aria-hidden="true" /></span></button>
-                    <button class="auth-link" type="button">Forgot password?</button>
+                    <button class="btn btn-primary" type="button">Open login modal <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg?v=2" alt="" aria-hidden="true" /></span></button>
+                    <button class="btn btn-secondary" type="button">Open register modal</button>
                   </div>
+                  <span class="help">Left panel uses playful watching characters; right panel switches states with tabs.</span>
                 </article>
 
                 <article class="auth-card">
-                  <h3>Continue with one tap.</h3>
-                  <p>Third-party login buttons should be calm white pills with clear hover contrast.</p>
+                  <h3>Login state.</h3>
+                  <p>Use email, password, remember checkbox, forgot link and Google login inside the same modal panel.</p>
                   <div class="social-login-row">
-                    <button class="social-login" type="button">Continue with Google <span>G</span></button>
-                    <button class="social-login" type="button">Continue with Apple <span></span></button>
-                    <button class="social-login" type="button">Continue with Facebook <span>f</span></button>
+                    <button class="social-login" type="button">Email + password <span>1</span></button>
+                    <button class="social-login" type="button">Forgot password <span>2</span></button>
+                    <button class="social-login" type="button">Google login <span>3</span></button>
                   </div>
-                  <span class="help">Keep the provider logo circle at the right edge for scanability.</span>
+                  <span class="help">Password visibility makes the purple character peek; typing makes characters look toward the form.</span>
                 </article>
 
                 <article class="auth-card">
-                  <h3>Reset password flow.</h3>
-                  <p>Forgot password and reset password cards should use the same quiet surface system.</p>
+                  <h3>Register and reset states.</h3>
+                  <p>Register and reset reuse the same modal shell. Switch with tabs or inline links; never open a second page.</p>
                   <div class="field">
-                    <label>Account email</label>
-                    <input class="input" placeholder="Send reset link to email" />
+                    <label>Modal state</label>
+                    <input class="input" value="Login · Sign up · Reset password" />
                   </div>
                   <button class="btn btn-secondary" type="button">Send reset link <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg?v=2" alt="" aria-hidden="true" /></span></button>
-                  <div class="field">
-                    <label>New password</label>
-                    <input class="input" placeholder="Create a new password" type="password" />
-                    <span class="help">At least 8 characters, one number, one letter.</span>
-                  </div>
+                  <span class="help">Close through X, backdrop or Escape. Account icon opens login by default.</span>
                 </article>
               </div>
             </div>
@@ -4687,14 +4851,65 @@
             </div>
             <div class="system-state-board">
               <article class="not-found-page">
-                <div class="not-found-page__visual"><strong>404</strong></div>
+                <div class="not-found-page__visual">
+                  <div class="retro-tv-mini" aria-hidden="true">
+                    <svg viewBox="0 0 480 260" role="img" aria-label="Retro TV 404 illustration">
+                      <defs>
+                        <clipPath id="guide-tv-screen-clip">
+                          <rect x="132" y="138" width="162" height="68" rx="8" />
+                        </clipPath>
+                        <pattern id="guide-tv-static-pattern" width="8" height="8" patternUnits="userSpaceOnUse">
+                          <rect width="8" height="8" fill="#f7f7f7" />
+                          <rect x="0" y="0" width="2" height="2" fill="#111" />
+                          <rect x="5" y="1" width="1.5" height="1.5" fill="#111" />
+                          <rect x="3" y="4" width="2" height="1.5" fill="#111" />
+                          <rect x="7" y="6" width="1" height="1" fill="#111" />
+                          <rect x="1" y="6" width="1.5" height="1.5" fill="#999" />
+                        </pattern>
+                      </defs>
+                      <text x="240" y="142" fill="rgba(46,46,46,.34)" font-size="174" font-weight="800" text-anchor="middle" letter-spacing="-16">404</text>
+                      <g fill="none" stroke="#252525" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
+                        <path d="M210 116 165 42" />
+                        <path d="M270 116 315 42" />
+                        <circle cx="160" cy="34" r="7" fill="#fff" />
+                        <circle cx="320" cy="34" r="7" fill="#fff" />
+                        <path d="M260 96 305 75 282 116" />
+                      </g>
+                      <ellipse cx="240" cy="123" rx="63" ry="35" fill="#ff8a14" stroke="#111" stroke-width="6" />
+                      <ellipse cx="216" cy="112" rx="25" ry="11" fill="#ffb04b" opacity=".72" transform="rotate(-22 216 112)" />
+                      <rect x="112" y="118" width="256" height="116" rx="17" fill="#d98620" stroke="#111" stroke-width="6" />
+                      <rect x="126" y="132" width="174" height="80" rx="12" fill="#111" stroke="#111" stroke-width="5" />
+                      <g clip-path="url(#guide-tv-screen-clip)">
+                        <rect x="132" y="138" width="162" height="68" fill="url(#guide-tv-static-pattern)" />
+                        <path d="M132 153h162M132 174h162M132 196h162" stroke="#111" stroke-width="2" opacity=".28" />
+                      </g>
+                      <rect x="187" y="167" width="80" height="25" rx="7" fill="#111" opacity=".86" />
+                      <text x="227" y="184" fill="#fff" font-size="16" font-weight="900" text-anchor="middle">NOT FOUND</text>
+                      <g stroke="#111" stroke-width="5">
+                        <circle cx="330" cy="153" r="17" fill="#c06f18" />
+                        <path d="M320 163 340 143" />
+                        <circle cx="330" cy="191" r="17" fill="#c06f18" />
+                        <path d="M320 181 340 201" />
+                      </g>
+                      <g fill="#111">
+                        <circle cx="315" cy="218" r="4" />
+                        <circle cx="333" cy="218" r="4" />
+                        <circle cx="351" cy="218" r="4" />
+                        <rect x="315" y="230" width="45" height="4" rx="2" />
+                        <rect x="315" y="242" width="45" height="4" rx="2" />
+                        <rect x="154" y="234" width="35" height="22" />
+                        <rect x="288" y="234" width="35" height="22" />
+                        <rect x="106" y="254" width="268" height="5" rx="2.5" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
                 <div class="not-found-page__copy">
                   <div class="eyebrow">Page not found</div>
-                  <h3>This gift page wandered off.</h3>
-                  <p>Use this full-page component when a route, product, blog post or collection no longer exists. Keep the tone calm, give one primary recovery path, and offer search as the secondary path.</p>
+                  <h3>Page not found</h3>
+                  <p>404 pages use the Retro TV illustration above the title, one short explanation and one primary recovery action. Keep the hero around 400px tall, then continue with product recommendations.</p>
                   <div class="state-actions">
-                    <button class="state-action is-primary" type="button">Shop best sellers</button>
-                    <button class="state-action" type="button">Search gifts</button>
+                    <button class="state-action is-primary" type="button">Continue Shopping</button>
                   </div>
                 </div>
               </article>
@@ -4963,7 +5178,7 @@
               <p>Chrome should be light, sticky and useful without stealing attention from product imagery.</p>
             </div>
             <div class="rule-list">
-              <div class="rule"><b>Offer bar</b><span>Caramel background, white text, 14px, centered. Use it for one strong promotion only.</span></div>
+              <div class="rule"><b>Offer bar</b><span>40px high announcement carousel with two vertical slides. First slide uses caramel, second slide uses pink, both centered at 14px with white text.</span></div>
               <div class="rule"><b>Header</b><span>Sticky, white 94% opacity, blur 18px, 1px subtle border. Grid: left nav, centered logo, right icons.</span></div>
               <div class="rule"><b>Logo</b><span>Use provided <code>milalogo.svg</code>. Width clamps from 104px to 146px.</span></div>
               <div class="rule"><b>Search</b><span>Use a global overlay with backdrop. Clicking backdrop or empty overlay area closes it. Do not place the mask inside the header.</span></div>
@@ -5159,12 +5374,12 @@ if ("IntersectionObserver" in window) {
               <article class="page-blueprint">
                 <div class="page-blueprint__meta"><span>P3 account</span><h3>Auth pages</h3><code>account.login · register</code><a href="pebble-auth-preview.html">Preview</a></div>
                 <div class="page-blueprint__rules">
-                  <div class="page-rule-row"><b>Structure</b><p>Centered auth card with logo, concise title, fields, primary action and social login row.</p></div>
-                  <div class="page-rule-row"><b>Components</b><p>Email/password fields, verification code, social buttons, password reset link, register/login switch.</p></div>
-                  <div class="page-rule-row"><b>Copy</b><p>Remove generic title kickers. Use direct copy: “Sign in to see your custom gifts.”</p></div>
-                  <div class="page-rule-row"><b>State</b><p>Loading, invalid credentials, verification sent and password reset success all need consistent cards.</p></div>
+                  <div class="page-rule-row"><b>Structure</b><p>Auth is a global modal flow, not a standalone destination. Account icon, sign-in prompts and protected actions open the modal over the current page.</p></div>
+                  <div class="page-rule-row"><b>Components</b><p>Modal backdrop, close button, character illustration panel, login/register/reset tabs, email/password fields, remember checkbox, password visibility and Google login.</p></div>
+                  <div class="page-rule-row"><b>Copy</b><p>Login uses “Welcome back!”; register uses “Create your account”; reset uses “Reset password”. Keep all copy short.</p></div>
+                  <div class="page-rule-row"><b>State</b><p>Typing moves the character attention toward the form. Password visibility triggers a playful peek state. Loading and errors stay inside the modal.</p></div>
                 </div>
-                <div class="page-blueprint__wire"><span class="wire-line medium"></span><span class="wire-card"></span><span class="wire-card"></span><span class="wire-button"></span><div class="wire-grid-3"><span class="wire-pill"></span><span class="wire-pill"></span><span class="wire-pill"></span></div></div>
+                <div class="page-blueprint__wire"><div class="wire-grid-2"><span class="wire-image"></span><div><span class="wire-line medium"></span><br><span class="wire-card"></span><br><span class="wire-button"></span></div></div><div class="wire-grid-3"><span class="wire-pill"></span><span class="wire-pill"></span><span class="wire-pill"></span></div></div>
               </article>
 
               <article class="page-blueprint">
@@ -5192,12 +5407,12 @@ if ("IntersectionObserver" in window) {
               <article class="page-blueprint">
                 <div class="page-blueprint__meta"><span>P4 system</span><h3>404 and payment result</h3><code>404 · payment.result</code><a href="pebble-404-preview.html">404</a><a href="pebble-payment-success-preview.html">Success</a><a href="pebble-payment-failure-preview.html">Failure</a><a href="pebble-payment-pending-preview.html">Pending</a></div>
                 <div class="page-blueprint__rules">
-                  <div class="page-rule-row"><b>Structure</b><p>Centered state page with clear result title, short explanation and two next actions.</p></div>
-                  <div class="page-rule-row"><b>Components</b><p>Status illustration/media block, result badge, order summary, Back home, Track order, Continue payment where relevant.</p></div>
+                  <div class="page-rule-row"><b>Structure</b><p>404 is a compact 400px hero: Retro TV illustration, title, one-line description and one primary button. Product recommendations follow below.</p></div>
+                  <div class="page-rule-row"><b>Components</b><p>404 uses Retro TV, Continue Shopping CTA and related product carousel. Payment results use status icon, order summary, Track order or Continue payment where relevant.</p></div>
                   <div class="page-rule-row"><b>State</b><p>Payment success, failed, pending and canceled need distinct badges and next steps.</p></div>
-                  <div class="page-rule-row"><b>Style</b><p>Do not overdecorate error pages. Use white, black CTA and one restrained accent.</p></div>
+                  <div class="page-rule-row"><b>Style</b><p>404 can be playful, but the content remains simple. Avoid extra badges, secondary buttons or long copy in the hero.</p></div>
                 </div>
-                <div class="page-blueprint__wire"><span class="wire-image"></span><span class="wire-line medium"></span><span class="wire-line"></span><div class="wire-grid-2"><span class="wire-button"></span><span class="wire-pill"></span></div></div>
+                <div class="page-blueprint__wire"><span class="wire-image"></span><span class="wire-line medium"></span><span class="wire-line"></span><span class="wire-button"></span><div class="wire-grid-3"><span class="wire-image"></span><span class="wire-image"></span><span class="wire-image"></span></div></div>
               </article>
             </div>
           </section>

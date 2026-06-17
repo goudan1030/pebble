@@ -8,7 +8,12 @@
   </head>
   <body>
 
-    <div class="offer">Free shipping over $59 <span>·</span> Personalize every detail before checkout</div>
+    <div class="offer" aria-label="Store announcements">
+      <div class="offer-track">
+        <div class="offer-slide">Free shipping over $59 <span>·</span> Personalize every detail before checkout</div>
+        <div class="offer-slide offer-slide--pink">Special Offer: 20% code GIFT20! <u>Shop Now</u></div>
+      </div>
+    </div>
     <header class="header">
       <nav class="nav" aria-label="Main navigation">
         <div class="nav-left">
@@ -20,13 +25,13 @@
         <a class="brand" href="pebble-custom-gifting-home-preview.html" aria-label="Milagift home"><img src="assets/milalogo.svg" alt="Milagift" /></a>
         <div class="nav-right">
           <button class="icon search-pill" type="button" aria-label="Open search" aria-controls="search-panel" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5" stroke-width="2.2"/><path d="M15 15l4 4" stroke-width="2.2" stroke-linecap="round"/></svg></button>
-          <a class="icon" href="pebble-account-orders-preview.html" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></a>
-          <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 9h10l-.75 11H7.75L7 9Z" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9c0-2.8 1.15-4.2 3-4.2s3 1.4 3 4.2" stroke-width="1.8" stroke-linecap="round"/><path d="M12 9v11M8.2 14h7.6" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          <button class="icon" type="button" aria-label="Account" data-open-auth data-auth-mode="login"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+          <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><img src="assets/icon-cart.svg?v=2" alt="" aria-hidden="true" /></a>
         </div>
       </nav>
     </header>
 
-    <main class="shell"><section class="hero-panel reveal is-visible"><div class="hero-copy-panel"><p class="eyebrow">Track order</p><h1 class="page-title">Follow every custom gift from preview to <em>porch.</em></h1><p class="section-lede">Tracking combines lookup form, status summary and a readable production-to-carrier timeline.</p><div class="coupon-box"><input value="MG-1048" aria-label="Order number" /><button class="js-toast" type="button" data-toast="Tracking result refreshed.">Track</button></div></div><div class="tracking-map"><div class="map-pin"><p class="eyebrow">Arriving soon</p><h3>San Jose, CA</h3><p>Estimated Jun 25-28 after production.</p></div></div></section><section class="split-layout"><div class="timeline-list reveal"><article class="timeline-step"><span class="timeline-dot">✓</span><div><h3>Order confirmed</h3><p>Your custom tote is in the production queue.</p></div><time>Jun 17</time></article><article class="timeline-step"><span class="timeline-dot">✓</span><div><h3>Personalization started</h3><p>Name and birth flower artwork approved for print.</p></div><time>Jun 18</time></article><article class="timeline-step"><span class="timeline-dot">3</span><div><h3>Ready to ship</h3><p>Carrier label will appear here once packed.</p></div><time>Pending</time></article></div><aside class="panel-card reveal"><h2>Need help?</h2><p>No tracking result should route to a dead end. Offer login, order email lookup and support contact.</p><div class="auth-actions"><a class="btn btn-secondary" href="pebble-auth-preview.html">Sign in</a><a class="btn btn-primary" href="pebble-contact-preview.html">Contact support</a></div></aside></section></main>
+    <main class="shell"><section class="hero-panel reveal is-visible"><div class="hero-copy-panel"><p class="eyebrow">Track order</p><h1 class="page-title">Follow every custom gift from preview to <em>porch.</em></h1><p class="section-lede">Tracking combines lookup form, status summary and a readable production-to-carrier timeline.</p><div class="coupon-box"><input value="MG-1048" aria-label="Order number" /><button class="js-toast" type="button" data-toast="Tracking result refreshed.">Track</button></div></div><div class="tracking-map"><div class="map-pin"><p class="eyebrow">Arriving soon</p><h3>San Jose, CA</h3><p>Estimated Jun 25-28 after production.</p></div></div></section><section class="split-layout"><div class="timeline-list reveal"><article class="timeline-step"><span class="timeline-dot">✓</span><div><h3>Order confirmed</h3><p>Your custom tote is in the production queue.</p></div><time>Jun 17</time></article><article class="timeline-step"><span class="timeline-dot">✓</span><div><h3>Personalization started</h3><p>Name and birth flower artwork approved for print.</p></div><time>Jun 18</time></article><article class="timeline-step"><span class="timeline-dot">3</span><div><h3>Ready to ship</h3><p>Carrier label will appear here once packed.</p></div><time>Pending</time></article></div><aside class="panel-card reveal"><h2>Need help?</h2><p>No tracking result should route to a dead end. Offer login modal, order email lookup and support contact.</p><div class="auth-actions"><button class="btn btn-secondary" type="button" data-open-auth data-auth-mode="login">Sign in</button><a class="btn btn-primary" href="pebble-contact-preview.html">Contact support</a></div></aside></section></main>
 
     <footer class="site-footer">
       <div class="footer-brand"><strong>We are obsessed with building the best custom gifts.</strong><p>Milagift turns photos, names, dates and little memories into warm, gift-ready pieces.</p></div>

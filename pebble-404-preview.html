@@ -5,10 +5,635 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Milagift 404 Preview</title>
     <link rel="stylesheet" href="pebble-commerce-preview.css" />
+    <style>
+      .not-found-hero {
+        min-height: 400px;
+        display: grid;
+        place-items: center;
+        padding: 34px var(--site-gutter);
+        text-align: center;
+      }
+
+      .not-found-copy {
+        max-width: 560px;
+        display: grid;
+        justify-items: center;
+        gap: 14px;
+      }
+
+      .retro-tv-error {
+        position: relative;
+        width: min(330px, 72vw);
+        height: 210px;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+      }
+
+      .retro-tv-error .main_wrapper {
+        position: relative;
+        width: 330px;
+        height: 210px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: scale(0.78);
+        transform-origin: center center;
+      }
+
+      .retro-tv-error .main {
+        position: absolute;
+        left: 50%;
+        top: 52%;
+        width: 270px;
+        height: 170px;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+      }
+
+      .retro-tv-error .text_404 {
+        position: absolute;
+        left: 50%;
+        top: 52%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 34px;
+        color: rgba(46, 46, 46, 0.4);
+        font-size: 176px;
+        font-weight: 800;
+        line-height: 0.78;
+        letter-spacing: -0.12em;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+      }
+
+      .retro-tv-error .antenna {
+        position: absolute;
+        left: 50%;
+        top: -34px;
+        width: 120px;
+        height: 88px;
+        transform: translateX(-50%);
+        z-index: 0;
+      }
+
+      .retro-tv-error .antenna_shadow {
+        position: absolute;
+        left: 31px;
+        top: 35px;
+        width: 78px;
+        height: 52px;
+        border-radius: 50% 50% 0 0;
+        background: #ff8a14;
+        border: 4px solid #111111;
+        box-shadow: inset 18px 0 0 rgba(255, 186, 77, 0.65);
+      }
+
+      .retro-tv-error .a1,
+      .retro-tv-error .a2,
+      .retro-tv-error .a1d,
+      .retro-tv-error .a2d {
+        position: absolute;
+        bottom: 12px;
+        width: 5px;
+        height: 84px;
+        border-radius: 999px;
+        background: #252525;
+        transform-origin: bottom center;
+      }
+
+      .retro-tv-error .a1 {
+        left: 40px;
+        transform: rotate(-31deg);
+      }
+
+      .retro-tv-error .a2 {
+        right: 40px;
+        transform: rotate(31deg);
+      }
+
+      .retro-tv-error .a1d,
+      .retro-tv-error .a2d {
+        height: 34px;
+      }
+
+      .retro-tv-error .a1d {
+        left: 80px;
+        bottom: 18px;
+        transform: rotate(63deg);
+      }
+
+      .retro-tv-error .a2d {
+        right: 72px;
+        bottom: 18px;
+        transform: rotate(72deg);
+      }
+
+      .retro-tv-error .a1::before,
+      .retro-tv-error .a2::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: -8px;
+        width: 12px;
+        height: 12px;
+        border: 3px solid #252525;
+        border-radius: 50%;
+        background: #ffffff;
+        transform: translateX(-50%);
+      }
+
+      .retro-tv-error .a_base {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 52px;
+        height: 16px;
+        border-radius: 999px 999px 0 0;
+        background: #ff8a14;
+        transform: translateX(-50%);
+      }
+
+      .retro-tv-error .tv {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 26px;
+        height: 126px;
+        border: 5px solid #111111;
+        border-radius: 18px;
+        background: #d98620;
+        box-shadow: inset 0 0 0 2px rgba(255, 196, 88, 0.45), 12px 12px 0 rgba(17, 17, 17, 0.92);
+        overflow: hidden;
+        z-index: 2;
+      }
+
+      .retro-tv-error .cruve {
+        position: absolute;
+        right: -34px;
+        top: -42px;
+        width: 96px;
+        height: 96px;
+        opacity: 0.22;
+      }
+
+      .retro-tv-error .curve_svg {
+        width: 100%;
+        height: 100%;
+        fill: #111111;
+      }
+
+      .retro-tv-error .display_div {
+        position: absolute;
+        left: 14px;
+        top: 14px;
+        width: 180px;
+        height: 88px;
+      }
+
+      .retro-tv-error .screen_out,
+      .retro-tv-error .screen_out1 {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-radius: 12px;
+      }
+
+      .retro-tv-error .screen_out {
+        border: 4px solid #111111;
+        background: #111111;
+      }
+
+      .retro-tv-error .screen_out1 {
+        position: relative;
+        isolation: isolate;
+      }
+
+      .retro-tv-error .screen {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background:
+          repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.88) 0 1px, rgba(255, 255, 255, 0.98) 1px 2px, rgba(0, 0, 0, 0.78) 2px 3px),
+          repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.82) 0 1px, rgba(0, 0, 0, 0.78) 1px 3px);
+        background-size: 100% 4px, 5px 100%;
+        z-index: 1;
+      }
+
+      .retro-tv-error .screenM {
+        position: absolute;
+        inset: -10%;
+        display: block;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 18% 24%, #ffffff 0 1px, transparent 1.6px),
+          radial-gradient(circle at 72% 44%, #111111 0 1px, transparent 1.6px),
+          radial-gradient(circle at 38% 76%, #ffffff 0 1px, transparent 1.8px),
+          repeating-linear-gradient(0deg, transparent 0 2px, rgba(255, 255, 255, 0.82) 2px 3px, rgba(0, 0, 0, 0.9) 3px 4px);
+        background-size: 5px 5px, 7px 7px, 9px 9px, 100% 5px;
+        mix-blend-mode: multiply;
+        opacity: 0.72;
+        transform: translate3d(0, 0, 0);
+        animation: tvNoiseMove 0.22s steps(2, end) infinite, tvNoiseFlicker 0.95s steps(5, end) infinite;
+        z-index: 2;
+      }
+
+      .retro-tv-error .screen::before,
+      .retro-tv-error .screen::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .retro-tv-error .screen::before {
+        background-image:
+          repeating-linear-gradient(90deg, transparent 0 8px, rgba(0, 0, 0, 0.36) 8px 9px),
+          repeating-linear-gradient(0deg, transparent 0 5px, rgba(255, 255, 255, 0.44) 5px 6px);
+        opacity: 0.72;
+        animation: tvScanFlicker 0.48s steps(3, end) infinite;
+      }
+
+      .retro-tv-error .screen::after {
+        left: -8%;
+        right: -8%;
+        background: linear-gradient(180deg, transparent 0 18%, rgba(255, 255, 255, 0.7) 24%, transparent 31%);
+        opacity: 0.42;
+        animation: tvScanLine 1.25s linear infinite;
+      }
+
+      .retro-tv-error .screenM .notfound_text {
+        display: none;
+      }
+
+      .retro-tv-error .notfound_text {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 4;
+        padding: 3px 8px;
+        border-radius: 5px;
+        color: #ffffff;
+        background: #111111;
+        font-size: 14px;
+        font-weight: 900;
+        line-height: 1.1;
+        text-transform: uppercase;
+        white-space: nowrap;
+        transform: translate(-50%, -50%);
+      }
+
+      @keyframes tvNoiseMove {
+        0% {
+          transform: translate3d(-2%, -3%, 0);
+        }
+        25% {
+          transform: translate3d(3%, 1%, 0);
+        }
+        50% {
+          transform: translate3d(-1%, 4%, 0);
+        }
+        75% {
+          transform: translate3d(4%, -2%, 0);
+        }
+        100% {
+          transform: translate3d(-3%, 2%, 0);
+        }
+      }
+
+      @keyframes tvNoiseFlicker {
+        0%,
+        100% {
+          opacity: 0.62;
+        }
+        18% {
+          opacity: 0.9;
+        }
+        42% {
+          opacity: 0.48;
+        }
+        68% {
+          opacity: 0.82;
+        }
+      }
+
+      @keyframes tvScanFlicker {
+        0%,
+        100% {
+          opacity: 0.56;
+        }
+        50% {
+          opacity: 0.88;
+        }
+      }
+
+      @keyframes tvScanLine {
+        0% {
+          transform: translateY(-120%);
+        }
+        100% {
+          transform: translateY(120%);
+        }
+      }
+
+      .retro-tv-error .lines {
+        position: absolute;
+        right: 20px;
+        bottom: 22px;
+        display: grid;
+        gap: 8px;
+        width: 46px;
+      }
+
+      .retro-tv-error .line1,
+      .retro-tv-error .line2,
+      .retro-tv-error .line3 {
+        height: 4px;
+        border-radius: 999px;
+        background: #111111;
+      }
+
+      .retro-tv-error .buttons_div {
+        position: absolute;
+        right: 16px;
+        top: 14px;
+        width: 52px;
+        display: grid;
+        justify-items: center;
+        gap: 9px;
+      }
+
+      .retro-tv-error .b1,
+      .retro-tv-error .b2 {
+        position: relative;
+        width: 31px;
+        height: 31px;
+        border: 4px solid #111111;
+        border-radius: 50%;
+        background: #c06f18;
+        box-shadow: inset 6px 0 0 rgba(255, 255, 255, 0.18);
+      }
+
+      .retro-tv-error .b1::after,
+      .retro-tv-error .b2::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 4px;
+        height: 25px;
+        border-radius: 999px;
+        background: #111111;
+        transform: translate(-50%, -50%) rotate(43deg);
+      }
+
+      .retro-tv-error .b2::after {
+        transform: translate(-50%, -50%) rotate(-43deg);
+      }
+
+      .retro-tv-error .speakers {
+        display: flex;
+        gap: 7px;
+        margin-top: 1px;
+      }
+
+      .retro-tv-error .g,
+      .retro-tv-error .g11,
+      .retro-tv-error .g12,
+      .retro-tv-error .g13 {
+        width: 8px;
+        height: 8px;
+        border: 3px solid #111111;
+        border-radius: 50%;
+      }
+
+      .retro-tv-error .g1 {
+        display: flex;
+        gap: 7px;
+      }
+
+      .retro-tv-error .bottom {
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        bottom: 6px;
+        height: 20px;
+        z-index: 1;
+      }
+
+      .retro-tv-error .base1,
+      .retro-tv-error .base2 {
+        position: absolute;
+        bottom: 0;
+        width: 42px;
+        height: 25px;
+        background: #4a4a4a;
+        border: 4px solid #111111;
+        border-bottom: 0;
+      }
+
+      .retro-tv-error .base1 {
+        left: 42px;
+      }
+
+      .retro-tv-error .base2 {
+        right: 42px;
+      }
+
+      .retro-tv-error .base3 {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -2px;
+        height: 5px;
+        border-radius: 999px;
+        background: #111111;
+      }
+
+      .not-found-copy h1 {
+        margin: 0;
+        color: #050505;
+        font-size: clamp(30px, 3vw, 42px);
+        line-height: 1.05;
+        letter-spacing: -0.055em;
+      }
+
+      .not-found-copy p {
+        max-width: 440px;
+        margin: 0;
+        color: var(--soft-ink);
+        font-size: 15px;
+      }
+
+      .not-found-copy .btn {
+        min-height: 50px;
+        height: 50px;
+        padding: 8px 14px 8px 20px;
+      }
+
+      .not-found-copy .btn .dot {
+        width: 30px;
+        height: 30px;
+      }
+
+      .recommendations {
+        max-width: var(--site-width);
+        margin: 0 auto;
+        padding: clamp(50px, 7vw, 92px) var(--site-gutter) clamp(70px, 8vw, 110px);
+      }
+
+      .recommendations__head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .recommendations__head h2 {
+        max-width: 820px;
+        margin: 0;
+        font-size: clamp(38px, 5vw, 72px);
+        line-height: 0.92;
+        letter-spacing: -0.075em;
+      }
+
+      .recommendations__head p {
+        max-width: 620px;
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: clamp(18px, 1.6vw, 24px);
+        line-height: 1.3;
+      }
+
+      .recommendations__controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 0 0 auto;
+      }
+
+      .recommendation-arrow {
+        width: 52px;
+        height: 52px;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: #ffffff;
+        transition: background-color 0.22s ease, transform 0.22s ease, opacity 0.22s ease;
+      }
+
+      .recommendation-arrow::before {
+        content: "";
+        width: 17px;
+        height: 17px;
+        background: url("assets/icon-chevron-left.svg?v=2") center / contain no-repeat;
+      }
+
+      .recommendation-arrow.next::before {
+        background-image: url("assets/icon-chevron-right.svg?v=2");
+      }
+
+      .recommendation-arrow:hover {
+        background: var(--ink);
+        transform: translateY(-2px);
+      }
+
+      .recommendation-arrow:hover::before {
+        filter: brightness(0) invert(1);
+      }
+
+      .recommendation-arrow:disabled {
+        opacity: 0.28;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .recommendation-arrow:disabled:hover {
+        background: #ffffff;
+      }
+
+      .recommendation-arrow:disabled:hover::before {
+        filter: none;
+      }
+
+      .recommendations__viewport {
+        overflow: hidden;
+        margin-top: 38px;
+      }
+
+      .recommendations__track {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: calc((100% - 48px) / 4);
+        gap: 16px;
+        transition: transform 0.36s cubic-bezier(0.3, 1, 0.3, 1);
+      }
+
+      .recommendations__progress {
+        width: min(100%, 920px);
+        height: 2px;
+        margin-top: 26px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(46, 46, 46, 0.12);
+      }
+
+      .recommendations__progress span {
+        display: block;
+        width: var(--progress, 33%);
+        height: 100%;
+        background: var(--ink);
+        transition: width 0.3s ease;
+      }
+
+      @media (max-width: 1100px) {
+        .recommendations__track {
+          grid-auto-columns: calc((100% - 16px) / 2);
+        }
+      }
+
+      @media (max-width: 720px) {
+        .not-found-hero {
+          min-height: 400px;
+        }
+
+        .retro-tv-error {
+          width: min(290px, 82vw);
+        }
+
+        .retro-tv-error .main_wrapper {
+          transform: scale(0.68);
+        }
+
+        .recommendations__head {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .recommendations__head h2 {
+          font-size: clamp(34px, 12vw, 52px);
+        }
+
+        .recommendations__track {
+          grid-auto-columns: 86%;
+        }
+      }
+    </style>
   </head>
   <body>
 
-    <div class="offer">Free shipping over $59 <span>·</span> Personalize every detail before checkout</div>
+    <div class="offer" aria-label="Store announcements">
+      <div class="offer-track">
+        <div class="offer-slide">Free shipping over $59 <span>·</span> Personalize every detail before checkout</div>
+        <div class="offer-slide offer-slide--pink">Special Offer: 20% code GIFT20! <u>Shop Now</u></div>
+      </div>
+    </div>
     <header class="header">
       <nav class="nav" aria-label="Main navigation">
         <div class="nav-left">
@@ -20,12 +645,97 @@
         <a class="brand" href="pebble-custom-gifting-home-preview.html" aria-label="Milagift home"><img src="assets/milalogo.svg" alt="Milagift" /></a>
         <div class="nav-right">
           <button class="icon search-pill" type="button" aria-label="Open search" aria-controls="search-panel" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5" stroke-width="2.2"/><path d="M15 15l4 4" stroke-width="2.2" stroke-linecap="round"/></svg></button>
-          <a class="icon" href="pebble-account-orders-preview.html" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></a>
-          <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 9h10l-.75 11H7.75L7 9Z" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9c0-2.8 1.15-4.2 3-4.2s3 1.4 3 4.2" stroke-width="1.8" stroke-linecap="round"/><path d="M12 9v11M8.2 14h7.6" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          <button class="icon" type="button" aria-label="Account" data-open-auth data-auth-mode="login"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+          <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><img src="assets/icon-cart.svg?v=2" alt="" aria-hidden="true" /></a>
         </div>
       </nav>
     </header>
-<main class="state-shell"><section class="state-card reveal is-visible"><span class="state-icon"><img src="assets/icon-error.svg" alt="" /></span><p class="eyebrow">404</p><h1>This gift path wandered off.</h1><p>Keep the error page plain, useful and connected to shopping recovery paths.</p><div class="cta-stack"><a class="btn btn-primary" href="pebble-custom-gifting-home-preview.html">Back home <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" /></span></a><a class="btn btn-secondary" href="pebble-collection-preview.html">Shop best sellers</a></div></section></main>
+    <main>
+      <section class="not-found-hero" aria-labelledby="not-found-title">
+        <div class="not-found-copy">
+          <div class="retro-tv-error" aria-hidden="true">
+            <div class="main_wrapper">
+              <div class="main">
+                <div class="antenna">
+                  <div class="antenna_shadow"></div>
+                  <div class="a1"></div>
+                  <div class="a1d"></div>
+                  <div class="a2"></div>
+                  <div class="a2d"></div>
+                  <div class="a_base"></div>
+                </div>
+                <div class="tv">
+                  <div class="cruve">
+                    <svg viewBox="0 0 189.929 189.929" xmlns="http://www.w3.org/2000/svg" class="curve_svg">
+                      <path d="M70.343,70.343c-30.554,30.553-44.806,72.7-39.102,115.635l-29.738,3.951C-5.442,137.659,11.917,86.34,49.129,49.13C86.34,11.918,137.664-5.445,189.928,1.502l-3.95,29.738C143.041,25.54,100.895,39.789,70.343,70.343z" />
+                    </svg>
+                  </div>
+                  <div class="display_div">
+                    <div class="screen_out">
+                      <div class="screen_out1">
+                        <div class="screen"><span class="notfound_text">NOT FOUND</span></div>
+                        <div class="screenM"><span class="notfound_text">NOT FOUND</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="lines">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                  </div>
+                  <div class="buttons_div">
+                    <div class="b1"><div></div></div>
+                    <div class="b2"></div>
+                    <div class="speakers">
+                      <div class="g1">
+                        <div class="g11"></div>
+                        <div class="g12"></div>
+                        <div class="g13"></div>
+                      </div>
+                      <div class="g"></div>
+                      <div class="g"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="bottom">
+                  <div class="base1"></div>
+                  <div class="base2"></div>
+                  <div class="base3"></div>
+                </div>
+              </div>
+              <div class="text_404"><div class="text_4041">4</div><div class="text_4042">0</div><div class="text_4043">4</div></div>
+            </div>
+          </div>
+          <h1 id="not-found-title">Page not found</h1>
+          <p>The link may be incorrect, or the page has been removed.</p>
+          <a class="btn btn-primary" href="pebble-custom-gifting-home-preview.html">Continue Shopping <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" /></span></a>
+        </div>
+      </section>
+
+      <section class="recommendations reveal" aria-labelledby="recommendations-title">
+        <div class="recommendations__head">
+          <div>
+            <h2 id="recommendations-title">Pair it with another personalized gift.</h2>
+            <p>A carousel of related custom gifts that keeps the square product-card rhythm from the homepage.</p>
+          </div>
+          <div class="recommendations__controls" aria-label="Recommended product carousel controls">
+            <button class="recommendation-arrow prev" type="button" aria-label="Previous products"></button>
+            <button class="recommendation-arrow next" type="button" aria-label="Next products"></button>
+          </div>
+        </div>
+        <div class="recommendations__viewport" aria-label="Recommended products">
+          <div class="recommendations__track">
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260211/1fca807160e445521524a5f8e9d60ab5.jpg?d=600" alt="Personalized Cartoon Couple Character Cruise Fridge Magnet" /></div><div class="product-info"><b>Personalized Cartoon Couple Character Cruise Fridge Magnet Anniversary Gift</b><span>$16.00</span></div></article>
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260604/f9162689ec6b51d4411fe07b2af098ff.jpg?d=600" alt="Personalized Name Embroidered Makeup Bag" /></div><div class="product-info"><b>Personalized Name Embroidered Makeup Bag Bridesmaid Proposal Gift</b><span>$19.00</span></div></article>
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/a2c4169dd120352b4f807c55c3be2ca2.jpg?d=600" alt="Custom Photo Blanket" /></div><div class="product-info"><b>Custom Photo Collage Soft Fleece Blanket Family Memory Gift</b><span>$29.00</span></div></article>
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20241215/4e82dd57d4f4605f90c11b1fe9e0129c.jpg?d=600" alt="Personalized Jewelry Box" /></div><div class="product-info"><b>Personalized Travel Jewelry Box with Initials Birthday Gift for Her</b><span>$22.00</span></div></article>
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20250730/6d634a90838bfdeac2a9e5f28b56d1d3.jpg?d=600" alt="Teacher ID card lanyard" /></div><div class="product-info"><b>Personalized Cartoon Character Teacher ID Card Lanyard Back to School Gift</b><span>$16.00</span></div></article>
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260508/b9d6fc5f0ff32035c279d9d1d077984e.png?d=600" alt="Cruise fridge magnet" /></div><div class="product-info"><b>Personalized Cartoon Couple Character Cruise Fridge Magnet Summer Travel Gift</b><span>$15.00</span></div></article>
+          </div>
+          <div class="recommendations__progress" aria-hidden="true"><span></span></div>
+        </div>
+      </section>
+    </main>
 
     <footer class="site-footer">
       <div class="footer-brand"><strong>We are obsessed with building the best custom gifts.</strong><p>Milagift turns photos, names, dates and little memories into warm, gift-ready pieces.</p></div>
@@ -47,5 +757,45 @@
     </div>
     <div class="toast" id="toast">Preview interaction ready.</div>
     <script src="pebble-commerce-preview.js"></script>
+    <script>
+      const recommendationTrack = document.querySelector(".recommendations__track");
+      const recommendationCards = [...document.querySelectorAll(".recommendations__track .product-card")];
+      const recommendationPrev = document.querySelector(".recommendation-arrow.prev");
+      const recommendationNext = document.querySelector(".recommendation-arrow.next");
+      const recommendationProgress = document.querySelector(".recommendations__progress span");
+      let recommendationIndex = 0;
+
+      const getRecommendationVisibleCount = () => {
+        if (window.matchMedia("(max-width: 720px)").matches) return 1;
+        if (window.matchMedia("(max-width: 1100px)").matches) return 2;
+        return 4;
+      };
+
+      const updateRecommendations = () => {
+        if (!recommendationTrack || !recommendationCards.length) return;
+        const visible = getRecommendationVisibleCount();
+        const maxIndex = Math.max(0, recommendationCards.length - visible);
+        recommendationIndex = Math.min(recommendationIndex, maxIndex);
+        const cardWidth = recommendationCards[0].getBoundingClientRect().width;
+        const gap = parseFloat(getComputedStyle(recommendationTrack).columnGap || getComputedStyle(recommendationTrack).gap || 0);
+        recommendationTrack.style.transform = `translateX(${-recommendationIndex * (cardWidth + gap)}px)`;
+        recommendationProgress?.style.setProperty("--progress", `${((recommendationIndex + visible) / recommendationCards.length) * 100}%`);
+        recommendationPrev?.toggleAttribute("disabled", recommendationIndex === 0);
+        recommendationNext?.toggleAttribute("disabled", recommendationIndex >= maxIndex);
+      };
+
+      recommendationPrev?.addEventListener("click", () => {
+        recommendationIndex = Math.max(0, recommendationIndex - 1);
+        updateRecommendations();
+      });
+
+      recommendationNext?.addEventListener("click", () => {
+        recommendationIndex += 1;
+        updateRecommendations();
+      });
+
+      window.addEventListener("resize", updateRecommendations);
+      updateRecommendations();
+    </script>
   </body>
 </html>

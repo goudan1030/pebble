@@ -196,7 +196,12 @@
     </style>
   </head>
   <body>
-    <div class="offer">Secure checkout preview <span>·</span> Address, payment and coupon components follow the design guide</div>
+    <div class="offer" aria-label="Store announcements">
+      <div class="offer-track">
+        <div class="offer-slide">Free shipping over $59 <span>·</span> Personalize every detail before checkout</div>
+        <div class="offer-slide offer-slide--pink">Special Offer: 20% code GIFT20! <u>Shop Now</u></div>
+      </div>
+    </div>
     <header class="header">
       <nav class="nav" aria-label="Main navigation">
         <div class="nav-left">
@@ -208,8 +213,8 @@
         <a class="brand" href="pebble-custom-gifting-home-preview.html" aria-label="Milagift home"><img src="assets/milalogo.svg" alt="Milagift" /></a>
         <div class="nav-right">
           <button class="icon search-pill" type="button" aria-label="Open search" aria-controls="search-panel" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5" stroke-width="2.2"/><path d="M15 15l4 4" stroke-width="2.2" stroke-linecap="round"/></svg></button>
-          <a class="icon" href="pebble-account-orders-preview.html" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></a>
-          <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 9h10l-.75 11H7.75L7 9Z" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9c0-2.8 1.15-4.2 3-4.2s3 1.4 3 4.2" stroke-width="1.8" stroke-linecap="round"/><path d="M12 9v11M8.2 14h7.6" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          <button class="icon" type="button" aria-label="Account" data-open-auth data-auth-mode="login"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+          <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><img src="assets/icon-cart.svg?v=2" alt="" aria-hidden="true" /></a>
         </div>
       </nav>
     </header>
