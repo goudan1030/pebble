@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Milagift Checkout Preview</title>
+    <link rel="stylesheet" href="pebble-commerce-preview.css" />
+    <style>
+      .checkout-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 430px;
+        gap: clamp(22px, 3vw, 38px);
+        align-items: start;
+      }
+
+      .checkout-stack {
+        display: grid;
+        gap: 18px;
+      }
+
+      .checkout-card {
+        padding: clamp(18px, 3vw, 26px);
+      }
+
+      .checkout-card__head {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .checkout-card h2 {
+        margin: 0;
+        font-size: 24px;
+        letter-spacing: -0.05em;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .form-grid .field {
+        margin: 0;
+      }
+
+      .form-grid .is-wide {
+        grid-column: 1 / -1;
+      }
+
+      .select-like {
+        height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        background: #ffffff;
+      }
+
+      .shipping-options,
+      .payment-stack {
+        display: grid;
+        gap: 10px;
+      }
+
+      .option-card,
+      .payment-method {
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto 1fr auto auto;
+        gap: 12px;
+        align-items: center;
+        min-height: 72px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: #ffffff;
+        text-align: left;
+        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      }
+
+      .option-card:hover,
+      .option-card.is-selected,
+      .payment-method:hover,
+      .payment-method.is-selected {
+        border-color: var(--ink);
+        transform: translateY(-1px);
+      }
+
+      .radio-dot {
+        width: 18px;
+        height: 18px;
+        border: 1px solid var(--ink);
+        border-radius: var(--radius-pill);
+      }
+
+      .is-selected .radio-dot {
+        border: 5px solid var(--ink);
+      }
+
+      .payment-logo {
+        min-width: 52px;
+        height: 36px;
+        display: grid;
+        place-items: center;
+        border-radius: 10px;
+        background: var(--milk);
+        font-weight: 900;
+      }
+
+      .option-card span,
+      .payment-method span span {
+        color: var(--muted);
+      }
+
+      .payment-method {
+        grid-template-columns: auto 1fr auto;
+      }
+
+      .review-line {
+        display: grid;
+        grid-template-columns: 72px 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .review-thumb {
+        aspect-ratio: 1;
+        overflow: hidden;
+        border-radius: var(--radius-md);
+        background: var(--milk);
+      }
+
+      .secure-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .secure-strip span {
+        padding: 12px;
+        border-radius: var(--radius-md);
+        background: var(--milk);
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .pay-state {
+        display: none;
+        margin-top: 14px;
+        padding: 14px;
+        border-radius: var(--radius-md);
+        background: var(--mint);
+      }
+
+      .pay-state.is-visible {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .loader {
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(46, 46, 46, 0.22);
+        border-top-color: var(--ink);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (max-width: 1080px) {
+        .checkout-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .form-grid,
+        .secure-strip {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="offer">Secure checkout preview <span>·</span> Address, payment and coupon components follow the design guide</div>
+    <header class="header">
+      <nav class="nav" aria-label="Main navigation">
+        <div class="nav-left">
+          <a class="nav-trigger" href="pebble-custom-gifting-home-preview.html">Shop</a>
+          <a class="nav-trigger" href="pebble-collection-preview.html">Collections</a>
+          <a class="nav-trigger" href="pebble-theme-pages-preview.html">Pages</a>
+          <a class="nav-trigger" href="pebble-faq-preview.html">Features</a>
+        </div>
+        <a class="brand" href="pebble-custom-gifting-home-preview.html" aria-label="Milagift home"><img src="assets/milalogo.svg" alt="Milagift" /></a>
+        <div class="nav-right">
+          <button class="icon search-pill" type="button" aria-label="Open search" aria-controls="search-panel" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5" stroke-width="2.2"/><path d="M15 15l4 4" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+          <a class="icon" href="pebble-account-orders-preview.html" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+          <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 9h10l-.75 11H7.75L7 9Z" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9c0-2.8 1.15-4.2 3-4.2s3 1.4 3 4.2" stroke-width="1.8" stroke-linecap="round"/><path d="M12 9v11M8.2 14h7.6" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="shell">
+      <section class="cart-hero reveal" style="display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:28px">
+        <p class="eyebrow">Checkout</p>
+        <h1 class="page-title">Keep payment <em>direct</em>, calm and recoverable.</h1>
+        <p class="section-lede">This page turns the design document's ecommerce components into a realistic checkout flow: address, shipping, payment, coupon, order summary and a visible payment processing state.</p>
+      </section>
+
+      <section class="checkout-layout">
+        <div class="checkout-stack">
+          <article class="checkout-card card reveal">
+            <div class="checkout-card__head"><div><p class="eyebrow">Step 1</p><h2>Contact and shipping address</h2></div><span class="status-chip paid">Saved</span></div>
+            <div class="form-grid">
+              <div class="field is-wide"><label>Email</label><input value="emma@example.com" /></div>
+              <div class="field"><label>First name</label><input value="Emma" /></div>
+              <div class="field"><label>Last name</label><input value="Taylor" /></div>
+              <div class="field is-wide"><label>Address</label><input value="128 Garden Lane" /></div>
+              <div class="field"><label>City</label><input value="San Jose" /></div>
+              <div class="field"><label>State</label><div class="select-like">California <img class="svg-icon" src="assets/icon-caret.svg" alt="" aria-hidden="true" /></div></div>
+              <div class="field"><label>ZIP code</label><input value="95112" /></div>
+              <div class="field"><label>Phone</label><input value="+1 408 555 0198" /></div>
+            </div>
+          </article>
+
+          <article class="checkout-card card reveal">
+            <div class="checkout-card__head"><div><p class="eyebrow">Step 2</p><h2>Shipping method</h2></div></div>
+            <div class="shipping-options">
+              <button class="option-card is-selected" type="button"><span class="payment-logo">Std</span><span><b>Standard shipping</b><span>Arrives Jun 25-28 after production</span></span><strong>$6.00</strong><i class="radio-dot"></i></button>
+              <button class="option-card" type="button"><span class="payment-logo">Exp</span><span><b>Express shipping</b><span>Arrives Jun 23-25 after production</span></span><strong>$14.00</strong><i class="radio-dot"></i></button>
+            </div>
+          </article>
+
+          <article class="checkout-card card reveal">
+            <div class="checkout-card__head"><div><p class="eyebrow">Step 3</p><h2>Payment</h2></div><span class="status-chip pending">Payment required</span></div>
+            <div class="payment-stack">
+              <button class="payment-method is-selected" type="button"><span class="payment-logo">Visa</span><span><b>•••• 4242</b><span>Expires 08/28</span></span><i class="radio-dot"></i></button>
+              <button class="payment-method" type="button"><span class="payment-logo">Pay</span><span><b>PayPal</b><span>Connected wallet</span></span><i class="radio-dot"></i></button>
+              <button class="payment-method" type="button"><span class="payment-logo">+</span><span><b>Add payment method</b><span>Credit card or wallet</span></span><i class="radio-dot"></i></button>
+            </div>
+          </article>
+        </div>
+
+        <aside class="summary-card card reveal">
+          <p class="eyebrow">Review order</p>
+          <div class="review-line"><span class="review-thumb"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="" /></span><div><b>Birth Flower Tote Bag</b><span class="status-chip paid">Name: Emma</span></div><strong>$23.00</strong></div>
+          <div class="review-line"><span class="review-thumb"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260604/f9162689ec6b51d4411fe07b2af098ff.jpg?d=600" alt="" /></span><div><b>Name Embroidered Makeup Bag</b><span class="status-chip paid">Name: Olivia</span></div><strong>$19.00</strong></div>
+          <div class="coupon-box"><input value="WELCOME10" aria-label="Coupon code" /><button class="js-coupon" type="button">Apply</button></div>
+          <div class="summary-line"><span>Subtotal</span><strong>$42.00</strong></div>
+          <div class="summary-line"><span>Coupon</span><strong>-$4.20</strong></div>
+          <div class="summary-line"><span>Shipping</span><strong>$6.00</strong></div>
+          <div class="summary-line"><span>Gift packaging</span><strong>$3.00</strong></div>
+          <div class="summary-line summary-total"><span>Total</span><strong>$46.80</strong></div>
+          <button class="btn btn-primary js-pay" type="button" style="width:100%;margin-top:20px">Pay $46.80 now <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" aria-hidden="true" /></span></button>
+          <div class="pay-state" id="pay-state"><span class="loader"></span><b>Processing payment. Please do not close this page.</b></div>
+          <div class="secure-strip"><span><b>SSL secured</b><br />Payment fields stay high contrast.</span><span><b>Recoverable</b><br />Failed payment keeps action visible.</span><span><b>Gift data</b><br />Customization remains attached.</span></div>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <strong>We are obsessed with building the best custom gifts.</strong>
+        <p>Milagift turns photos, names, dates and little memories into warm, gift-ready pieces.</p>
+      </div>
+      <div class="footer-columns">
+        <div><h4>Company</h4><a href="#">Our Story</a><a href="#">Journal</a><a href="#">Reviews</a><a href="#">Contact</a></div>
+        <div><h4>Collections</h4><a href="#">Father's Day</a><a href="#">Graduation Gifts</a><a href="#">Wedding Gifts</a><a href="#">Pet Memorials</a></div>
+        <div><h4>Get Help</h4><a href="#">Shipping</a><a href="#">Personalization</a><a href="#">Returns</a><a href="#">Help Center</a></div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-socials" aria-label="Social links"><a href="#" aria-label="X">X</a><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="TikTok">TT</a><a href="#" aria-label="Pinterest">P</a></div>
+        <div class="footer-policies"><a href="#">Accessibility</a><a href="#">Terms of Service</a><a href="#">Privacy Policy</a></div>
+      </div>
+      <div class="footer-legal">
+        <span>© 2026 Milagift, preview powered by Shopify-style theme design</span>
+        <div class="footer-payments" aria-label="Payment methods"><button class="currency-pill" type="button"><b>*</b> USD / EN</button><span class="payment-card">VISA</span><span class="payment-card">MC</span><span class="payment-card">AMEX</span><span class="payment-card">PayPal</span></div>
+      </div>
+    </footer>
+
+    <div class="search-panel" id="search-panel" role="dialog" aria-modal="true" aria-label="Search panel">
+      <div class="search-backdrop"></div>
+      <div class="search-surface">
+        <div class="search-input-row">
+          <span class="brand search-brand"><img src="assets/milalogo.svg" alt="Milagift" /></span>
+          <div class="search-input-shell"><input value="What are you looking for?" aria-label="Search" /><button class="search-close" type="button" aria-label="Close search">×</button></div>
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 9h10l-.75 11H7.75L7 9Z" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9c0-2.8 1.15-4.2 3-4.2s3 1.4 3 4.2" stroke-width="1.8" stroke-linecap="round"/><path d="M12 9v11M8.2 14h7.6" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </div>
+        <div class="search-content">
+          <h3>Popular Search</h3>
+          <div class="search-tags"><a href="#">Graduation</a><a href="#">Father's Day</a><a href="#">Golf</a><a href="#">Mahjong</a><a href="#">Wedding</a></div>
+          <h3>Featured Products</h3>
+          <div class="search-products">
+            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260605/1db7eeea7e7d5c27a6ffedd7492865ab.jpg?d=600" alt="" /></span><strong>Personalized Artistic Name Waterproof Sandproof Beach Bag Pool Bag Summer Vacation Party Gift for Women</strong><b>$18.00</b></a>
+            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="" /></span><strong>Personalized Multicolor Acrylic Mahjong Line Reader with Rules and Name Mahjong Game Night Birthday Gift for Mahjong Lover</strong><b>$15.00</b></a>
+            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260508/b9d6fc5f0ff32035c279d9d1d077984e.png?d=600" alt="" /></span><strong>Personalized Cartoon Couple Character Cruise Fridge Magnet with Name Home Decor Birthday Summer Travel Gift for Couple Newlyweds</strong><b>$15.00</b></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast">Checkout interaction ready.</div>
+
+    <script>
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+      const toast = $("#toast");
+      const showToast = (text) => {
+        toast.textContent = text;
+        toast.classList.add("is-visible");
+        window.clearTimeout(window.__toastTimer);
+        window.__toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 1800);
+      };
+      $$(".search-pill").forEach((button) => button.addEventListener("click", () => document.body.classList.add("search-open")));
+      $$(".search-close, .search-backdrop").forEach((button) => button.addEventListener("click", () => document.body.classList.remove("search-open")));
+      $(".search-panel").addEventListener("click", (event) => {
+        if (event.target.classList.contains("search-panel")) document.body.classList.remove("search-open");
+      });
+      $$(".option-card, .payment-method").forEach((button) => button.addEventListener("click", () => {
+        const stack = button.parentElement;
+        $$("button", stack).forEach((item) => item.classList.remove("is-selected"));
+        button.classList.add("is-selected");
+      }));
+      $(".js-pay").addEventListener("click", () => {
+        $("#pay-state").classList.add("is-visible");
+        showToast("Payment processing state is visible.");
+      });
+      $(".js-coupon").addEventListener("click", () => showToast("Coupon applied."));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") document.body.classList.remove("search-open");
+      });
+      const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("is-visible");
+      }), { threshold: 0.14 });
+      $$(".reveal").forEach((item) => observer.observe(item));
+    </script>
+  </body>
+</html>

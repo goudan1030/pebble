@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Milagift Product Detail Preview</title>
+    <link rel="stylesheet" href="pebble-commerce-preview.css" />
+    <style>
+      .pdp-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(24px, 4vw, 54px);
+        align-items: start;
+      }
+
+      .gallery {
+        position: sticky;
+        top: 112px;
+        display: grid;
+        grid-template-columns: 92px minmax(0, 1fr);
+        gap: 14px;
+      }
+
+      .gallery-thumbs {
+        display: flex;
+        flex-direction: column;
+        max-height: var(--gallery-main-size, 100%);
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding-right: 2px;
+        gap: 10px;
+        scrollbar-width: thin;
+        cursor: grab;
+      }
+
+      .gallery-thumbs:active {
+        cursor: grabbing;
+      }
+
+      .gallery-thumbs button,
+      .gallery-main {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: var(--milk);
+      }
+
+      .gallery-thumbs button {
+        flex: 0 0 92px;
+        width: 92px;
+        height: 92px;
+        aspect-ratio: 1;
+        padding: 0;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .gallery-thumbs button:hover,
+      .gallery-thumbs button.is-active {
+        border-color: var(--ink);
+        transform: translateY(-2px);
+      }
+
+      .gallery-main {
+        position: relative;
+        aspect-ratio: 1;
+      }
+
+      .gallery-arrow {
+        position: absolute;
+        top: 50%;
+        z-index: 2;
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+        transform: translateY(-50%);
+        transition: background-color 0.22s ease, transform 0.22s ease;
+      }
+
+      .gallery-arrow::before {
+        content: "";
+        width: 15px;
+        height: 15px;
+        background: url("assets/icon-chevron-left.svg?v=2") center / contain no-repeat;
+      }
+
+      .gallery-prev {
+        left: 14px;
+      }
+
+      .gallery-next {
+        right: 14px;
+      }
+
+      .gallery-next::before {
+        background-image: url("assets/icon-chevron-right.svg?v=2");
+      }
+
+      .gallery-arrow:hover {
+        background: var(--ink);
+        transform: translateY(-50%) scale(1.04);
+      }
+
+      .gallery-arrow:hover::before {
+        filter: brightness(0) invert(1);
+      }
+
+      .product-panel {
+        padding: clamp(22px, 3vw, 34px);
+      }
+
+      .rating-line {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .rating-line b {
+        color: var(--ink);
+        letter-spacing: 0.04em;
+      }
+
+      .product-title {
+        margin: 14px 0 0;
+        font-size: clamp(22px, 1.7vw, 30px);
+        line-height: 1.1;
+        letter-spacing: -0.04em;
+      }
+
+      .price-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 14px;
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      .price-row del {
+        color: var(--quiet);
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .personalize-card {
+        margin-top: 22px;
+        padding: 18px;
+        border-radius: var(--radius-lg);
+        background: var(--milk);
+      }
+
+      .personalize-card h2 {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: -0.04em;
+      }
+
+      .personalize-card p {
+        margin: 8px 0 16px;
+        color: var(--muted);
+      }
+
+      .option-group {
+        margin-top: 20px;
+      }
+
+      .option-group h3 {
+        margin: 0 0 10px;
+        font-size: 13px;
+        letter-spacing: -0.02em;
+      }
+
+      .pdp-design {
+        display: grid;
+        gap: 18px;
+        margin-top: 22px;
+        border-top: 1px solid var(--line);
+        padding-top: 22px;
+      }
+
+      .pdp-design__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .pdp-design__head h2 {
+        margin: 0;
+        font-size: 20px;
+        letter-spacing: -0.04em;
+      }
+
+      .required-star {
+        color: #c91f1f;
+        font-weight: 900;
+      }
+
+      .design-choices {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .design-choice {
+        position: relative;
+        display: grid;
+        min-height: 104px;
+        place-items: center;
+        border: 1px solid #dfe6ef;
+        border-radius: 10px;
+        padding: 10px;
+        background: #ffffff;
+        color: #2b3c55;
+        font-weight: 800;
+        transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .design-choice:hover {
+        border-color: #101827;
+        transform: translateY(-1px);
+      }
+
+      .design-choice.is-selected {
+        border: 2px solid #101827;
+      }
+
+      .design-choice.is-selected::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px 0 8px 0;
+        background: #101827 url("assets/icon-checkmark.svg?v=2") center / 17px 17px no-repeat;
+      }
+
+      .design-choice img {
+        width: 78%;
+        max-height: 54px;
+        object-fit: contain;
+      }
+
+      .design-swatch {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: var(--swatch);
+      }
+
+      .design-input {
+        position: relative;
+      }
+
+      .design-input input {
+        width: 100%;
+        height: 52px;
+        border: 1px solid #cfd8e5;
+        border-radius: 10px;
+        padding: 0 86px 0 14px;
+        outline: 0;
+        transition: border-color 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .design-input input:focus {
+        border-color: #101827;
+        box-shadow: 0 0 0 3px rgba(16, 24, 39, 0.08);
+      }
+
+      .design-input span {
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        color: #8798b2;
+        font-weight: 800;
+      }
+
+      .design-flowers {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .design-flowers .design-choice {
+        min-height: 80px;
+      }
+
+      .design-quantity {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: #2b3c55;
+        font-weight: 800;
+      }
+
+      .design-stepper {
+        display: inline-grid;
+        grid-template-columns: 42px 54px 42px;
+        align-items: center;
+        height: 46px;
+        overflow: hidden;
+        border: 1px solid #d9e2ee;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .design-stepper button {
+        height: 100%;
+        border: 0;
+        background: #ffffff;
+        color: #65758e;
+      }
+
+      .cta-stack {
+        display: grid;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .trust-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .trust-row span {
+        min-height: 72px;
+        display: grid;
+        align-content: center;
+        gap: 4px;
+        padding: 13px;
+        border-radius: var(--radius-md);
+        background: var(--milk);
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .trust-row b {
+        color: var(--ink);
+        font-size: 13px;
+      }
+
+      .pdp-section {
+        margin-top: clamp(54px, 7vw, 98px);
+      }
+
+      .review-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-top: 24px;
+      }
+
+      .related-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .related-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .related-arrow {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        color: var(--ink);
+        background: #ffffff;
+        font-size: 0;
+        transition: background-color 0.22s ease, color 0.22s ease, transform 0.22s ease;
+      }
+
+      .related-arrow::before {
+        content: "";
+        width: 15px;
+        height: 15px;
+        background: url("assets/icon-chevron-left.svg?v=2") center / contain no-repeat;
+      }
+
+      .related-next::before {
+        background-image: url("assets/icon-chevron-right.svg?v=2");
+      }
+
+      .related-arrow:hover {
+        background: var(--ink);
+        transform: translateY(-2px);
+      }
+
+      .related-arrow:hover::before {
+        filter: brightness(0) invert(1);
+      }
+
+      .related-arrow:disabled {
+        opacity: 0.34;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .related-arrow:disabled:hover {
+        background: #ffffff;
+      }
+
+      .related-arrow:disabled:hover::before {
+        filter: none;
+      }
+
+      .related-carousel {
+        overflow: hidden;
+        margin-top: 24px;
+      }
+
+      .related-track {
+        display: grid;
+        grid-auto-columns: calc((100% - 48px) / 4);
+        grid-auto-flow: column;
+        gap: 16px;
+        transition: transform 0.36s cubic-bezier(0.3, 1, 0.3, 1);
+      }
+
+      .related-progress {
+        height: 2px;
+        margin-top: 18px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(46, 46, 46, 0.12);
+      }
+
+      .related-progress span {
+        display: block;
+        width: var(--progress, 33%);
+        height: 100%;
+        background: var(--ink);
+        transition: width 0.3s ease;
+      }
+
+      .review-card {
+        padding: 20px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: #ffffff;
+      }
+
+      .review-card b {
+        letter-spacing: 0.04em;
+      }
+
+      .review-card p {
+        color: var(--muted);
+      }
+
+      @media (max-width: 1100px) {
+        .pdp-hero {
+          grid-template-columns: 1fr;
+        }
+
+        .gallery {
+          position: static;
+        }
+
+        .review-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .related-track {
+          grid-auto-columns: calc((100% - 16px) / 2);
+        }
+      }
+
+      @media (max-width: 680px) {
+        .gallery {
+          grid-template-columns: 1fr;
+        }
+
+        .gallery-thumbs {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          max-height: none;
+          overflow: visible;
+          padding-right: 0;
+          order: 2;
+        }
+
+        .gallery-thumbs button {
+          width: auto;
+          height: auto;
+          flex-basis: auto;
+        }
+
+        .design-choices,
+        .design-flowers {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .trust-row,
+        .review-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .related-head {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .related-track {
+          grid-auto-columns: 82%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="offer">Free shipping over $59 <span>·</span> Personalize every detail before checkout</div>
+    <header class="header">
+      <nav class="nav" aria-label="Main navigation">
+        <div class="nav-left">
+          <a class="nav-trigger" href="pebble-custom-gifting-home-preview.html">Shop</a>
+          <a class="nav-trigger" href="pebble-collection-preview.html">Collections</a>
+          <a class="nav-trigger" href="pebble-theme-pages-preview.html">Pages</a>
+          <a class="nav-trigger" href="pebble-faq-preview.html">Features</a>
+        </div>
+        <a class="brand" href="pebble-custom-gifting-home-preview.html" aria-label="Milagift home"><img src="assets/milalogo.svg" alt="Milagift" /></a>
+        <div class="nav-right">
+          <button class="icon search-pill" type="button" aria-label="Open search" aria-controls="search-panel" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5" stroke-width="2.2"/><path d="M15 15l4 4" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+          <a class="icon" href="pebble-account-orders-preview.html" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+          <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 9h10l-.75 11H7.75L7 9Z" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9c0-2.8 1.15-4.2 3-4.2s3 1.4 3 4.2" stroke-width="1.8" stroke-linecap="round"/><path d="M12 9v11M8.2 14h7.6" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="shell">
+      <section class="pdp-hero">
+        <div class="gallery reveal" aria-label="Product gallery">
+          <div class="gallery-thumbs">
+            <button class="is-active" type="button" data-image="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="Personalized tote front" /></button>
+            <button type="button" data-image="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260526/3788b331d66b1e0b809b1f84f9c99f61.png"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260526/3788b331d66b1e0b809b1f84f9c99f61.png" alt="Birth flower artwork close up" /></button>
+            <button type="button" data-image="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260512/0a336bc5995045fedb62a0c2a88cd591.png"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260512/0a336bc5995045fedb62a0c2a88cd591.png" alt="Corduroy tote detail" /></button>
+            <button type="button" data-image="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260610/045b5494f694be3a4f49973fca84dd72.png"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260610/045b5494f694be3a4f49973fca84dd72.png" alt="Personalized tote lifestyle" /></button>
+            <button type="button" data-image="https://oss.teemdrop.com/goods-admin/2026/06/10/0e0fd6be-c762-4b9f-9f1a-1b0557903608.png"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/0e0fd6be-c762-4b9f-9f1a-1b0557903608.png" alt="White corduroy tote preview" /></button>
+            <button type="button" data-image="https://oss.teemdrop.com/goods-admin/2026/06/10/c9f16c7d-2150-4e5a-877a-3f680cc66366.png"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/c9f16c7d-2150-4e5a-877a-3f680cc66366.png" alt="Black corduroy tote preview" /></button>
+            <button type="button" data-image="https://oss.teemdrop.com/goods-admin/2026/06/10/68ca9779-7513-4388-b426-d69445624566.png"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/68ca9779-7513-4388-b426-d69445624566.png" alt="Turmeric corduroy tote preview" /></button>
+            <button type="button" data-image="https://oss.teemdrop.com/goods-admin/2026/06/10/ee4e1bd6-32fd-4514-8320-2b7478fc9731.png"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/ee4e1bd6-32fd-4514-8320-2b7478fc9731.png" alt="Army green corduroy tote preview" /></button>
+          </div>
+          <div class="gallery-main">
+            <button class="gallery-arrow gallery-prev" type="button" aria-label="Previous product image"></button>
+            <img id="main-product-image" src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="Personalized Birth Flower Corduroy Large Capacity Tote Bag" />
+            <button class="gallery-arrow gallery-next" type="button" aria-label="Next product image"></button>
+          </div>
+        </div>
+
+        <article class="product-panel card reveal">
+          <p class="eyebrow">Custom gift bestseller</p>
+          <div class="rating-line"><b>★★★★★</b><span>4.9 · 128 reviews · Ships in 3-5 business days</span></div>
+          <h1 class="product-title">Personalized Birth Flower Corduroy Large Capacity Tote Bag with Name Birthday Gift for Her</h1>
+          <div class="price-row">$23.00 <del>$31.00</del> <span class="status-chip pending">Save 26%</span></div>
+
+          <div class="personalize-card">
+            <h2>Design it before checkout.</h2>
+            <p>Preview the name, birth flower and bag color in the customizer. The cart keeps every personalization detail attached to the item.</p>
+            <div class="chip-row">
+              <span class="status-chip paid">Name preview</span>
+              <span class="status-chip paid">Birth flower</span>
+              <span class="status-chip paid">Gift message</span>
+            </div>
+          </div>
+
+          <div class="pdp-design" aria-label="Product customizer">
+            <div class="pdp-design__head">
+              <h2>Customize your gift</h2>
+              <span class="status-chip paid">Preview required</span>
+            </div>
+
+            <div class="option-group" data-design-field="color">
+              <h3>Color <span class="required-star">*</span></h3>
+              <div class="design-choices">
+                <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/0e0fd6be-c762-4b9f-9f1a-1b0557903608.png" alt="" /><span>White</span></button>
+                <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/c9f16c7d-2150-4e5a-877a-3f680cc66366.png" alt="" /><span>Black</span></button>
+                <button class="design-choice is-selected" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/68ca9779-7513-4388-b426-d69445624566.png" alt="" /><span>Turmeric</span></button>
+                <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/ee4e1bd6-32fd-4514-8320-2b7478fc9731.png" alt="" /><span>Army Green</span></button>
+              </div>
+            </div>
+
+            <div class="option-group" data-design-field="fontColor">
+              <h3>Font Color <span class="required-star">*</span></h3>
+              <div class="design-choices">
+                <button class="design-choice is-selected" type="button"><span class="design-swatch" style="--swatch:#f4f4f4"></span><span>White</span></button>
+                <button class="design-choice" type="button"><span class="design-swatch" style="--swatch:#000000"></span><span>Black</span></button>
+              </div>
+            </div>
+
+            <div class="option-group" data-design-field="name">
+              <h3>Name <span class="required-star">*</span></h3>
+              <label class="design-input">
+                <input class="design-name-input" type="text" maxlength="13" aria-label="Name personalization" required />
+                <span class="design-count">13 Left</span>
+              </label>
+            </div>
+
+            <div class="option-group" data-design-field="flower">
+              <h3>Flower <span class="required-star">*</span></h3>
+              <div class="design-choices design-flowers">
+                <button class="design-choice is-selected" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/640105c7-9de8-4794-ab79-5dc5ba4008b0.jpg" alt="Sunflower flower design" /></button>
+                <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/eb8a2157-d367-4c46-aa59-afb55e3ea47f.jpg" alt="Pink flower design" /></button>
+                <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/6348add4-aac2-48df-96d7-5ae6fe179f55.jpg" alt="Berry flower design" /></button>
+                <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/df49e25a-04f9-45ad-8c82-512fd6fd12c6.jpg" alt="Blue flower design" /></button>
+                <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/6da05b2a-6d72-4c68-aedc-55aa5ec1dce6.jpg" alt="Purple flower design" /></button>
+                <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/640105c7-9de8-4794-ab79-5dc5ba4008b0.jpg" alt="Golden flower design" /></button>
+              </div>
+            </div>
+
+            <div class="design-quantity">
+              <span>Quantity</span>
+              <div class="design-stepper" aria-label="Quantity selector"><button class="design-qty-minus" type="button">-</button><span class="design-qty-value">1</span><button class="design-qty-plus" type="button">+</button></div>
+            </div>
+
+            <div class="cta-stack">
+              <a class="btn btn-primary" href="pebble-cart-preview.html">Add to cart <span class="dot"><img class="svg-icon" src="assets/icon-cart.svg" alt="" aria-hidden="true" /></span></a>
+            </div>
+          </div>
+
+          <div class="trust-row">
+            <span><b>Square media</b>No padding, full-bleed product images.</span>
+            <span><b>POD safe</b>Preview required before cart.</span>
+            <span><b>Gift ready</b>Message and packaging options.</span>
+          </div>
+
+          <div class="accordion is-open">
+            <button type="button">Product details <span>+</span></button>
+            <p>Large capacity corduroy tote with personalized birth flower artwork and custom name. Designed for daily carry, birthday gifting, bridesmaids and teacher appreciation.</p>
+          </div>
+          <div class="accordion">
+            <button type="button">Shipping and returns <span>+</span></button>
+            <p>Personalized products enter production after design confirmation. Estimated production is 3-5 business days before carrier pickup.</p>
+          </div>
+          <div class="accordion">
+            <button type="button">Personalization guide <span>+</span></button>
+            <p>Use 2-12 characters for the name and choose the birth flower that matches the recipient month. Preview spelling before adding to cart.</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="pdp-section reveal">
+        <h2 class="section-title">Customer notes that feel like the real store.</h2>
+        <p class="section-lede">The review cards use the same 20px rounded shell and restrained contrast from the homepage review carousel.</p>
+        <div class="review-grid">
+          <article class="review-card"><b>★★★★★</b><p>The tote arrived exactly like the preview. The birth flower print feels subtle, not cheesy.</p><strong>Emma T.</strong></article>
+          <article class="review-card"><b>★★★★★</b><p>I bought three for bridesmaids and each name was correct. The color options are easy to compare.</p><strong>Mia R.</strong></article>
+          <article class="review-card"><b>★★★★★</b><p>Good size for work and weekend errands. The personalization makes it feel much more thoughtful.</p><strong>Olivia C.</strong></article>
+          <article class="review-card"><b>★★★★☆</b><p>Production took a few days, but tracking was clear and the final tote looked polished.</p><strong>Sophia L.</strong></article>
+        </div>
+      </section>
+
+      <section class="pdp-section reveal">
+        <div class="related-head">
+          <div>
+            <h2 class="section-title">Pair it with another personalized gift.</h2>
+            <p class="section-lede">A carousel of related custom gifts that keeps the square product-card rhythm from the homepage.</p>
+          </div>
+          <div class="related-controls" aria-label="Related product carousel controls">
+            <button class="related-arrow related-prev" type="button" aria-label="Previous related products"></button>
+            <button class="related-arrow related-next" type="button" aria-label="Next related products"></button>
+          </div>
+        </div>
+        <div class="related-carousel" aria-label="Related products">
+          <div class="related-track">
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260211/1fca807160e445521524a5f8e9d60ab5.jpg?d=600" alt="Personalized Cartoon Couple Character Cruise Fridge Magnet" /></div><div class="product-info"><b>Personalized Cartoon Couple Character Cruise Fridge Magnet Anniversary Gift</b><span>$16.00</span></div></article>
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260604/f9162689ec6b51d4411fe07b2af098ff.jpg?d=600" alt="Personalized Name Embroidered Makeup Bag" /></div><div class="product-info"><b>Personalized Name Embroidered Makeup Bag Bridesmaid Proposal Gift</b><span>$19.00</span></div></article>
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/a2c4169dd120352b4f807c55c3be2ca2.jpg?d=600" alt="Custom Photo Blanket" /></div><div class="product-info"><b>Custom Photo Collage Soft Fleece Blanket Family Memory Gift</b><span>$29.00</span></div></article>
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20241215/4e82dd57d4f4605f90c11b1fe9e0129c.jpg?d=600" alt="Personalized Jewelry Box" /></div><div class="product-info"><b>Personalized Travel Jewelry Box with Initials Birthday Gift for Her</b><span>$22.00</span></div></article>
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20250730/6d634a90838bfdeac2a9e5f28b56d1d3.jpg?d=600" alt="Teacher ID card lanyard" /></div><div class="product-info"><b>Personalized Cartoon Character Teacher ID Card Lanyard Back to School Gift</b><span>$16.00</span></div></article>
+            <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260508/b9d6fc5f0ff32035c279d9d1d077984e.png?d=600" alt="Cruise fridge magnet" /></div><div class="product-info"><b>Personalized Cartoon Couple Character Cruise Fridge Magnet Summer Travel Gift</b><span>$15.00</span></div></article>
+          </div>
+          <div class="related-progress" aria-hidden="true"><span></span></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <strong>We are obsessed with building the best custom gifts.</strong>
+        <p>Milagift turns photos, names, dates and little memories into warm, gift-ready pieces.</p>
+      </div>
+      <div class="footer-columns">
+        <div><h4>Company</h4><a href="#">Our Story</a><a href="#">Journal</a><a href="#">Reviews</a><a href="#">Contact</a></div>
+        <div><h4>Collections</h4><a href="#">Father's Day</a><a href="#">Graduation Gifts</a><a href="#">Wedding Gifts</a><a href="#">Pet Memorials</a></div>
+        <div><h4>Get Help</h4><a href="#">Shipping</a><a href="#">Personalization</a><a href="#">Returns</a><a href="#">Help Center</a></div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-socials" aria-label="Social links"><a href="#" aria-label="X">X</a><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="TikTok">TT</a><a href="#" aria-label="Pinterest">P</a></div>
+        <div class="footer-policies"><a href="#">Accessibility</a><a href="#">Terms of Service</a><a href="#">Privacy Policy</a></div>
+      </div>
+      <div class="footer-legal">
+        <span>© 2026 Milagift, preview powered by Shopify-style theme design</span>
+        <div class="footer-payments" aria-label="Payment methods"><button class="currency-pill" type="button"><b>*</b> USD / EN</button><span class="payment-card">VISA</span><span class="payment-card">MC</span><span class="payment-card">AMEX</span><span class="payment-card">PayPal</span></div>
+      </div>
+    </footer>
+
+    <div class="search-panel" id="search-panel" role="dialog" aria-modal="true" aria-label="Search panel">
+      <div class="search-backdrop"></div>
+      <div class="search-surface">
+        <div class="search-input-row">
+          <span class="brand search-brand"><img src="assets/milalogo.svg" alt="Milagift" /></span>
+          <div class="search-input-shell"><input value="What are you looking for?" aria-label="Search" /><button class="search-close" type="button" aria-label="Close search">×</button></div>
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 9h10l-.75 11H7.75L7 9Z" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9c0-2.8 1.15-4.2 3-4.2s3 1.4 3 4.2" stroke-width="1.8" stroke-linecap="round"/><path d="M12 9v11M8.2 14h7.6" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </div>
+        <div class="search-content">
+          <h3>Popular Search</h3>
+          <div class="search-tags"><a href="#">Graduation</a><a href="#">Father's Day</a><a href="#">Golf</a><a href="#">Mahjong</a><a href="#">Wedding</a></div>
+          <h3>Featured Products</h3>
+          <div class="search-products">
+            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260605/1db7eeea7e7d5c27a6ffedd7492865ab.jpg?d=600" alt="" /></span><strong>Personalized Artistic Name Waterproof Sandproof Beach Bag Pool Bag Summer Vacation Party Gift for Women</strong><b>$18.00</b></a>
+            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="" /></span><strong>Personalized Multicolor Acrylic Mahjong Line Reader with Rules and Name Mahjong Game Night Birthday Gift for Mahjong Lover</strong><b>$15.00</b></a>
+            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260508/b9d6fc5f0ff32035c279d9d1d077984e.png?d=600" alt="" /></span><strong>Personalized Cartoon Couple Character Cruise Fridge Magnet with Name Home Decor Birthday Summer Travel Gift for Couple Newlyweds</strong><b>$15.00</b></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast">Design saved for this preview.</div>
+
+    <script>
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+      const toast = $("#toast");
+      const gallery = $(".gallery");
+      const galleryMain = $(".gallery-main");
+      const galleryThumbs = $(".gallery-thumbs");
+      const galleryButtons = $$(".gallery-thumbs button");
+      const mainProductImage = $("#main-product-image");
+      const designNameInput = $(".design-name-input");
+      const designCount = $(".design-count");
+      const qtyMinus = $(".design-qty-minus");
+      const qtyPlus = $(".design-qty-plus");
+      const qtyValue = $(".design-qty-value");
+      let galleryIndex = 0;
+      let designQuantity = 1;
+      const showToast = (text) => {
+        toast.textContent = text;
+        toast.classList.add("is-visible");
+        window.clearTimeout(window.__toastTimer);
+        window.__toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 1800);
+      };
+
+      const syncGalleryThumbHeight = () => {
+        if (!gallery || !galleryMain) return;
+        gallery.style.setProperty("--gallery-main-size", `${Math.round(galleryMain.getBoundingClientRect().height)}px`);
+      };
+
+      const setGalleryImage = (index) => {
+        if (!galleryButtons.length || !mainProductImage) return;
+        galleryIndex = (index + galleryButtons.length) % galleryButtons.length;
+        galleryButtons.forEach((item) => item.classList.remove("is-active"));
+        const active = galleryButtons[galleryIndex];
+        active.classList.add("is-active");
+        mainProductImage.src = active.dataset.image;
+        mainProductImage.alt = active.querySelector("img")?.alt || mainProductImage.alt;
+      };
+
+      galleryButtons.forEach((button, index) => {
+        button.addEventListener("click", () => setGalleryImage(index));
+      });
+
+      $(".gallery-prev")?.addEventListener("click", () => setGalleryImage(galleryIndex - 1));
+      $(".gallery-next")?.addEventListener("click", () => setGalleryImage(galleryIndex + 1));
+
+      let thumbDrag = null;
+      galleryThumbs?.addEventListener("pointerdown", (event) => {
+        thumbDrag = { y: event.clientY, scrollTop: galleryThumbs.scrollTop };
+        galleryThumbs.setPointerCapture?.(event.pointerId);
+      });
+      galleryThumbs?.addEventListener("pointermove", (event) => {
+        if (!thumbDrag) return;
+        galleryThumbs.scrollTop = thumbDrag.scrollTop - (event.clientY - thumbDrag.y);
+      });
+      ["pointerup", "pointercancel", "pointerleave"].forEach((eventName) => {
+        galleryThumbs?.addEventListener(eventName, () => {
+          thumbDrag = null;
+        });
+      });
+
+      $$(".chip, .swatch, .design-choice").forEach((button) => button.addEventListener("click", () => {
+        const group = button.closest(".chip-row, .swatches, .design-choices");
+        if (group) $$("button", group).forEach((item) => item.classList.remove("is-active", "is-selected"));
+        button.classList.add(button.classList.contains("design-choice") ? "is-selected" : "is-active");
+      }));
+
+      const updateNameCount = () => {
+        if (!designNameInput || !designCount) return;
+        const max = Number(designNameInput.getAttribute("maxlength") || 13);
+        designCount.textContent = `${Math.max(0, max - designNameInput.value.length)} Left`;
+      };
+
+      const updateQuantity = (next) => {
+        designQuantity = Math.max(1, Math.min(99, next));
+        if (qtyValue) qtyValue.textContent = String(designQuantity);
+        if (qtyMinus) qtyMinus.disabled = designQuantity <= 1;
+      };
+
+      designNameInput?.addEventListener("input", updateNameCount);
+      qtyMinus?.addEventListener("click", () => updateQuantity(designQuantity - 1));
+      qtyPlus?.addEventListener("click", () => updateQuantity(designQuantity + 1));
+      updateNameCount();
+      updateQuantity(1);
+
+      $$(".accordion button").forEach((button) => button.addEventListener("click", () => button.parentElement.classList.toggle("is-open")));
+      const relatedTrack = $(".related-track");
+      const relatedCards = $$(".related-track .product-card");
+      const relatedPrev = $(".related-prev");
+      const relatedNext = $(".related-next");
+      const relatedProgress = $(".related-progress span");
+      let relatedIndex = 0;
+
+      const getRelatedVisibleCount = () => {
+        if (window.matchMedia("(max-width: 680px)").matches) return 1;
+        if (window.matchMedia("(max-width: 1100px)").matches) return 2;
+        return 4;
+      };
+
+      const updateRelatedCarousel = () => {
+        if (!relatedTrack || !relatedCards.length) return;
+        const visible = getRelatedVisibleCount();
+        const maxIndex = Math.max(0, relatedCards.length - visible);
+        relatedIndex = Math.min(relatedIndex, maxIndex);
+        const cardWidth = relatedCards[0].getBoundingClientRect().width;
+        const gap = parseFloat(getComputedStyle(relatedTrack).columnGap || getComputedStyle(relatedTrack).gap || 0);
+        relatedTrack.style.transform = `translateX(${-relatedIndex * (cardWidth + gap)}px)`;
+        if (relatedProgress) relatedProgress.style.setProperty("--progress", `${((relatedIndex + visible) / relatedCards.length) * 100}%`);
+        relatedPrev?.toggleAttribute("disabled", relatedIndex === 0);
+        relatedNext?.toggleAttribute("disabled", relatedIndex >= maxIndex);
+      };
+
+      relatedPrev?.addEventListener("click", () => {
+        relatedIndex = Math.max(0, relatedIndex - 1);
+        updateRelatedCarousel();
+      });
+
+      relatedNext?.addEventListener("click", () => {
+        relatedIndex += 1;
+        updateRelatedCarousel();
+      });
+
+      window.addEventListener("resize", updateRelatedCarousel);
+      window.addEventListener("resize", syncGalleryThumbHeight);
+      syncGalleryThumbHeight();
+      updateRelatedCarousel();
+
+      $$(".search-pill").forEach((button) => button.addEventListener("click", () => document.body.classList.add("search-open")));
+      $$(".search-close, .search-backdrop").forEach((button) => button.addEventListener("click", () => document.body.classList.remove("search-open")));
+      $(".search-panel").addEventListener("click", (event) => {
+        if (event.target.classList.contains("search-panel")) document.body.classList.remove("search-open");
+      });
+      $$(".js-toast").forEach((button) => button.addEventListener("click", () => showToast("Design saved for this preview.")));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") document.body.classList.remove("search-open");
+      });
+
+      const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("is-visible");
+      }), { threshold: 0.14 });
+      $$(".reveal").forEach((item) => observer.observe(item));
+    </script>
+  </body>
+</html>
