@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Milagift Cart Preview</title>
+    <link rel="stylesheet" href="pebble-commerce-preview.css" />
+    <style>
+      .cart-hero {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 24px;
+        align-items: end;
+        margin-bottom: 28px;
+      }
+
+      .cart-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 410px;
+        gap: clamp(22px, 3vw, 36px);
+        align-items: start;
+      }
+
+      .cart-list {
+        display: grid;
+        gap: 14px;
+      }
+
+      .custom-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .cart-tools {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        margin-top: 16px;
+      }
+
+      .link-button {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        font-weight: 800;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .link-button:hover {
+        color: var(--ink);
+      }
+
+      .coupon-shelf {
+        margin-top: 18px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .coupon-card {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: #ffffff;
+      }
+
+      .coupon-card p {
+        margin: 3px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .coupon-card button {
+        align-self: center;
+        min-width: 80px;
+        height: 36px;
+        border: 1px solid var(--ink);
+        border-radius: var(--radius-pill);
+        background: #ffffff;
+        font-weight: 800;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      .coupon-card button:hover,
+      .coupon-card.is-applied button {
+        color: #ffffff;
+        background: var(--ink);
+      }
+
+      .mini-feedback {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 12px;
+        align-items: center;
+        padding: 16px;
+        margin-bottom: 16px;
+        border-radius: var(--radius-lg);
+        background: var(--mint);
+      }
+
+      .mini-feedback span:first-child {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: var(--radius-pill);
+        background: #ffffff;
+      }
+
+      .mini-feedback p {
+        margin: 2px 0 0;
+        color: rgba(46, 46, 46, 0.7);
+      }
+
+      .recommend-strip {
+        margin-top: clamp(54px, 7vw, 88px);
+      }
+
+      .recommend-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-top: 22px;
+      }
+
+      @media (max-width: 1080px) {
+        .cart-layout,
+        .cart-hero {
+          grid-template-columns: 1fr;
+        }
+
+        .recommend-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 680px) {
+        .line-item {
+          grid-template-columns: 1fr;
+        }
+
+        .line-thumb {
+          width: 100%;
+        }
+
+        .line-item > strong {
+          grid-column: auto;
+        }
+
+        .recommend-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="offer">Your customized item is saved in cart <span>·</span> Apply available coupons before checkout</div>
+    <header class="header">
+      <nav class="nav" aria-label="Main navigation">
+        <div class="nav-left">
+          <a class="nav-trigger" href="pebble-custom-gifting-home-preview.html">Shop</a>
+          <a class="nav-trigger" href="#">Collections</a>
+          <a class="nav-trigger" href="#">Pages</a>
+          <a class="nav-trigger" href="#">Features</a>
+        </div>
+        <a class="brand" href="pebble-custom-gifting-home-preview.html" aria-label="Milagift home"><img src="assets/milalogo.svg" alt="Milagift" /></a>
+        <div class="nav-right">
+          <button class="icon search-pill" type="button" aria-label="Open search" aria-controls="search-panel" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5" stroke-width="2.2"/><path d="M15 15l4 4" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+          <a class="icon" href="#" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+          <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 9h10l-.75 11H7.75L7 9Z" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9c0-2.8 1.15-4.2 3-4.2s3 1.4 3 4.2" stroke-width="1.8" stroke-linecap="round"/><path d="M12 9v11M8.2 14h7.6" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="shell">
+      <section class="cart-hero reveal">
+        <div>
+          <p class="eyebrow">Shopping cart</p>
+          <h1 class="page-title">Ready for a <em>giftable</em> checkout.</h1>
+          <p class="section-lede">Cart keeps the POD customization compact: show the item, personalization details, quantity and the next action. No oversized success animation here.</p>
+        </div>
+        <a class="btn btn-secondary" href="pebble-product-detail-preview.html">Continue shopping <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" aria-hidden="true" /></span></a>
+      </section>
+
+      <section class="cart-layout">
+        <div>
+          <div class="mini-feedback reveal">
+            <span><img class="svg-icon" src="assets/icon-checkmark.svg" alt="" aria-hidden="true" /></span>
+            <div><b>Added after customization.</b><p>Personalized tote · Name: Emma · June Rose · Camel corduroy</p></div>
+          </div>
+
+          <div class="cart-list reveal">
+            <article class="line-item">
+              <a class="line-thumb" href="pebble-product-detail-preview.html"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="Birth flower tote" /></a>
+              <div class="line-copy">
+                <h3>Personalized Birth Flower Corduroy Large Capacity Tote Bag with Name Birthday Gift for Her</h3>
+                <p>$23.00 · Custom design attached</p>
+                <div class="custom-tags"><span class="status-chip paid">Name: Emma</span><span class="status-chip paid">Flower: June Rose</span><span class="status-chip paid">Color: Camel</span></div>
+                <div class="cart-tools"><div class="stepper"><button type="button" data-step="-1">-</button><span>1</span><button type="button" data-step="1">+</button></div><button class="link-button js-toast" type="button">Edit design</button></div>
+              </div>
+              <strong>$23.00</strong>
+            </article>
+
+            <article class="line-item">
+              <a class="line-thumb" href="#"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260604/f9162689ec6b51d4411fe07b2af098ff.jpg?d=600" alt="Name embroidered makeup bag" /></a>
+              <div class="line-copy">
+                <h3>Personalized Name Embroidered Makeup Bag Bridesmaid Proposal Gift</h3>
+                <p>$19.00 · Gift wrap selected</p>
+                <div class="custom-tags"><span class="status-chip paid">Name: Olivia</span><span class="status-chip">Gift wrap</span></div>
+                <div class="cart-tools"><div class="stepper"><button type="button" data-step="-1">-</button><span>1</span><button type="button" data-step="1">+</button></div><button class="link-button js-toast" type="button">Remove</button></div>
+              </div>
+              <strong>$19.00</strong>
+            </article>
+          </div>
+        </div>
+
+        <aside class="summary-card card reveal">
+          <p class="eyebrow">Order summary</p>
+          <div class="coupon-box"><input id="coupon" value="WELCOME10" aria-label="Coupon code" /><button class="js-coupon" type="button">Apply</button></div>
+          <div class="coupon-shelf">
+            <div class="coupon-card is-applied"><div><b>WELCOME10 applied</b><p>10% off personalized gift orders.</p></div><button type="button">Applied</button></div>
+            <div class="coupon-card"><div><b>FREESHIP</b><p>Free shipping over $59.</p></div><button class="js-coupon" type="button">Use</button></div>
+          </div>
+          <div class="summary-line"><span>Subtotal</span><strong>$42.00</strong></div>
+          <div class="summary-line"><span>Promotion</span><strong>-$4.20</strong></div>
+          <div class="summary-line"><span>Estimated shipping</span><strong>$6.00</strong></div>
+          <div class="summary-line"><span>Gift packaging</span><strong>$3.00</strong></div>
+          <div class="summary-line summary-total"><span>Total</span><strong>$46.80</strong></div>
+          <div class="cta-stack"><a class="btn btn-primary" href="pebble-checkout-preview.html">Checkout securely <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" aria-hidden="true" /></span></a><button class="btn btn-secondary js-toast" type="button">Save cart <span class="dot"><img class="svg-icon" src="assets/icon-checkmark.svg" alt="" aria-hidden="true" /></span></button></div>
+        </aside>
+      </section>
+
+      <section class="recommend-strip reveal">
+        <h2 class="section-title">Small add-ons that still use square product media.</h2>
+        <div class="recommend-grid">
+          <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260211/1fca807160e445521524a5f8e9d60ab5.jpg?d=600" alt="" /></div><div class="product-info"><b>Personalized Cartoon Couple Character Cruise Fridge Magnet Anniversary Gift</b><span>$16.00</span></div></article>
+          <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/a2c4169dd120352b4f807c55c3be2ca2.jpg?d=600" alt="" /></div><div class="product-info"><b>Custom Photo Collage Soft Fleece Blanket Family Memory Gift</b><span>$29.00</span></div></article>
+          <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20241215/4e82dd57d4f4605f90c11b1fe9e0129c.jpg?d=600" alt="" /></div><div class="product-info"><b>Personalized Travel Jewelry Box with Initials Birthday Gift for Her</b><span>$22.00</span></div></article>
+          <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260610/382075a2790188a275fd728407a96b57.jpg?d=600" alt="" /></div><div class="product-info"><b>Custom Photo Projection Bracelet Romantic Anniversary Gift</b><span>$18.00</span></div></article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <strong>We are obsessed with building the best custom gifts.</strong>
+        <p>Milagift turns photos, names, dates and little memories into warm, gift-ready pieces.</p>
+      </div>
+      <div class="footer-columns">
+        <div><h4>Company</h4><a href="#">Our Story</a><a href="#">Journal</a><a href="#">Reviews</a><a href="#">Contact</a></div>
+        <div><h4>Collections</h4><a href="#">Father's Day</a><a href="#">Graduation Gifts</a><a href="#">Wedding Gifts</a><a href="#">Pet Memorials</a></div>
+        <div><h4>Get Help</h4><a href="#">Shipping</a><a href="#">Personalization</a><a href="#">Returns</a><a href="#">Help Center</a></div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-socials" aria-label="Social links"><a href="#" aria-label="X">X</a><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="TikTok">TT</a><a href="#" aria-label="Pinterest">P</a></div>
+        <div class="footer-policies"><a href="#">Accessibility</a><a href="#">Terms of Service</a><a href="#">Privacy Policy</a></div>
+      </div>
+      <div class="footer-legal">
+        <span>© 2026 Milagift, preview powered by Shopify-style theme design</span>
+        <div class="footer-payments" aria-label="Payment methods"><button class="currency-pill" type="button"><b>*</b> USD / EN</button><span class="payment-card">VISA</span><span class="payment-card">MC</span><span class="payment-card">AMEX</span><span class="payment-card">PayPal</span></div>
+      </div>
+    </footer>
+
+    <div class="search-panel" id="search-panel" role="dialog" aria-modal="true" aria-label="Search panel">
+      <div class="search-backdrop"></div>
+      <div class="search-surface">
+        <div class="search-input-row">
+          <span class="brand search-brand"><img src="assets/milalogo.svg" alt="Milagift" /></span>
+          <div class="search-input-shell"><input value="What are you looking for?" aria-label="Search" /><button class="search-close" type="button" aria-label="Close search">×</button></div>
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 9h10l-.75 11H7.75L7 9Z" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9c0-2.8 1.15-4.2 3-4.2s3 1.4 3 4.2" stroke-width="1.8" stroke-linecap="round"/><path d="M12 9v11M8.2 14h7.6" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </div>
+        <div class="search-content">
+          <h3>Popular Search</h3>
+          <div class="search-tags"><a href="#">Graduation</a><a href="#">Father's Day</a><a href="#">Golf</a><a href="#">Mahjong</a><a href="#">Wedding</a></div>
+          <h3>Featured Products</h3>
+          <div class="search-products">
+            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260605/1db7eeea7e7d5c27a6ffedd7492865ab.jpg?d=600" alt="" /></span><strong>Personalized Artistic Name Waterproof Sandproof Beach Bag Pool Bag Summer Vacation Party Gift for Women</strong><b>$18.00</b></a>
+            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="" /></span><strong>Personalized Multicolor Acrylic Mahjong Line Reader with Rules and Name Mahjong Game Night Birthday Gift for Mahjong Lover</strong><b>$15.00</b></a>
+            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260508/b9d6fc5f0ff32035c279d9d1d077984e.png?d=600" alt="" /></span><strong>Personalized Cartoon Couple Character Cruise Fridge Magnet with Name Home Decor Birthday Summer Travel Gift for Couple Newlyweds</strong><b>$15.00</b></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast">Cart updated.</div>
+
+    <script>
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+      const toast = $("#toast");
+      const showToast = (text) => {
+        toast.textContent = text;
+        toast.classList.add("is-visible");
+        window.clearTimeout(window.__toastTimer);
+        window.__toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 1800);
+      };
+      $$(".search-pill").forEach((button) => button.addEventListener("click", () => document.body.classList.add("search-open")));
+      $$(".search-close, .search-backdrop").forEach((button) => button.addEventListener("click", () => document.body.classList.remove("search-open")));
+      $(".search-panel").addEventListener("click", (event) => {
+        if (event.target.classList.contains("search-panel")) document.body.classList.remove("search-open");
+      });
+      $$(".stepper button").forEach((button) => button.addEventListener("click", () => {
+        const value = button.parentElement.querySelector("span");
+        value.textContent = Math.max(1, Number(value.textContent) + Number(button.dataset.step));
+        showToast("Quantity updated.");
+      }));
+      $$(".js-coupon").forEach((button) => button.addEventListener("click", () => showToast("Coupon interaction is ready.")));
+      $$(".js-toast").forEach((button) => button.addEventListener("click", () => showToast(button.textContent.trim() + " clicked.")));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") document.body.classList.remove("search-open");
+      });
+      const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("is-visible");
+      }), { threshold: 0.14 });
+      $$(".reveal").forEach((item) => observer.observe(item));
+    </script>
+  </body>
+</html>

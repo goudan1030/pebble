@@ -1,0 +1,1952 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Milagift Custom Gifting Home Preview</title>
+    <style>
+      @font-face {
+        font-family: "Instrument Sans";
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+        src: url("https://pebble-bunie.myshopify.com/cdn/fonts/instrument_sans/instrumentsans_n4.db86542ae5e1596dbdb28c279ae6c2086c4c5bfa.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "Instrument Sans";
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+        src: url("https://pebble-bunie.myshopify.com/cdn/fonts/instrument_sans/instrumentsans_n5.1ce463e1cc056566f977610764d93d4704464858.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "Instrument Sans";
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+        src: url("https://pebble-bunie.myshopify.com/cdn/fonts/instrument_sans/instrumentsans_n6.27dc66245013a6f7f317d383a3cc9a0c347fb42d.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "Instrument Sans";
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+        src: url("https://pebble-bunie.myshopify.com/cdn/fonts/instrument_sans/instrumentsans_n7.e4ad9032e203f9a0977786c356573ced65a7419a.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "Libre Baskerville";
+        font-weight: 400;
+        font-style: italic;
+        font-display: swap;
+        src: url("https://pebble-bunie.myshopify.com/cdn/fonts/libre_baskerville/librebaskerville_i4.9b1c62038123f2ff89e0d72891fc2421add48a40.woff2") format("woff2");
+      }
+
+      :root {
+        --site-width: 1440px;
+        --site-gutter: clamp(20px, 4vw, 42px);
+        --ink: #2e2e2e;
+        --soft-ink: #464646;
+        --muted: rgba(46, 46, 46, 0.72);
+        --cream: #ffffff;
+        --paper: #ffffff;
+        --milk: #f5f5f3;
+        --caramel: #b88435;
+        --clay: #bd6338;
+        --rust: #9f4e2f;
+        --sage: #9fc3b5;
+        --mint: #d7e6dd;
+        --sky: #dbeef2;
+        --peach: #f0d2bf;
+        --rose: #efcbd1;
+        --butter: #f1dda1;
+        --line: rgba(0, 0, 0, 0.1);
+        --shadow: none;
+        --small-shadow: none;
+        --sans: "Instrument Sans", "Avenir Next", Verdana, sans-serif;
+        --serif: "Libre Baskerville", Georgia, serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: #ffffff;
+        font-family: var(--sans);
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.4;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .offer {
+        display: flex;
+        justify-content: center;
+        gap: 0.45rem;
+        padding: 0.76rem 1rem;
+        color: #ffffff;
+        background: var(--caramel);
+        font-size: 14px;
+        line-height: 1.2;
+      }
+
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(18px);
+      }
+
+      .nav {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        max-width: var(--site-width);
+        margin: 0 auto;
+        padding: 22px var(--site-gutter);
+      }
+
+      .nav-left,
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+
+      .nav-left {
+        color: var(--soft-ink);
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .nav-left a::after {
+        content: "⌄";
+        margin-left: 0.35rem;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .brand {
+        color: var(--clay);
+        font-size: 31px;
+        font-weight: 700;
+        letter-spacing: -0.06em;
+        line-height: 0.78;
+        text-align: center;
+      }
+
+      .brand span {
+        display: block;
+        margin-top: 0.12rem;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+      }
+
+      .nav-right {
+        justify-content: flex-end;
+        color: var(--soft-ink);
+      }
+
+      .search-copy {
+        margin-right: 0.9rem;
+        color: var(--muted);
+      }
+
+      .icon {
+        display: grid;
+        width: 2rem;
+        height: 2rem;
+        place-items: center;
+        border-radius: 50%;
+        font-size: 19px;
+      }
+
+      .page {
+        max-width: var(--site-width);
+        margin: 0 auto;
+        padding: 0 var(--site-gutter);
+      }
+
+      .hero-wrap {
+        position: relative;
+        padding: 0;
+      }
+
+      .hero-grid {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .hero-card {
+        position: relative;
+        min-height: clamp(560px, 39.5vw, 705px);
+        overflow: hidden;
+        border-radius: 20px;
+        background: rgb(238, 238, 238);
+        box-shadow: var(--small-shadow);
+      }
+
+      .hero-card.left::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.02) 38%, rgba(0, 0, 0, 0.3)),
+          linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.22));
+      }
+
+      .hero-copy {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(32px, 4vw, 64px);
+        color: #fff;
+        text-align: center;
+      }
+
+      .kicker {
+        margin-bottom: 24px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0;
+      }
+
+      .hero-title {
+        max-width: 9.5ch;
+        margin: 0;
+        font-size: clamp(48px, 5.2vw, 76px);
+        font-weight: 600;
+        letter-spacing: -0.04em;
+        line-height: 1.02;
+      }
+
+      .hero-title em {
+        display: block;
+        margin-top: -0.02em;
+        font-family: var(--serif);
+        font-size: 0.82em;
+        font-weight: 400;
+        letter-spacing: -0.04em;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 50px;
+        padding: 4px 6px 4px 24px;
+        border: 0;
+        border-radius: 999px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 15px;
+        font-weight: 600;
+        box-shadow: none;
+        transition: transform 0.25s ease, background-color 0.25s ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button .dot {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--ink);
+        color: #fff;
+      }
+
+      .hero-copy .button {
+        margin-top: 30px;
+      }
+
+      .right-hero {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        padding: clamp(36px, 4vw, 64px);
+      }
+
+      .right-hero .product-image {
+        position: relative;
+        align-self: center;
+        width: 86%;
+        max-height: 430px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 2px;
+        box-shadow: 0 18px 45px rgba(76, 56, 35, 0.12);
+      }
+
+      .right-hero .product-image img {
+        object-fit: cover;
+      }
+
+      .product-caption {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: end;
+        gap: 1rem;
+        margin-top: 1.9rem;
+      }
+
+      .product-caption h2 {
+        max-width: 9ch;
+        margin: 0 0 0.58rem;
+        font-size: clamp(2.2rem, 3vw, 4rem);
+        letter-spacing: -0.06em;
+        line-height: 0.94;
+      }
+
+      .product-caption p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .category-band {
+        position: relative;
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        align-items: center;
+        gap: clamp(2rem, 4vw, 4.5rem);
+        margin-top: -0.4rem;
+        padding: clamp(4.5rem, 7vw, 6.2rem) 0 clamp(4rem, 6vw, 5.2rem);
+      }
+
+      .category-band::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--line), transparent);
+      }
+
+      .category-band h2,
+      .section-title,
+      .feature-copy h2,
+      .reviews h2,
+      .newsletter h2 {
+        margin: 0;
+        font-size: clamp(2.35rem, 3.6vw, 4.4rem);
+        letter-spacing: -0.07em;
+        line-height: 0.96;
+      }
+
+      .category-band p,
+      .soft-copy,
+      .feature-copy p,
+      .newsletter p {
+        color: var(--muted);
+        line-height: 1.72;
+      }
+
+      .category-row {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: clamp(1rem, 2.4vw, 2rem);
+        text-align: center;
+      }
+
+      .category-item {
+        display: block;
+      }
+
+      .category-disc {
+        display: grid;
+        width: clamp(100px, 8.5vw, 132px);
+        height: clamp(100px, 8.5vw, 132px);
+        place-items: center;
+        margin: 0 auto 1rem;
+        overflow: hidden;
+        border-radius: 50%;
+        background: var(--tone);
+        box-shadow: inset 0 0 0 8px rgba(255, 255, 255, 0.34);
+        transition: transform 180ms ease;
+      }
+
+      .category-item:hover .category-disc {
+        transform: translateY(-4px) rotate(-2deg);
+      }
+
+      .category-disc img {
+        width: 78%;
+        height: 78%;
+        object-fit: contain;
+      }
+
+      .category-item strong {
+        display: block;
+        font-size: 1rem;
+      }
+
+      .story-intro {
+        position: relative;
+        padding: clamp(4.5rem, 8vw, 7rem) 0 clamp(2rem, 4vw, 3.5rem);
+        text-align: center;
+      }
+
+      .sticker {
+        position: absolute;
+        display: grid;
+        width: 4.4rem;
+        height: 4.4rem;
+        place-items: center;
+        border-radius: 45% 55% 48% 52%;
+        color: #fff;
+        background: var(--clay);
+        font-size: 0.82rem;
+        font-weight: 950;
+        transform: rotate(-14deg);
+      }
+
+      .sticker.one {
+        left: 13%;
+        top: 5rem;
+      }
+
+      .sticker.two {
+        right: 16%;
+        top: 8.4rem;
+        background: var(--sage);
+        transform: rotate(13deg);
+      }
+
+      .eyebrow {
+        margin-bottom: 0.55rem;
+        color: var(--clay);
+        font-size: 0.78rem;
+        font-weight: 950;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .story-intro .section-title,
+      .story-intro .soft-copy {
+        max-width: 620px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .story-intro .soft-copy {
+        margin-top: 1rem;
+      }
+
+      .lookbook {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1.05fr 0.85fr 0.85fr;
+        grid-auto-rows: minmax(255px, 18vw);
+        gap: 1rem;
+        padding: 1.5rem 0 clamp(4rem, 7vw, 5.6rem);
+      }
+
+      .look-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 22px;
+        background: var(--milk);
+        box-shadow: var(--small-shadow);
+      }
+
+      .look-card.tall {
+        grid-row: span 2;
+      }
+
+      .look-card.offset {
+        margin-top: 4rem;
+      }
+
+      .look-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.42));
+      }
+
+      .look-card .label {
+        position: absolute;
+        left: 1.1rem;
+        right: 1.1rem;
+        bottom: 1.1rem;
+        z-index: 2;
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 1rem;
+        color: #fff;
+      }
+
+      .look-card h3 {
+        max-width: 12rem;
+        margin: 0;
+        font-size: 1.55rem;
+        letter-spacing: -0.05em;
+        line-height: 1;
+      }
+
+      .mini-button {
+        flex: 0 0 auto;
+        padding: 0.58rem 0.82rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.95);
+        color: var(--ink);
+        font-size: 0.78rem;
+        font-weight: 900;
+      }
+
+      .promise-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin: 0;
+        padding: 0.8rem clamp(1rem, 3vw, 2.25rem);
+        color: #fffaf2;
+        background: var(--clay);
+        font-size: 0.9rem;
+        font-weight: 900;
+        text-align: center;
+      }
+
+      .featured {
+        display: grid;
+        grid-template-columns: 0.78fr 1.22fr;
+        gap: clamp(1.5rem, 4vw, 4rem);
+        align-items: end;
+        padding: clamp(4.5rem, 7vw, 6rem) 0;
+      }
+
+      .featured-head {
+        position: sticky;
+        top: 7rem;
+        align-self: start;
+      }
+
+      .featured-head .button {
+        margin-top: 1.45rem;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .product-card {
+        overflow: hidden;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.74);
+        box-shadow: var(--small-shadow);
+      }
+
+      .product-card:nth-child(even) {
+        transform: translateY(2rem);
+      }
+
+      .product-media {
+        display: grid;
+        aspect-ratio: 1;
+        place-items: center;
+        padding: 1.5rem;
+        background:
+          radial-gradient(circle at 75% 18%, rgba(255, 255, 255, 0.9), transparent 4rem),
+          var(--tone);
+      }
+
+      .product-media img {
+        width: 86%;
+        height: 86%;
+        object-fit: contain;
+      }
+
+      .product-info {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 1rem;
+        padding: 1rem 1.08rem;
+        background: #fff;
+        font-weight: 900;
+      }
+
+      .product-info span {
+        color: var(--muted);
+        font-weight: 760;
+      }
+
+      .feature {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        padding: clamp(2rem, 4vw, 4rem) 0 clamp(4.5rem, 7vw, 6rem);
+      }
+
+      .feature-media,
+      .feature-copy {
+        min-height: clamp(420px, 34vw, 560px);
+        overflow: hidden;
+        border-radius: 24px;
+      }
+
+      .feature-media {
+        box-shadow: var(--small-shadow);
+      }
+
+      .feature-copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(2rem, 5vw, 5rem);
+        background: var(--paper);
+        box-shadow: var(--small-shadow);
+      }
+
+      .feature-copy .button {
+        align-self: flex-start;
+        margin-top: 1.2rem;
+      }
+
+      .reviews {
+        margin: 0;
+        padding: clamp(4rem, 7vw, 5.5rem) clamp(1rem, 3vw, 2.25rem);
+        background: #f7f1e9;
+      }
+
+      .review-inner {
+        max-width: none;
+        margin: 0 auto;
+      }
+
+      .review-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 1.4rem;
+      }
+
+      .quote-grid {
+        display: grid;
+        grid-template-columns: 0.78fr 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .score,
+      .quote {
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: 0 16px 40px rgba(76, 56, 35, 0.08);
+      }
+
+      .score {
+        padding: 1.35rem;
+      }
+
+      .score strong {
+        display: block;
+        margin-bottom: 0.35rem;
+        font-size: 3.2rem;
+        letter-spacing: -0.08em;
+      }
+
+      .quote {
+        min-height: 170px;
+        padding: 1.35rem;
+        color: var(--muted);
+        line-height: 1.72;
+      }
+
+      .quote strong {
+        display: block;
+        margin-top: 1.3rem;
+        color: var(--ink);
+      }
+
+      .newsletter {
+        position: relative;
+        overflow: hidden;
+        margin: clamp(4rem, 7vw, 5.6rem) auto;
+        padding: clamp(3rem, 6vw, 5rem) 2rem;
+        border-radius: 26px;
+        background: #dceee7;
+        text-align: center;
+        box-shadow: var(--small-shadow);
+      }
+
+      .newsletter h2 {
+        max-width: 760px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .newsletter p {
+        max-width: 560px;
+        margin: 1rem auto 0;
+      }
+
+      .email-box {
+        display: flex;
+        max-width: 430px;
+        margin: 1.8rem auto 0;
+        padding: 0.36rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: 0 12px 30px rgba(76, 56, 35, 0.08);
+      }
+
+      .email-box input {
+        flex: 1;
+        min-width: 0;
+        border: 0;
+        padding: 0 1rem;
+        background: transparent;
+        color: var(--ink);
+        outline: 0;
+      }
+
+      .email-box button {
+        border: 0;
+        border-radius: 999px;
+        padding: 0.85rem 1.15rem;
+        color: #fff;
+        background: var(--ink);
+        font-weight: 900;
+      }
+
+      footer {
+        margin: 0;
+        padding: 2rem;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.45);
+        text-align: center;
+      }
+
+      /* Reference-site alignment: keep the whole preview on Pebble Bunie's actual visual system. */
+      .page,
+      .nav,
+      .review-inner {
+        max-width: var(--site-width);
+      }
+
+      .page {
+        padding-left: var(--site-gutter);
+        padding-right: var(--site-gutter);
+      }
+
+      .hero-card {
+        min-height: clamp(600px, 40vw, 735px);
+      }
+
+      .right-hero .product-image {
+        width: 82%;
+        max-height: 455px;
+      }
+
+      .category-band {
+        grid-template-columns: 360px 1fr;
+        padding-top: clamp(76px, 7vw, 108px);
+      }
+
+      .category-disc {
+        width: clamp(116px, 8.4vw, 142px);
+        height: clamp(116px, 8.4vw, 142px);
+      }
+
+      .category-row {
+        gap: clamp(22px, 2.6vw, 44px);
+      }
+
+      .hero-card,
+      .look-card,
+      .product-card,
+      .feature-media,
+      .feature-copy,
+      .score,
+      .quote,
+      .newsletter {
+        border-radius: 20px;
+        box-shadow: none;
+      }
+
+      .right-hero,
+      .look-card,
+      .product-card {
+        background: rgb(238, 238, 238);
+      }
+
+      .right-hero .product-image,
+      .email-box {
+        box-shadow: none;
+      }
+
+      .product-caption h2,
+      .category-band h2,
+      .section-title,
+      .feature-copy h2,
+      .reviews h2,
+      .newsletter h2 {
+        color: rgb(46, 46, 46);
+        font-weight: 600;
+        letter-spacing: -0.04em;
+        line-height: 1.2;
+      }
+
+      .product-caption h2 {
+        font-size: clamp(36px, 3.2vw, 60px);
+      }
+
+      .category-band h2,
+      .section-title,
+      .feature-copy h2,
+      .reviews h2,
+      .newsletter h2 {
+        font-size: clamp(36px, 2.9vw, 54px);
+      }
+
+      .category-band p,
+      .soft-copy,
+      .feature-copy p,
+      .newsletter p,
+      .quote {
+        color: rgba(46, 46, 46, 0.72);
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 1.6;
+      }
+
+      .eyebrow,
+      .sticker,
+      .mini-button,
+      .promise-strip,
+      .product-info,
+      .email-box button,
+      .category-item strong {
+        font-weight: 600;
+      }
+
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+      }
+
+      .sticker {
+        font-size: 13px;
+      }
+
+      .look-card h3 {
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+      }
+
+      .mini-button {
+        font-size: 12px;
+      }
+
+      .promise-strip {
+        color: #ffffff;
+        font-size: 13px;
+      }
+
+      .featured {
+        align-items: start;
+      }
+
+      .product-info {
+        font-size: 15px;
+      }
+
+      .product-info span {
+        font-weight: 700;
+      }
+
+      .reviews {
+        background: rgb(243, 233, 221);
+      }
+
+      .score,
+      .quote {
+        background: #ffffff;
+      }
+
+      .score strong {
+        font-size: 48px;
+        font-weight: 600;
+        letter-spacing: -0.04em;
+      }
+
+      .quote strong {
+        font-weight: 600;
+      }
+
+      .newsletter {
+        background: rgb(217, 235, 229);
+      }
+
+      .email-box {
+        background: #ffffff;
+      }
+
+      .email-box button {
+        padding: 0 20px;
+      }
+
+      @media (max-width: 980px) {
+        .nav {
+          grid-template-columns: auto 1fr auto;
+        }
+
+        .nav-left a:not(:first-child),
+        .search-copy {
+          display: none;
+        }
+
+        .brand {
+          font-size: 1.55rem;
+        }
+
+        .hero-grid,
+        .category-band,
+        .featured,
+        .feature {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-card {
+          min-height: 540px;
+        }
+
+        .category-row,
+        .promise-strip,
+        .quote-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .featured-head {
+          position: static;
+        }
+
+        .lookbook {
+          grid-template-columns: 1fr;
+          grid-auto-rows: 380px;
+        }
+
+        .look-card.tall {
+          grid-row: span 1;
+        }
+
+        .look-card.offset,
+        .product-card:nth-child(even) {
+          margin-top: 0;
+          transform: none;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .offer {
+          font-size: 0.78rem;
+        }
+
+        .nav-right .icon:nth-child(n + 2) {
+          display: none;
+        }
+
+        .hero-wrap {
+          padding-top: 0.7rem;
+        }
+
+        .hero-card {
+          min-height: 455px;
+          border-radius: 18px;
+        }
+
+        .hero-copy {
+          padding: 1.6rem;
+        }
+
+        .hero-title {
+          font-size: 3.25rem;
+        }
+
+        .right-hero {
+          padding: 1.4rem;
+        }
+
+        .right-hero .product-image {
+          width: 100%;
+          max-height: 260px;
+        }
+
+        .product-caption {
+          display: block;
+        }
+
+        .product-caption h2 {
+          font-size: 2.15rem;
+        }
+
+        .category-band {
+          gap: 2rem;
+          padding-top: 3rem;
+        }
+
+        .category-row,
+        .product-grid,
+        .promise-strip,
+        .quote-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .category-disc {
+          width: 148px;
+          height: 148px;
+        }
+
+        .sticker {
+          display: none;
+        }
+
+        .lookbook {
+          grid-auto-rows: 330px;
+        }
+
+        .feature-copy,
+        .reviews {
+          padding-left: 1.2rem;
+          padding-right: 1.2rem;
+        }
+
+        .review-head {
+          display: block;
+        }
+
+        .email-box {
+          display: block;
+          border-radius: 22px;
+        }
+
+        .email-box input,
+        .email-box button {
+          width: 100%;
+          min-height: 44px;
+        }
+      }
+
+      /* Interaction layer */
+      .nav-trigger {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 0 10px;
+        border-radius: 999px;
+        transition: background-color 0.25s ease, color 0.25s ease;
+      }
+
+      .header:has(.nav-trigger:hover) .mega-menu,
+      .header:hover .mega-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .nav-trigger:hover {
+        color: #ffffff;
+        background: rgb(46, 46, 46);
+      }
+
+      .nav-trigger:hover::after {
+        color: #ffffff;
+      }
+
+      .mega-menu {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        z-index: 15;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        pointer-events: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        background: #ffffff;
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+      }
+
+      .mega-inner {
+        display: grid;
+        grid-template-columns: 1.2fr repeat(3, 1fr) 1fr;
+        gap: 28px;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 32px clamp(20px, 3vw, 42px);
+      }
+
+      .mega-copy h3 {
+        max-width: 320px;
+        margin: 0 0 12px;
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -0.04em;
+        line-height: 1.2;
+      }
+
+      .mega-copy p {
+        max-width: 320px;
+        margin: 0;
+        color: var(--muted);
+        font-weight: 400;
+        line-height: 1.6;
+      }
+
+      .mega-card {
+        display: grid;
+        gap: 12px;
+      }
+
+      .mega-card img {
+        aspect-ratio: 1.18;
+        border-radius: 18px;
+        object-fit: cover;
+        background: rgb(238, 238, 238);
+        transition: transform 0.35s ease;
+      }
+
+      .mega-card:hover img {
+        transform: scale(1.025);
+      }
+
+      .mega-card span {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 600;
+      }
+
+      .mega-card b {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border-radius: 50%;
+        background: rgb(238, 238, 238);
+      }
+
+      .mega-links {
+        display: grid;
+        align-content: start;
+        gap: 13px;
+        padding-left: 28px;
+        border-left: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .mega-links a {
+        color: var(--soft-ink);
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+
+      .mega-links a:hover {
+        color: var(--ink);
+        transform: translateX(4px);
+      }
+
+      .button,
+      .mini-button,
+      .email-box button {
+        cursor: pointer;
+      }
+
+      .button .dot,
+      .mini-button,
+      .email-box button {
+        transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+      }
+
+      .button:hover {
+        color: #ffffff;
+        background: rgb(46, 46, 46);
+      }
+
+      .button:hover .dot {
+        color: rgb(46, 46, 46);
+        background: #ffffff;
+        transform: translateX(2px);
+      }
+
+      .mini-button:hover,
+      .email-box button:hover {
+        color: #ffffff;
+        background: rgb(46, 46, 46);
+        transform: translateY(-1px);
+      }
+
+      .promise-strip {
+        display: flex;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        overflow: hidden;
+        padding: 0;
+        white-space: nowrap;
+      }
+
+      .marquee-track {
+        display: inline-flex;
+        align-items: center;
+        gap: 26px;
+        min-width: max-content;
+        padding: 16px 0;
+        animation: marquee-x 26s linear infinite;
+      }
+
+      .promise-strip:hover .marquee-track {
+        animation-play-state: paused;
+      }
+
+      .marquee-track span {
+        font-size: 28px;
+        font-weight: 600;
+      }
+
+      .marquee-track .mini-button {
+        color: var(--ink);
+        background: #ffffff;
+        padding: 12px 23px;
+      }
+
+      @keyframes marquee-x {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      .reveal-section {
+        opacity: 0;
+        transform: translateY(34px);
+        transition: opacity 0.75s cubic-bezier(0.3, 1, 0.3, 1), transform 0.75s cubic-bezier(0.3, 1, 0.3, 1);
+      }
+
+      .reveal-section.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .marquee-track {
+          animation: none;
+        }
+
+        .reveal-section {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+
+      @media (max-width: 980px) {
+        .mega-menu {
+          display: none;
+        }
+
+        .marquee-track span {
+          font-size: 22px;
+        }
+      }
+
+      .search-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        min-width: min(38vw, 420px);
+        height: 48px;
+        padding: 0 18px 0 28px;
+        border: 2px solid transparent;
+        border-radius: 999px;
+        color: var(--muted);
+        background: transparent;
+        font: inherit;
+        cursor: pointer;
+        transition: border-color 0.25s ease, background-color 0.25s ease;
+      }
+
+      .search-pill:hover {
+        border-color: rgb(46, 46, 46);
+        background: #ffffff;
+      }
+
+      .search-pill b {
+        color: var(--ink);
+        font-size: 17px;
+        font-weight: 600;
+      }
+
+      .search-panel {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+      }
+
+      body.search-open .search-panel {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      .search-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+      }
+
+      .search-surface {
+        position: relative;
+        max-width: 1360px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 0 0 20px 20px;
+        overflow: hidden;
+      }
+
+      .search-input-row {
+        display: grid;
+        grid-template-columns: auto minmax(360px, 1fr) auto auto;
+        align-items: center;
+        gap: 24px;
+        padding: 36px 56px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .search-brand {
+        display: inline-block;
+      }
+
+      .search-input-shell {
+        display: flex;
+        align-items: center;
+        height: 76px;
+        border: 2px solid rgb(46, 46, 46);
+        border-radius: 999px;
+        padding: 0 18px 0 32px;
+      }
+
+      .search-input-shell input {
+        flex: 1;
+        min-width: 0;
+        border: 0;
+        color: var(--muted);
+        background: transparent;
+        font: inherit;
+        font-size: 30px;
+        outline: 0;
+      }
+
+      .search-close {
+        width: 48px;
+        height: 48px;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        font-size: 48px;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .search-content {
+        padding: 56px 76px 70px;
+      }
+
+      .search-content h3 {
+        margin: 0 0 22px;
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+      }
+
+      .search-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-bottom: 56px;
+      }
+
+      .search-tags a {
+        padding: 14px 24px;
+        border-radius: 999px;
+        color: var(--muted);
+        background: rgb(238, 238, 238);
+        font-size: 24px;
+      }
+
+      .search-products {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      .search-products a span {
+        display: grid;
+        aspect-ratio: 1;
+        place-items: center;
+        overflow: hidden;
+        border-radius: 28px;
+        background: rgb(238, 238, 238);
+      }
+
+      .search-products img {
+        width: 82%;
+        height: 82%;
+        object-fit: contain;
+      }
+
+      .search-products strong,
+      .search-products b {
+        display: block;
+        margin-top: 18px;
+        font-size: 24px;
+        font-weight: 500;
+      }
+
+      .search-products b {
+        margin-top: 12px;
+        font-weight: 700;
+      }
+
+      .story-intro .button,
+      .feature-copy .button {
+        color: var(--ink);
+        background: transparent;
+        border: 2px solid transparent;
+        padding-left: 0;
+      }
+
+      .story-intro .button:hover,
+      .feature-copy .button:hover {
+        color: var(--ink);
+        background: transparent;
+        border-color: var(--ink);
+        padding-left: 24px;
+      }
+
+      .story-intro .button:hover .dot,
+      .feature-copy .button:hover .dot {
+        color: #ffffff;
+        background: var(--ink);
+      }
+
+      .lookbook {
+        grid-template-columns: 1.22fr 1fr 1fr;
+        grid-template-rows: repeat(2, minmax(260px, 20vw));
+        grid-auto-rows: minmax(260px, 20vw);
+      }
+
+      .look-card.tall {
+        grid-row: span 2;
+      }
+
+      .look-card.offset {
+        margin-top: 0;
+      }
+
+      .quote-grid {
+        grid-template-columns: 0.85fr repeat(3, 1fr);
+      }
+
+      .quote p {
+        margin: 10px 0 0;
+      }
+
+      .stars {
+        color: var(--clay);
+        letter-spacing: 0.08em;
+      }
+
+      .site-footer {
+        display: grid;
+        grid-template-columns: 1.1fr 1.6fr;
+        gap: 48px;
+        margin-top: 80px;
+        padding: 56px var(--site-gutter) 28px;
+        border-radius: 20px 20px 0 0;
+        background: rgb(238, 238, 238);
+        text-align: left;
+      }
+
+      .footer-brand strong {
+        display: block;
+        max-width: 360px;
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: -0.04em;
+        line-height: 1.15;
+      }
+
+      .footer-brand p {
+        max-width: 400px;
+        color: var(--muted);
+        font-weight: 400;
+        line-height: 1.6;
+      }
+
+      .footer-columns {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+      }
+
+      .footer-columns h4 {
+        margin: 0 0 16px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .footer-columns a {
+        display: block;
+        margin: 9px 0;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      .footer-bottom {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 34px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      @media (max-width: 980px) {
+        .search-pill {
+          min-width: 0;
+          width: 44px;
+          padding: 0;
+          justify-content: center;
+        }
+
+        .search-pill span {
+          display: none;
+        }
+
+        .search-surface {
+          max-width: none;
+        }
+
+        .search-input-row,
+        .search-content {
+          padding-left: 22px;
+          padding-right: 22px;
+        }
+
+        .search-input-row,
+        .search-products,
+        .site-footer,
+        .footer-columns {
+          grid-template-columns: 1fr;
+        }
+
+        .quote-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body class="search-open">
+    <div class="offer">Special Offer: 20% code GIFT20! <u>Shop Now</u></div>
+
+    <header class="header">
+      <nav class="nav" aria-label="Main navigation">
+        <div class="nav-left">
+          <a class="nav-trigger" href="#">Shop</a>
+          <a class="nav-trigger" href="#">Collections</a>
+          <a class="nav-trigger" href="#">Pages</a>
+          <a class="nav-trigger" href="#">Features</a>
+        </div>
+        <a class="brand" href="#">Milagift<span>custom gifts</span></a>
+        <div class="nav-right">
+          <button class="search-pill" type="button" aria-controls="search-panel" aria-expanded="false">
+            <span>What are you looking for?</span>
+            <b>⌕</b>
+          </button>
+          <span class="icon">♙</span>
+          <span class="icon">♧</span>
+        </div>
+      </nav>
+      <div class="search-panel" id="search-panel" aria-label="Search panel">
+        <div class="search-backdrop"></div>
+        <div class="search-surface">
+          <div class="search-input-row">
+            <span class="brand search-brand">Milagift<span>custom gifts</span></span>
+            <div class="search-input-shell">
+              <input value="What are you looking for?" aria-label="Search" />
+              <button class="search-close" type="button" aria-label="Close search">×</button>
+            </div>
+            <span class="icon">♙</span>
+            <span class="icon">♧</span>
+          </div>
+          <div class="search-content">
+            <h3>Popular Search</h3>
+            <div class="search-tags">
+              <a href="#">Photo</a>
+              <a href="#">Name</a>
+              <a href="#">Birthday</a>
+              <a href="#">Anniversary</a>
+              <a href="#">Home Keepsake</a>
+            </div>
+            <h3>Featured Products</h3>
+            <div class="search-products">
+              <a href="#">
+                <span><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/SunnyPillow8.webp?v=1774254833&width=500" alt="" /></span>
+                <strong>Photo Sun Pillow</strong>
+                <b>$29.00</b>
+              </a>
+              <a href="#">
+                <span><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/DreamHouse1.webp?v=1774506899&width=500" alt="" /></span>
+                <strong>Memory House</strong>
+                <b>$39.00</b>
+              </a>
+              <a href="#">
+                <span><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/BabyBear2.webp?v=1774254075&width=500" alt="" /></span>
+                <strong>Name Plush Gift</strong>
+                <b>$25.00</b>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mega-menu" aria-label="Mega menu">
+        <div class="mega-inner">
+          <div class="mega-copy">
+            <h3>Give your gift a story as personal as they are</h3>
+            <p>Browse by occasion, person, product type, or the detail you want to customize.</p>
+          </div>
+          <a class="mega-card" href="#">
+            <img src="https://pebble-bunie.myshopify.com/cdn/shop/files/menu-img-1.webp?v=1774427292&width=700" alt="" />
+            <span>Birthday Gifts <b>›</b></span>
+          </a>
+          <a class="mega-card" href="#">
+            <img src="https://pebble-bunie.myshopify.com/cdn/shop/files/menu-img-2.webp?v=1774427292&width=700" alt="" />
+            <span>Photo Keepsakes <b>›</b></span>
+          </a>
+          <a class="mega-card" href="#">
+            <img src="https://pebble-bunie.myshopify.com/cdn/shop/files/header-banner-1.webp?v=1778815223&width=700" alt="" />
+            <span>Home Decor <b>›</b></span>
+          </a>
+          <div class="mega-links">
+            <a href="#">Names and initials</a>
+            <a href="#">Photos and portraits</a>
+            <a href="#">Dates and coordinates</a>
+            <a href="#">Gift-ready packaging</a>
+            <a href="#">Help Center</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="hero-wrap reveal-section is-visible" aria-label="Homepage hero">
+        <div class="hero-grid">
+          <article class="hero-card left">
+            <img src="https://pebble-bunie.myshopify.com/cdn/shop/files/header-banner-1.webp?v=1778815223&width=1400" alt="Warm room styled like the reference hero" />
+            <div class="hero-copy">
+              <div class="kicker">New Custom Campaign</div>
+              <h1 class="hero-title">Personalized <em>Memory Day</em></h1>
+              <a class="button" href="#">Shop Now <span class="dot">›</span></a>
+            </div>
+          </article>
+
+          <article class="hero-card right-hero">
+            <div class="product-image">
+              <img src="https://pebble-bunie.myshopify.com/cdn/shop/files/header-banner-2.webp?v=1774509177&width=1200" alt="Soft custom photo pillow hero" />
+            </div>
+            <div class="product-caption">
+              <div>
+                <h2>Custom Photo Pillow</h2>
+                <p>From $29.00</p>
+              </div>
+              <a class="button" href="#">Shop Now <span class="dot">›</span></a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="category-band reveal-section">
+        <div>
+          <h2>Shop the gift by moment</h2>
+          <p>Personal picks selected for every occasion, arranged like a softer gift guide instead of a hard product catalog.</p>
+        </div>
+        <div class="category-row">
+          <a class="category-item" href="#">
+            <span class="category-disc" style="--tone: var(--sky)"><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/menu-img-1.webp?v=1774427292&width=300" alt="" /></span>
+            <strong>Birthdays</strong>
+          </a>
+          <a class="category-item" href="#">
+            <span class="category-disc" style="--tone: var(--peach)"><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/menu-img-2.webp?v=1774427292&width=300" alt="" /></span>
+            <strong>Anniversaries</strong>
+          </a>
+          <a class="category-item" href="#">
+            <span class="category-disc" style="--tone: var(--butter)"><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/menu-img-3.webp?v=1774427292&width=300" alt="" /></span>
+            <strong>For Mom</strong>
+          </a>
+          <a class="category-item" href="#">
+            <span class="category-disc" style="--tone: var(--mint)"><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/menu-img-4.webp?v=1774427292&width=300" alt="" /></span>
+            <strong>For Him</strong>
+          </a>
+          <a class="category-item" href="#">
+            <span class="category-disc" style="--tone: var(--rose)"><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/menu-img-7.webp?v=1774427292&width=300" alt="" /></span>
+            <strong>Home Keepsakes</strong>
+          </a>
+        </div>
+      </section>
+
+      <section class="story-intro reveal-section">
+        <div class="sticker one">new</div>
+        <div class="sticker two">gift</div>
+        <div class="eyebrow">Made for one person</div>
+        <h2 class="section-title">A soft custom-gifting world, not a product collage.</h2>
+        <p class="soft-copy">
+          The page now follows one visual language: warm room-like surfaces, soft toy-store curves from the reference,
+          and Milagift's own story around names, photos, dates and meaningful details.
+        </p>
+        <a class="button" href="#">Customize a gift <span class="dot">›</span></a>
+      </section>
+
+      <section class="lookbook reveal-section" aria-label="Gift moments">
+        <a class="look-card tall" href="#">
+          <img src="https://pebble-bunie.myshopify.com/cdn/shop/files/CozyTent3.webp?v=1774506911&width=1200" alt="Personalized nursery decor" />
+          <span class="label"><h3>Nursery name decor</h3><span class="mini-button">Shop</span></span>
+        </a>
+        <a class="look-card offset" href="#">
+          <img src="https://pebble-bunie.myshopify.com/cdn/shop/files/DreamHouse1.webp?v=1774506899&width=900" alt="Home memory box" />
+          <span class="label"><h3>Home memory boxes</h3><span class="mini-button">Shop</span></span>
+        </a>
+        <a class="look-card" href="#">
+          <img src="https://pebble-bunie.myshopify.com/cdn/shop/files/SunnyPillow8.webp?v=1774254833&width=900" alt="Photo pillow" />
+          <span class="label"><h3>Photo pillows</h3><span class="mini-button">Shop</span></span>
+        </a>
+        <a class="look-card" href="#">
+          <img src="https://pebble-bunie.myshopify.com/cdn/shop/files/BabyBear2.webp?v=1774254075&width=900" alt="Soft personalized keepsake" />
+          <span class="label"><h3>Soft keepsakes</h3><span class="mini-button">Shop</span></span>
+        </a>
+        <a class="look-card" href="#">
+          <img src="https://pebble-bunie.myshopify.com/cdn/shop/files/ArtEasel9.webp?v=1774335372&width=900" alt="Personal art board" />
+          <span class="label"><h3>Personal art boards</h3><span class="mini-button">Shop</span></span>
+        </a>
+      </section>
+
+      <div class="promise-strip" aria-label="Marketing marquee">
+        <div class="marquee-track">
+          <span>The love is real</span><a class="mini-button" href="#">Shop</a>
+          <span>Built for gifting</span><a class="mini-button" href="#">Shop</a>
+          <span>Made with premium materials</span><a class="mini-button" href="#">Shop</a>
+          <span>Preview before production</span><a class="mini-button" href="#">Shop</a>
+          <span>The love is real</span><a class="mini-button" href="#">Shop</a>
+          <span>Built for gifting</span><a class="mini-button" href="#">Shop</a>
+          <span>Made with premium materials</span><a class="mini-button" href="#">Shop</a>
+          <span>Preview before production</span><a class="mini-button" href="#">Shop</a>
+        </div>
+      </div>
+
+      <section class="featured reveal-section">
+        <div class="featured-head">
+          <div class="eyebrow">Featured collection</div>
+          <h2 class="section-title">Premium-feeling gifts with a personal detail.</h2>
+          <p class="soft-copy">
+            Instead of dropping a product grid into the page, this section behaves like a curated shelf:
+            tactile cards, repeated soft backgrounds, and product names that support the same gift story.
+          </p>
+          <a class="button" href="#">View all <span class="dot">›</span></a>
+        </div>
+        <div class="product-grid">
+          <a class="product-card" href="#">
+            <div class="product-media" style="--tone:#eef3f1"><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/DreamHouse1.webp?v=1774506899&width=700" alt="" /></div>
+            <div class="product-info">Custom Memory House <span>$39</span></div>
+          </a>
+          <a class="product-card" href="#">
+            <div class="product-media" style="--tone:#f7ead6"><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/SunnyPillow8.webp?v=1774254833&width=700" alt="" /></div>
+            <div class="product-info">Photo Sun Pillow <span>$29</span></div>
+          </a>
+          <a class="product-card" href="#">
+            <div class="product-media" style="--tone:#f3e8e8"><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/BabyBear2.webp?v=1774254075&width=700" alt="" /></div>
+            <div class="product-info">Name Plush Gift <span>$25</span></div>
+          </a>
+          <a class="product-card" href="#">
+            <div class="product-media" style="--tone:#eef1df"><img src="https://pebble-bunie.myshopify.com/cdn/shop/files/ArtEasel9.webp?v=1774335372&width=700" alt="" /></div>
+            <div class="product-info">Personal Art Board <span>$46</span></div>
+          </a>
+        </div>
+      </section>
+
+      <section class="feature reveal-section">
+        <div class="feature-media">
+          <img src="https://pebble-bunie.myshopify.com/cdn/shop/files/header-banner-1.webp?v=1778815223&width=1400" alt="Warm lifestyle image" />
+        </div>
+        <div class="feature-copy">
+          <div class="eyebrow">Milagift story</div>
+          <h2>Same softness, clearer custom-gift direction.</h2>
+          <p>
+            This version keeps Pebble Bunie's calm, childlike warmth but makes the shopping purpose ours:
+            a gift starts with a person, then becomes a product through names, photos, dates and packaging.
+          </p>
+          <a class="button" href="#">About customization <span class="dot">›</span></a>
+        </div>
+      </section>
+
+      <section class="reviews reveal-section">
+        <div class="review-inner">
+          <div class="review-head">
+            <h2>Happy customers</h2>
+            <a class="button" href="#">Read more <span class="dot">›</span></a>
+          </div>
+          <div class="quote-grid">
+            <div class="score"><strong>4.9</strong><span>Average rating from 1,200+ personalized gift orders.</span></div>
+            <div class="quote">
+              <span class="stars">★★★★★</span>
+              <p>“The preview looked like the final pillow, and the fabric felt much nicer than the usual photo gift sites.”</p>
+              <strong>Emma T. · Photo pillow</strong>
+            </div>
+            <div class="quote">
+              <span class="stars">★★★★★</span>
+              <p>“I ordered a name keepsake for my sister’s baby shower. It arrived packed like a real gift, not a factory item.”</p>
+              <strong>Jason L. · Name keepsake</strong>
+            </div>
+            <div class="quote">
+              <span class="stars">★★★★★</span>
+              <p>“The date engraving was subtle and clean. The whole page made it easy to pick by occasion.”</p>
+              <strong>Ava M. · Anniversary gift</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="newsletter reveal-section">
+        <div class="eyebrow">Subscribe</div>
+        <h2>Custom gift ideas for the next little moment.</h2>
+        <p>Send seasonal ideas, gift reminders and new personalized-product drops without breaking the calm storefront mood.</p>
+        <form class="email-box">
+          <input aria-label="Email address" placeholder="Enter your email" />
+          <button type="button">Subscribe</button>
+        </form>
+      </section>
+
+      <footer class="site-footer">
+        <div class="footer-brand">
+          <strong>We are obsessed with building the best custom gifts.</strong>
+          <p>Milagift turns photos, names, dates and little memories into warm, gift-ready pieces.</p>
+        </div>
+        <div class="footer-columns">
+          <div>
+            <h4>Company</h4>
+            <a href="#">Our Story</a>
+            <a href="#">Journal</a>
+            <a href="#">Reviews</a>
+            <a href="#">Contact</a>
+          </div>
+          <div>
+            <h4>Collections</h4>
+            <a href="#">Birthday Gifts</a>
+            <a href="#">Photo Keepsakes</a>
+            <a href="#">Home Decor</a>
+            <a href="#">For Mom</a>
+          </div>
+          <div>
+            <h4>Get Help</h4>
+            <a href="#">Shipping</a>
+            <a href="#">Personalization</a>
+            <a href="#">Returns</a>
+            <a href="#">Help Center</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 Milagift Preview</span>
+          <span>Standalone HTML for visual review</span>
+        </div>
+      </footer>
+    </main>
+    <script>
+      const searchOpenButton = document.querySelector(".search-pill");
+      const searchCloseButton = document.querySelector(".search-close");
+      const searchBackdrop = document.querySelector(".search-backdrop");
+      const revealSections = document.querySelectorAll(".reveal-section");
+
+      searchOpenButton?.addEventListener("click", () => {
+        document.body.classList.add("search-open");
+        searchOpenButton.setAttribute("aria-expanded", "true");
+      });
+
+      const closeSearch = () => {
+        document.body.classList.remove("search-open");
+        searchOpenButton?.setAttribute("aria-expanded", "false");
+      };
+
+      searchCloseButton?.addEventListener("click", closeSearch);
+      searchBackdrop?.addEventListener("click", closeSearch);
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeSearch();
+      });
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
+        );
+
+        revealSections.forEach((section) => observer.observe(section));
+      } else {
+        revealSections.forEach((section) => section.classList.add("is-visible"));
+      }
+    </script>
+  </body>
+</html>
