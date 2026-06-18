@@ -106,35 +106,84 @@
       }
 
       .offer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        position: relative;
         height: 40px;
         overflow: hidden;
-        padding: 0 1rem;
         color: #ffffff;
         background: var(--caramel);
         font-size: 14px;
         line-height: 1.2;
       }
 
+      .offer.is-hidden {
+        display: none;
+      }
+
       .offer-track {
         width: 100%;
-        height: 200%;
+        height: 80px;
         animation: offerSlideUp 5.2s ease-in-out infinite;
       }
 
       .offer-slide {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.45rem;
-        height: 50%;
+        height: 40px;
+        padding: 0 calc(max(12px, var(--site-gutter)) + 34px) 0 1rem;
+        color: inherit;
+        text-decoration: none;
         text-align: center;
+        transition: filter 0.2s ease, letter-spacing 0.2s ease;
+      }
+
+      .offer-slide:hover {
+        color: inherit;
+        filter: brightness(1.04);
+        letter-spacing: 0.01em;
+      }
+
+      .offer-slide:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.9);
+        outline-offset: -4px;
       }
 
       .offer-slide--pink {
         background: #f79ab7;
+      }
+
+      .offer-close {
+        position: absolute;
+        top: 50%;
+        right: max(12px, var(--site-gutter));
+        z-index: 1;
+        width: 26px;
+        height: 26px;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border: 1px solid rgba(255, 255, 255, 0.38);
+        border-radius: 50%;
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.14);
+        cursor: pointer;
+        transform: translateY(-50%);
+        transition: background-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .offer-close:hover {
+        background: rgba(0, 0, 0, 0.32);
+        transform: translateY(-50%) scale(1.05);
+      }
+
+      .offer-close svg {
+        width: 12px;
+        height: 12px;
+        stroke: currentColor;
+        stroke-width: 2.4;
+        stroke-linecap: round;
       }
 
       @keyframes offerSlideUp {
@@ -144,7 +193,7 @@
         }
         50%,
         89% {
-          transform: translateY(-50%);
+          transform: translateY(-40px);
         }
         100% {
           transform: translateY(0);
@@ -883,12 +932,7 @@
       }
 
       .hot-card__badges {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        z-index: 1;
-        display: grid;
-        gap: 7px;
+        display: none;
       }
 
       .hot-badge {
@@ -988,9 +1032,7 @@
       }
 
       .hot-swatches {
-        display: flex;
-        gap: 8px;
-        margin-top: 0.75rem;
+        display: none;
       }
 
       .hot-swatch {
@@ -2313,6 +2355,9 @@
         display: grid;
         grid-template-columns: 1.1fr 1.6fr;
         gap: 48px;
+        width: min(100%, calc(var(--site-width) - (var(--site-gutter) * 2)));
+        margin-left: auto;
+        margin-right: auto;
         margin-top: 80px;
         padding: 56px var(--site-gutter) 28px;
         border-radius: 20px 20px 0 0;
@@ -3530,14 +3575,60 @@
         padding: 0;
       }
 
+
+
+      .back-to-top {
+        position: fixed;
+        right: clamp(18px, 2.4vw, 34px);
+        bottom: clamp(18px, 2.4vw, 34px);
+        z-index: 70;
+        width: 54px;
+        height: 54px;
+        display: grid;
+        place-items: center;
+        border: 2px solid var(--ink);
+        border-radius: 50%;
+        color: #ffffff;
+        background: var(--ink);
+        box-shadow: 0 16px 42px rgba(0, 0, 0, 0.18);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(12px) scale(0.92);
+        pointer-events: none;
+        cursor: pointer;
+        transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s ease, background 0.22s ease, color 0.22s ease;
+      }
+
+      .back-to-top.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .back-to-top:hover {
+        color: var(--ink);
+        background: #ffffff;
+        transform: translateY(-3px) scale(1);
+      }
+
+      .back-to-top .svg-icon {
+        width: 22px;
+        height: 22px;
+        transform: rotate(-90deg);
+        --icon-filter: brightness(0) invert(1);
+      }
+
+      .back-to-top:hover .svg-icon {
+        --icon-filter: none;
+      }
     </style>
   </head>
   <body>
     <div class="offer" aria-label="Store announcements">
       <div class="offer-track">
-        <div class="offer-slide">Free shipping over $59 <span>·</span> Personalize every detail before checkout</div>
-        <div class="offer-slide offer-slide--pink">Special Offer: 20% code GIFT20! <u>Shop Now</u></div>
-      </div>
+        <a class="offer-slide" href="pebble-products-listing-preview.html">Free shipping over $59 <span>·</span> Personalize every detail before checkout<button class="offer-close" type="button" aria-label="Close announcement"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.2 2.2l7.6 7.6M9.8 2.2 2.2 9.8"/></svg></button></a>
+        <a class="offer-slide offer-slide--pink" href="pebble-collection-preview.html">Special Offer: 20% code GIFT20! <u>Shop Now</u><button class="offer-close" type="button" aria-label="Close announcement"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.2 2.2l7.6 7.6M9.8 2.2 2.2 9.8"/></svg></button></a></div>
     </div>
 
     <header class="header">
@@ -4270,6 +4361,23 @@
       </section>
     </aside>
     <script>
+      const initOfferBar = () => {
+        const offer = document.querySelector('.offer');
+        if (!offer) return;
+        const storageKey = 'milagiftOfferClosed';
+        try {
+          if (localStorage.getItem(storageKey) === 'true') offer.classList.add('is-hidden');
+        } catch (error) {}
+        offer.querySelectorAll('.offer-close').forEach((button) => button.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          offer.classList.add('is-hidden');
+          try { localStorage.setItem(storageKey, 'true'); } catch (error) {}
+        }));
+      };
+
+      initOfferBar();
+
       const searchOpenButton = document.querySelector(".search-pill");
       const searchCloseButton = document.querySelector(".search-close");
       const searchBackdrop = document.querySelector(".search-backdrop");
@@ -4713,6 +4821,26 @@
       } else {
         revealSections.forEach((section) => section.classList.add("is-visible"));
       }
+
+
+      const initBackToTop = () => {
+        let button = document.querySelector('.back-to-top');
+        if (!button) {
+          button = document.createElement('button');
+          button.className = 'back-to-top';
+          button.type = 'button';
+          button.setAttribute('aria-label', 'Back to top');
+          button.innerHTML = '<img class="svg-icon" src="assets/icon-arrow.svg?v=2" alt="" aria-hidden="true" />';
+          document.body.appendChild(button);
+        }
+        const updateBackToTop = () => button.classList.toggle('is-visible', window.scrollY > Math.min(520, window.innerHeight * 0.72));
+        button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        window.addEventListener('scroll', updateBackToTop, { passive: true });
+        window.addEventListener('resize', updateBackToTop);
+        updateBackToTop();
+      };
+
+      initBackToTop();
     </script>
   </body>
 </html>

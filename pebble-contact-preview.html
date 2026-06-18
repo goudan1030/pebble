@@ -5,14 +5,258 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Milagift Contact Preview</title>
     <link rel="stylesheet" href="pebble-commerce-preview.css" />
+    <style>
+      .contact-page {
+        display: grid;
+        gap: clamp(34px, 5vw, 72px);
+      }
+
+      .contact-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+        gap: clamp(22px, 4vw, 52px);
+        align-items: stretch;
+      }
+
+      .contact-hero__copy {
+        min-height: clamp(330px, 32vw, 500px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 22px;
+        padding: clamp(30px, 5vw, 68px);
+        border-radius: var(--radius-lg);
+        background:
+          radial-gradient(circle at 12% 14%, rgba(247, 154, 183, 0.24), transparent 28%),
+          radial-gradient(circle at 88% 74%, rgba(215, 230, 221, 0.72), transparent 32%),
+          linear-gradient(135deg, #fff8ec 0%, #fffdf8 58%, #f5ede1 100%);
+        overflow: hidden;
+      }
+
+      .contact-hero__copy .page-title {
+        max-width: 760px;
+      }
+
+      .contact-hero__copy .cta-stack,
+      .contact-faq .cta-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .contact-page .btn {
+        height: 50px;
+        min-height: 50px;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+
+      .contact-page .btn .dot {
+        flex: 0 0 30px;
+      }
+
+      .contact-hero__panel {
+        min-height: clamp(330px, 32vw, 500px);
+        display: grid;
+        align-content: center;
+        gap: clamp(18px, 3vw, 34px);
+        padding: clamp(22px, 3vw, 34px);
+        border-radius: var(--radius-lg);
+        background: var(--ink);
+        color: #ffffff;
+      }
+
+      .contact-hero__panel h2 {
+        margin: 0;
+        font-size: clamp(28px, 3vw, 46px);
+        line-height: 0.98;
+        letter-spacing: -0.06em;
+      }
+
+      .contact-hero__panel p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .contact-methods {
+        display: grid;
+        gap: 10px;
+      }
+
+      .contact-method {
+        display: grid;
+        grid-template-columns: minmax(120px, 0.32fr) minmax(0, 1fr);
+        gap: 16px;
+        align-items: center;
+        min-height: 74px;
+        padding: 16px 18px;
+        border-radius: var(--radius-md);
+        background: #ffffff;
+        color: var(--ink);
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+      }
+
+      .contact-method:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 22px 54px rgba(0, 0, 0, 0.13);
+      }
+
+      .contact-method h3 {
+        margin: 0;
+        font-size: 21px;
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+
+      .contact-method a {
+        justify-self: end;
+        color: var(--ink);
+        font-weight: 900;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        word-break: break-word;
+      }
+
+      .contact-support-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: clamp(22px, 3vw, 42px);
+        align-items: start;
+      }
+
+      .contact-info-card,
+      .contact-faq {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: #ffffff;
+      }
+
+      .contact-card-head {
+        margin-bottom: 24px;
+      }
+
+      .contact-card-head h2,
+      .contact-info-card h2,
+      .contact-faq h2 {
+        margin: 0;
+        font-size: clamp(28px, 3vw, 44px);
+        line-height: 1;
+        letter-spacing: -0.055em;
+      }
+
+      .contact-card-head p,
+      .contact-faq p {
+        max-width: 680px;
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.65;
+      }
+
+      .contact-info-card {
+        display: grid;
+        grid-template-columns: minmax(250px, 0.36fr) minmax(0, 1fr);
+        gap: clamp(18px, 3vw, 42px);
+        align-items: start;
+        padding: clamp(24px, 4vw, 46px);
+        background: var(--milk);
+      }
+
+      .contact-info-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .contact-info-list article {
+        display: grid;
+        gap: 5px;
+        padding: 16px;
+        border-radius: var(--radius-md);
+        background: #ffffff;
+      }
+
+      .contact-info-list b {
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 950;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .contact-info-list span,
+      .contact-info-list a {
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .contact-info-list article:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .contact-info-list .contact-note-row {
+        background: #fff8ec;
+      }
+
+      .contact-info-list .contact-note-row span {
+        color: var(--rust);
+        font-weight: 800;
+      }
+
+      .contact-info-list a:hover {
+        color: var(--ink);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+
+      .contact-faq {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 24px;
+        align-items: center;
+        padding: clamp(24px, 4vw, 46px);
+        background:
+          radial-gradient(circle at 92% 16%, rgba(247, 154, 183, 0.22), transparent 28%),
+          var(--milk);
+      }
+
+      @media (max-width: 980px) {
+        .contact-hero,
+        .contact-support-grid,
+        .contact-info-card,
+        .contact-faq {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-methods {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-faq .cta-stack {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .contact-info-list {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-info-list article:last-child {
+          grid-column: auto;
+        }
+      }
+    </style>
   </head>
   <body>
 
     <div class="offer" aria-label="Store announcements">
       <div class="offer-track">
-        <div class="offer-slide">Free shipping over $59 <span>·</span> Personalize every detail before checkout</div>
-        <div class="offer-slide offer-slide--pink">Special Offer: 20% code GIFT20! <u>Shop Now</u></div>
-      </div>
+        <a class="offer-slide" href="pebble-products-listing-preview.html">Free shipping over $59 <span>·</span> Personalize every detail before checkout<button class="offer-close" type="button" aria-label="Close announcement"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.2 2.2l7.6 7.6M9.8 2.2 2.2 9.8"/></svg></button></a>
+        <a class="offer-slide offer-slide--pink" href="pebble-collection-preview.html">Special Offer: 20% code GIFT20! <u>Shop Now</u><button class="offer-close" type="button" aria-label="Close announcement"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.2 2.2l7.6 7.6M9.8 2.2 2.2 9.8"/></svg></button></a></div>
     </div>
     <header class="header">
       <nav class="nav" aria-label="Main navigation">
@@ -20,7 +264,7 @@
           <a class="nav-trigger" href="pebble-custom-gifting-home-preview.html">Shop</a>
           <a class="nav-trigger" href="pebble-collection-preview.html">Collections</a>
           <a class="nav-trigger" href="pebble-theme-pages-preview.html">Pages</a>
-          <a class="nav-trigger" href="pebble-faq-preview.html">Help</a>
+          <a class="nav-trigger" href="pebble-faq-preview.html">Features</a>
         </div>
         <a class="brand" href="pebble-custom-gifting-home-preview.html" aria-label="Milagift home"><img src="assets/milalogo.svg" alt="Milagift" /></a>
         <div class="nav-right">
@@ -29,9 +273,93 @@
           <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><img src="assets/icon-cart.svg?v=2" alt="" aria-hidden="true" /></a>
         </div>
       </nav>
-    </header>
+    </header>    <main class="shell contact-page">
+      <section class="contact-hero reveal is-visible">
+        <div class="contact-hero__copy">
+          <div>
+            <p class="eyebrow">Contact Us</p>
+            <h1 class="page-title">We'd love to hear from <em>you.</em></h1>
+            <p class="section-lede">Get personalized gift support for orders, custom design details, shipping questions, collaborations and business inquiries.</p>
+          </div>
+          <div class="cta-stack">
+            <a class="btn btn-primary" href="mailto:support@milagift.com">Email support <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" aria-hidden="true" /></span></a>
+            <a class="btn btn-secondary" href="pebble-faq-preview.html">Visit FAQ</a>
+          </div>
+        </div>
 
-    <main class="shell"><section class="cart-hero reveal is-visible"><div><p class="eyebrow">Contact</p><h1 class="page-title">Get help with an order, design or <em>gift idea.</em></h1><p class="section-lede">Contact combines a high-contrast form with support method cards and direct tracking/account links.</p></div></section><section class="split-layout"><form class="form-card reveal"><div class="form-grid"><div class="field"><label>Name</label><input value="Emma Taylor" /></div><div class="field"><label>Email</label><input value="emma@example.com" /></div><div class="field is-wide"><label>Order number</label><input value="MG-1048" /></div><div class="field is-wide"><label>Message</label><textarea>Can I update the gift message before production?</textarea></div></div><button class="btn btn-primary js-toast" type="button" data-toast="Support form state ready." style="margin-top:20px">Send message</button></form><aside class="content-stack reveal"><article class="panel-card"><h2>Order support</h2><p>Use for production changes, address edits and tracking questions.</p></article><article class="panel-card"><h2>Design help</h2><p>Use for personalization options, photo quality and preview approval.</p></article></aside></section></main>
+        <aside class="contact-hero__panel" aria-label="Contact methods">
+          <div>
+            <p class="eyebrow">24/7 Customer Support</p>
+            <h2>Choose the fastest way to reach MilaGift.</h2>
+          </div>
+          <div class="contact-methods">
+            <article class="contact-method">
+              <h3>Email</h3>
+              <a href="mailto:support@milagift.com">support@milagift.com</a>
+            </article>
+            <article class="contact-method">
+              <h3>Live Chat</h3>
+              <a href="mailto:support@milagift.com">Chat with us now</a>
+            </article>
+            <article class="contact-method">
+              <h3>Message Us</h3>
+              <a href="mailto:support@milagift.com">Contact us</a>
+            </article>
+          </div>
+        </aside>
+      </section>
+      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="pebble-custom-gifting-home-preview.html">Home</a></li><li><span>Company</span></li><li><span aria-current="page">Contact Us</span></li></ol></nav>
+
+
+      <section class="contact-support-grid">
+        <aside class="contact-info-card reveal">
+          <div>
+            <p class="eyebrow">Company Information</p>
+            <h2>MilaGift Company Information</h2>
+          </div>
+          <div class="contact-info-list">
+            <article>
+              <b>Working Time</b>
+              <span>24/7 Customer Support</span>
+            </article>
+            <article>
+              <b>Email Address</b>
+              <a href="mailto:support@milagift.com">support@milagift.com</a>
+              <a href="mailto:marketing@milagift.com">marketing@milagift.com</a>
+              <a href="mailto:business@milagift.com">business@milagift.com</a>
+            </article>
+            <article>
+              <b>Company Name</b>
+              <span>Unite Star Co., Limited</span>
+            </article>
+            <article>
+              <b>Company CR Number</b>
+              <span>78651374</span>
+            </article>
+            <article>
+              <b>Company Address</b>
+              <span>RRM D5 5/F KING YIP FACTORY BLDG NO. 59 KING YIP ST KWUN TONG HONG KONG</span>
+            </article>
+            <article class="contact-note-row">
+              <b>Return Address</b>
+              <span>This company address is not a returning address.</span>
+            </article>
+          </div>
+        </aside>
+      </section>
+
+      <section class="contact-faq reveal">
+        <div>
+          <p class="eyebrow">Friendly Reminder</p>
+          <h2>Start with FAQ for faster assistance.</h2>
+          <p>For faster assistance, we recommend visiting our FAQ page, where you can find answers to common questions along with helpful step-by-step instructions. We are committed to providing outstanding customer support and will always do our best to ensure you have a great experience with us.</p>
+        </div>
+        <div class="cta-stack">
+          <a class="btn btn-primary" href="pebble-faq-preview.html">Open FAQ <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" aria-hidden="true" /></span></a>
+          <a class="btn btn-secondary" href="pebble-tracking-preview.html">Track order</a>
+        </div>
+      </section>
+    </main>
 
     <footer class="site-footer">
       <div class="footer-brand"><strong>We are obsessed with building the best custom gifts.</strong><p>Milagift turns photos, names, dates and little memories into warm, gift-ready pieces.</p></div>

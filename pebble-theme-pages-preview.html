@@ -133,6 +133,54 @@
         padding: 0 var(--site-gutter) var(--space-section);
       }
 
+      .breadcrumb {
+        max-width: var(--site-width);
+        margin: 0 auto;
+        padding: 10px 0;
+        color: var(--quiet);
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      body > .breadcrumb {
+        padding-right: var(--site-gutter);
+        padding-left: var(--site-gutter);
+      }
+
+      .breadcrumb ol {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .breadcrumb li {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .breadcrumb li + li::before {
+        content: "/";
+        color: rgba(46, 46, 46, 0.32);
+        font-weight: 700;
+      }
+
+      .breadcrumb a {
+        color: var(--muted);
+        transition: color 0.2s ease;
+      }
+
+      .breadcrumb a:hover,
+      .breadcrumb [aria-current="page"] {
+        color: var(--ink);
+      }
+
       .guide-topbar {
         display: flex;
         justify-content: center;
@@ -4288,6 +4336,53 @@
       .footer-spec {
         border-radius: 20px;
       }
+
+
+      .back-to-top {
+        position: fixed;
+        right: clamp(18px, 2.4vw, 34px);
+        bottom: clamp(18px, 2.4vw, 34px);
+        z-index: 70;
+        width: 54px;
+        height: 54px;
+        display: grid;
+        place-items: center;
+        border: 2px solid var(--ink);
+        border-radius: 50%;
+        color: #ffffff;
+        background: var(--ink);
+        box-shadow: 0 16px 42px rgba(0, 0, 0, 0.18);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(12px) scale(0.92);
+        pointer-events: none;
+        cursor: pointer;
+        transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s ease, background 0.22s ease, color 0.22s ease;
+      }
+
+      .back-to-top.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .back-to-top:hover {
+        color: var(--ink);
+        background: #ffffff;
+        transform: translateY(-3px) scale(1);
+      }
+
+      .back-to-top .svg-icon {
+        width: 22px;
+        height: 22px;
+        transform: rotate(-90deg);
+        --icon-filter: brightness(0) invert(1);
+      }
+
+      .back-to-top:hover .svg-icon {
+        --icon-filter: none;
+      }
     </style>
   </head>
   <body>
@@ -4310,9 +4405,7 @@
           <a class="icon-button" href="#tokens" aria-label="Open tokens"><img class="svg-icon" src="assets/icon-info.svg?v=2" alt="" aria-hidden="true" /></a>
         </div>
       </nav>
-    </header>
-
-    <main class="guide-shell">
+    </header>    <main class="guide-shell">
       <section class="hero">
         <div class="hero-card hero-copy">
           <div class="eyebrow">Design Language Guide</div>
@@ -4329,6 +4422,8 @@
           <div class="hero-stat"><strong>50</strong><span>primary pill button minimum height with circular arrow dot</span></div>
         </div>
       </section>
+      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="pebble-custom-gifting-home-preview.html">Home</a></li><li><span aria-current="page">Design Language</span></li></ol></nav>
+
 
       <div class="guide-layout">
         <aside class="side-nav" aria-label="Design language sections">
@@ -4358,7 +4453,7 @@
             <div class="rule-list">
               <div class="rule"><b>White minimalism</b><span>Use white as the page base and light grey blocks for structure. Accent color should support emotion, not decorate every surface.</span></div>
               <div class="rule"><b>Personal detail</b><span>Copy should mention names, photos, dates, flowers, messages, memories and gifting moments.</span></div>
-              <div class="rule"><b>Square product media</b><span>Product images are square and fill the container. Avoid padded product image boxes unless the asset itself needs breathing room.</span></div>
+              <div class="rule"><b>Square product media</b><span>All product primary images must be square and fill the container. Use block-level media boxes with <code>aspect-ratio: 1 / 1</code>, no inner padding and <code>object-fit: cover</code>. This applies to collection, search, recommendation, related product and article product cards.</span></div>
               <div class="rule"><b>Soft but crisp</b><span>Rounded cards and calm surfaces paired with sharp typography, strong CTAs and clear hierarchy.</span></div>
               <div class="rule"><b>Real ecommerce copy</b><span>Use long descriptive product titles like the reference site. Avoid short placeholder names such as “Gift Bag”.</span></div>
             </div>
@@ -4438,9 +4533,9 @@
                 <div class="type-row__meta"><code>0.82rem-0.9rem</code><br />weight 600, quiet color, line 1.45</div>
               </div>
               <div class="type-row">
-                <div class="type-row__meta"><b>Eyebrow</b><br />Small section labels</div>
-                <div class="type-kicker">Summer Personalized Picks</div>
-                <div class="type-row__meta"><code>0.78rem</code><br />weight 950, letter 0.14em, uppercase, clay</div>
+                <div class="type-row__meta"><b>Eyebrow / section label</b><br />Homepage/About section tags</div>
+                <div class="type-kicker">Made for one person</div>
+                <div class="type-row__meta"><code>0.78rem</code><br />weight 950, letter 0.14em, uppercase, clay text, no border</div>
               </div>
               <div class="type-row">
                 <div class="type-row__meta"><b>Button text</b><br />Primary CTAs and compact actions</div>
@@ -4534,6 +4629,7 @@
                   <div class="rule"><b>Primary CTA</b><span>Black pill, white text, minimum height <code>50px</code>, left padding <code>24px</code>, right circular dot <code>38px</code>.</span></div>
                   <div class="rule"><b>Hero CTA</b><span>White pill over image. On hover it turns black with white text. This special rule should only apply to hero buttons.</span></div>
                   <div class="rule"><b>Product card CTA</b><span>Use <code>Start Design</code>, not “Add to cart” or “Choose options”. Hover: black background, white text, arrow dot reverses.</span></div>
+                  <div class="rule"><b>Pagination</b><span>Use for search, collection and listing pages when results exceed one page. Keep it below the product grid with a top divider, left summary text, right controls, 44px pill buttons, black active page, light disabled previous/next and compact ellipsis.</span></div>
                   <div class="rule"><b>Customizer drawer</b><span>Place badge, title and price inside the scrollable drawer body, not in a fixed header. Use one sticky active main image as a direct scroll-layer item; thumbnails and product info scroll away.</span></div>
                   <div class="rule"><b>Icon buttons</b><span>44px circle, transparent by default, black fill and white icon on hover, translate up by 2px.</span></div>
                   <div class="rule"><b>Focus</b><span>Use <code>outline: 2px solid var(--clay)</code> and <code>outline-offset: 3px</code>.</span></div>
@@ -4641,9 +4737,9 @@
               </article>
             </div>
             <div class="rule-list" style="margin-top:14px">
-              <div class="rule"><b>Product image</b><span>Always <code>aspect-ratio: 1</code>, no inner padding, <code>object-fit: cover</code>. This fixes real square product images.</span></div>
-              <div class="rule"><b>Product title</b><span>Use long descriptive titles and clamp to 2 lines in grids. Detail pages can show the full title.</span></div>
-              <div class="rule"><b>Badges</b><span>Pill badges top-left, white text, saturated but controlled colors: sale red, new green, hot purple, personalized clay.</span></div>
+              <div class="rule"><b>Product image</b><span>Always <code>display: block</code>, <code>width: 100%</code>, <code>aspect-ratio: 1 / 1</code>, no inner padding and <code>object-fit: cover</code>. Never let product cards become vertical rectangles.</span></div>
+              <div class="rule"><b>Product title and price</b><span>Every product card must show a descriptive product title and price by default below the square image. Titles can clamp to 2 lines in dense grids; price must remain visible without hover.</span></div>
+              <div class="rule"><b>Product labels and colors</b><span>Do not show sale/new/best-seller badges or color swatches on product cards by default, including homepage product cards. Keep cards focused on square image, title, price and hover Start Design action.</span></div>
               <div class="rule"><b>Reviews</b><span>Review sections use the latest muted beige/grey block, white quote cards, rounded 20px, and visible carousel controls.</span></div>
               <div class="rule"><b>FAQ module</b><span>Place homepage FAQ between reviews and newsletter. Use a large rounded light-grey block, left intro copy, right accordion rows, and assets plus/minus icons.</span></div>
             </div>
@@ -4655,6 +4751,14 @@
               <p>Additional homepage components that need explicit rules before other pages are designed.</p>
             </div>
             <div class="specimen-grid">
+              <article class="specimen-card">
+                <div class="specimen-kicker">Eyebrow / section label</div>
+                <div class="type-kicker">Why people choose Milagift</div>
+                <div class="rule-list" style="margin-top:18px">
+                  <div class="rule"><b>Usage</b><span>Use for major marketing section labels on home, about and storytelling pages. Keep it as text only, not a pill or badge.</span></div>
+                  <div class="rule"><b>Style</b><span>No border, no background, no radius. Use clay text, <code>0.78rem</code>, weight <code>950</code>, letter spacing <code>0.14em</code>, uppercase.</span></div>
+                </div>
+              </article>
               <article class="specimen-card specimen-card--wide">
                 <div class="specimen-kicker">Header mega menu</div>
                 <div class="mega-spec">
@@ -5178,11 +5282,14 @@
               <p>Chrome should be light, sticky and useful without stealing attention from product imagery.</p>
             </div>
             <div class="rule-list">
-              <div class="rule"><b>Offer bar</b><span>40px high announcement carousel with two vertical slides. First slide uses caramel, second slide uses pink, both centered at 14px with white text.</span></div>
-              <div class="rule"><b>Header</b><span>Sticky, white 94% opacity, blur 18px, 1px subtle border. Grid: left nav, centered logo, right icons.</span></div>
+              <div class="rule"><b>Offer bar</b><span>40px high announcement carousel with two vertical slides. Each slide is its own full-width link with configurable href, hover brightness and visible focus state. First slide uses caramel, second slide uses pink, both centered at 14px with white text. Each slide owns its own 26px circular close button on the right so the control moves with the active announcement; closing hides the bar and can persist with local storage across preview pages.</span></div>
+              <div class="rule"><b>Header default</b><span>Normal pages use a sticky header with white 94% opacity, 18px blur and a subtle 1px border. Layout is a three-column grid: left nav, centered logo, right icons. Text and icons use ink color by default; hover switches to black fill with white icon/text where applicable.</span></div>
+              <div class="rule"><b>Header on dark hero</b><span>Pages with a full-width dark/video hero may place the header over the hero with fixed positioning. Remove header background and blur, remove border, use white nav text, white filtered logo and white filtered icons. As soon as the page starts scrolling, switch back to the default white header and pin it to the top of the viewport without reserving offer-bar space.</span></div>
               <div class="rule"><b>Logo</b><span>Use provided <code>milalogo.svg</code>. Width clamps from 104px to 146px.</span></div>
               <div class="rule"><b>Search</b><span>Use a global overlay with backdrop. Clicking backdrop or empty overlay area closes it. Do not place the mask inside the header.</span></div>
-              <div class="rule"><b>Footer</b><span>White footer with strong brand sentence, three link columns, social icons with black hover, policy links and payment chips.</span></div>
+              <div class="rule"><b>Breadcrumb</b><span>Place a low-emphasis breadcrumb directly below the hero or first screen module on every inner page. Use <code>Home / Current page</code>, 13px bold text, muted links, slash separator, centered alignment and no pill/background treatment. Use compact balanced spacing, typically <code>padding: 10px 0</code>. Inside shell layouts it should align to the same content width without adding a second horizontal gutter.</span></div>
+              <div class="rule"><b>Back to top</b><span>Fixed bottom-right circular control, 54px, black fill, white rotated arrow. Hidden on first screen, appears after scroll and returns smoothly to top.</span></div>
+              <div class="rule"><b>Footer</b><span>White footer with strong brand sentence, three link columns, social icons with black hover, policy links and payment chips. Inner pages should keep footer close to the final content: content shell bottom padding 40-64px and footer top margin 28px, not a large empty spacer.</span></div>
             </div>
           </section>
 
@@ -5198,6 +5305,7 @@
               <div class="motion-item"><b>Observer trigger</b><span>Use <code>IntersectionObserver</code> with <code>threshold: 0.12</code> and <code>rootMargin: "0px 0px -12% 0px"</code>. Unobserve after reveal so modules do not animate repeatedly while scrolling back.</span></div>
               <div class="motion-item"><b>Card hover</b><span>Product images scale to 1.035. Category images translate up 4px and rotate -2deg for a playful but restrained feel. Hover should never shift layout.</span></div>
               <div class="motion-item"><b>Button hover</b><span>Translate up 1-2px. Hero CTA reverses white to black on hover; product card CTA uses black background, white text and a reversed arrow dot.</span></div>
+              <div class="motion-item"><b>Back to top</b><span>Use one global <code>.back-to-top</code> button. Keep it hidden on initial viewport, show after <code>min(520px, 72vh)</code> scroll, and call <code>window.scrollTo({ top: 0, behavior: "smooth" })</code> on click.</span></div>
               <div class="motion-item"><b>Carousel</b><span>Use transform translate with the same <code>cubic-bezier(0.3, 1, 0.3, 1)</code>, around 0.5s. Pause autoplay on hover. Progress bars animate width, not layout-heavy properties.</span></div>
               <div class="motion-item"><b>Reduced motion</b><span>Respect <code>prefers-reduced-motion</code>: remove animation, remove smooth scroll, set revealed content visible immediately and keep carousels usable without autoplay dependency.</span></div>
             </div>
@@ -5298,8 +5406,8 @@ if ("IntersectionObserver" in window) {
                 <div class="page-blueprint__meta"><span>P1 browsing</span><h3>Collection</h3><code>collection.default</code><a href="pebble-collection-preview.html">Preview</a></div>
                 <div class="page-blueprint__rules">
                   <div class="page-rule-row"><b>Structure</b><p>White hero with collection title, short description and optional category chips. Product grid uses 4 columns desktop, 2 mobile.</p></div>
-                  <div class="page-rule-row"><b>Components</b><p>Filter chips, sort control, square product cards, badges, swatches, carousel/loading controls and empty collection state.</p></div>
-                  <div class="page-rule-row"><b>Cards</b><p>Product image fills square card. Titles clamp to 2 lines. Hover reveals Start Design pill over the image.</p></div>
+                  <div class="page-rule-row"><b>Components</b><p>Filter chips, sort control, square product cards, carousel/loading controls and empty collection state. Product cards should not show badges or color swatches by default.</p></div>
+                  <div class="page-rule-row"><b>Cards</b><p>Product image fills a square card. Product title and price are always visible below the image. Hover reveals Start Design pill over the image without hiding title or price.</p></div>
                   <div class="page-rule-row"><b>State</b><p>Filters should show active state as black pill. Empty results should suggest clearing filters or browsing best sellers.</p></div>
                 </div>
                 <div class="page-blueprint__wire"><span class="wire-line medium"></span><div class="wire-grid-3"><span class="wire-pill"></span><span class="wire-pill"></span><span class="wire-pill"></span></div><div class="wire-grid-2"><span class="wire-image"></span><span class="wire-image"></span><span class="wire-image"></span><span class="wire-image"></span></div></div>
@@ -5308,8 +5416,9 @@ if ("IntersectionObserver" in window) {
               <article class="page-blueprint">
                 <div class="page-blueprint__meta"><span>P1 browsing</span><h3>Products listing</h3><code>products</code><a href="pebble-products-listing-preview.html">Preview</a></div>
                 <div class="page-blueprint__rules">
-                  <div class="page-rule-row"><b>Structure</b><p>Reuse collection visual system. Do not invent a second product listing style.</p></div>
-                  <div class="page-rule-row"><b>Components</b><p>Global product hero, occasion/category shortcuts, filters, sort, product grid, pagination or load more.</p></div>
+                  <div class="page-rule-row"><b>Structure</b><p>Reuse collection visual system, but do not use a large hero on all-products listing pages. Start with a horizontal “diamond shortcut” carousel, then breadcrumb, filters, product grid and pagination.</p></div>
+                  <div class="page-rule-row"><b>Components</b><p>Top category tabs, circular shortcut carousel with left/right controls, filters, sort, 12-item product grid and pagination. Shortcut area can use a flat very light blue background for the campaign/category band, while arrow controls stay as black/white circular buttons, not peach rectangular buttons.</p></div>
+                  <div class="page-rule-row"><b>Pagination</b><p>Default products listing page size is 12 products. Use the shared pagination component with result summary, disabled previous state, active black page pill and next/page links.</p></div>
                   <div class="page-rule-row"><b>Copy</b><p>Lead with “Personalized gifts for every moment” style messaging, then let categories guide browsing.</p></div>
                   <div class="page-rule-row"><b>State</b><p>Loading skeletons should preserve square card proportions.</p></div>
                 </div>
@@ -5341,8 +5450,9 @@ if ("IntersectionObserver" in window) {
               <article class="page-blueprint">
                 <div class="page-blueprint__meta"><span>P2 discovery</span><h3>Search results</h3><code>search</code><a href="pebble-search-results-preview.html">Preview</a></div>
                 <div class="page-blueprint__rules">
-                  <div class="page-rule-row"><b>Structure</b><p>Search page extends the overlay language: large search field, result count, suggestions, product grid.</p></div>
-                  <div class="page-rule-row"><b>Components</b><p>Search input, category chips, suggested queries, square product cards, no-result state, popular collections.</p></div>
+                  <div class="page-rule-row"><b>Structure</b><p>Search page extends the overlay language: large search field, centered breadcrumb, result count, right-aligned filter dropdown, 12-item product grid and pagination.</p></div>
+                  <div class="page-rule-row"><b>Components</b><p>Search input, result count text, “Sort By” filter button, dropdown options, square product cards, pagination, no-result state and popular collections. Populated results should not show left-side category/tag chips.</p></div>
+                  <div class="page-rule-row"><b>Pagination</b><p>Default search results page size is 12 products. Pagination shows “Showing 1-12 of 24” style summary, current page as black pill, disabled previous state and next/page links on the right.</p></div>
                   <div class="page-rule-row"><b>State</b><p>No-result state should offer alternate keywords and “Shop best sellers”.</p></div>
                   <div class="page-rule-row"><b>Motion</b><p>Typing suggestions can fade in. Product cards use same hover as collection pages.</p></div>
                 </div>
@@ -5397,7 +5507,7 @@ if ("IntersectionObserver" in window) {
                 <div class="page-blueprint__meta"><span>P4 brand</span><h3>About and contact</h3><code>about-us · contact</code><a href="pebble-about-preview.html">About</a><a href="pebble-contact-preview.html">Contact</a></div>
                 <div class="page-blueprint__rules">
                   <div class="page-rule-row"><b>Structure</b><p>About uses brand story, image cards and values. Contact uses form, support cards and social links.</p></div>
-                  <div class="page-rule-row"><b>Components</b><p>Image-with-text, value cards, contact form, support method cards, social hover, newsletter link.</p></div>
+                  <div class="page-rule-row"><b>Components</b><p>Image-with-text, value cards, support method list, company information grid, social hover, newsletter link.</p></div>
                   <div class="page-rule-row"><b>Copy</b><p>Keep it product-connected: personalization, gifting, previews, materials, support.</p></div>
                   <div class="page-rule-row"><b>Style</b><p>White base, light grey media blocks, 20px cards. Avoid old brochure-style beige panels.</p></div>
                 </div>
@@ -5811,6 +5921,26 @@ if ("IntersectionObserver" in window) {
 
         guideSections.forEach((section) => navObserver.observe(section));
       })();
+
+
+      const initBackToTop = () => {
+        let button = document.querySelector('.back-to-top');
+        if (!button) {
+          button = document.createElement('button');
+          button.className = 'back-to-top';
+          button.type = 'button';
+          button.setAttribute('aria-label', 'Back to top');
+          button.innerHTML = '<img class="svg-icon" src="assets/icon-arrow.svg?v=2" alt="" aria-hidden="true" />';
+          document.body.appendChild(button);
+        }
+        const updateBackToTop = () => button.classList.toggle('is-visible', window.scrollY > Math.min(520, window.innerHeight * 0.72));
+        button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        window.addEventListener('scroll', updateBackToTop, { passive: true });
+        window.addEventListener('resize', updateBackToTop);
+        updateBackToTop();
+      };
+
+      initBackToTop();
     </script>
   </body>
 </html>

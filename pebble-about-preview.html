@@ -5,14 +5,567 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Milagift About Preview</title>
     <link rel="stylesheet" href="pebble-commerce-preview.css" />
+    <style>
+      .about-story {
+        display: grid;
+        gap: clamp(34px, 5vw, 72px);
+      }
+
+      .about-story .cta-stack {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .about-story .btn {
+        flex: 0 0 auto;
+        align-self: flex-start;
+        justify-self: flex-start;
+        height: 50px;
+        min-height: 50px;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+
+      .about-story .btn .dot {
+        flex: 0 0 30px;
+      }
+
+      .about-page .offer {
+        position: relative;
+        z-index: 30;
+      }
+
+      .about-page .header {
+        position: fixed;
+        top: 40px;
+        right: 0;
+        left: 0;
+        z-index: 25;
+        border-bottom-color: transparent;
+        background: transparent;
+        backdrop-filter: none;
+        transition: background-color 0.22s ease, border-color 0.22s ease, backdrop-filter 0.22s ease, box-shadow 0.22s ease;
+      }
+
+      .about-page.offer-hidden .header,
+      .about-page.is-scrolled .header {
+        top: 0;
+      }
+
+      .about-page.is-scrolled .header {
+        border-bottom-color: rgba(255, 255, 255, 0.45);
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(18px);
+        box-shadow: 0 14px 44px rgba(46, 46, 46, 0.08);
+      }
+
+      .about-page .nav-left,
+      .about-page .nav-right,
+      .about-page .nav-trigger,
+      .about-page .icon {
+        color: #ffffff;
+      }
+
+      .about-page.is-scrolled .nav-left,
+      .about-page.is-scrolled .nav-right,
+      .about-page.is-scrolled .nav-trigger,
+      .about-page.is-scrolled .icon {
+        color: var(--soft-ink);
+      }
+
+      .about-page .nav-left a::after {
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      .about-page.is-scrolled .nav-left a::after {
+        color: var(--muted);
+      }
+
+      .about-page .brand img,
+      .about-page .icon img {
+        filter: brightness(0) invert(1);
+      }
+
+      .about-page.is-scrolled .brand img,
+      .about-page.is-scrolled .icon img {
+        filter: none;
+      }
+
+      .about-page .nav-trigger:hover,
+      .about-page .icon:hover {
+        --icon-filter: none;
+        color: var(--ink);
+        background: #ffffff;
+      }
+
+      .about-page.is-scrolled .nav-trigger:hover,
+      .about-page.is-scrolled .icon:hover {
+        --icon-filter: brightness(0) invert(1);
+        color: #ffffff;
+        background: var(--ink);
+      }
+
+      .about-page .icon:hover img {
+        filter: none;
+      }
+
+      .about-page.is-scrolled .icon:hover img {
+        filter: var(--icon-filter, none);
+      }
+
+      .about-video-hero {
+        position: relative;
+        left: 50%;
+        width: 100vw;
+        min-height: clamp(460px, 62vw, 720px);
+        display: grid;
+        align-items: end;
+        overflow: hidden;
+        margin: calc(clamp(28px, 4vw, 56px) * -1) 0 0;
+        margin-left: -50vw;
+        border-radius: 0;
+        background: var(--ink);
+      }
+
+      .about-video-hero video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .about-video-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 18% 22%, rgba(247, 154, 183, 0.24), transparent 32%),
+          linear-gradient(90deg, rgba(13, 12, 10, 0.8) 0%, rgba(13, 12, 10, 0.46) 44%, rgba(13, 12, 10, 0.18) 100%),
+          linear-gradient(180deg, rgba(13, 12, 10, 0.08) 0%, rgba(13, 12, 10, 0.66) 100%);
+        z-index: 1;
+      }
+
+      .about-video-hero__content {
+        position: relative;
+        z-index: 2;
+        width: min(100%, var(--site-width));
+        display: grid;
+        gap: 22px;
+        margin: 0 auto;
+        padding: clamp(56px, 8vw, 112px) var(--site-gutter);
+      }
+
+      .about-video-hero .section-label {
+        color: rgba(255, 255, 255, 0.74);
+      }
+
+      .about-video-hero .page-title {
+        max-width: 860px;
+        color: #ffffff;
+        text-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
+      }
+
+      .about-video-hero .page-title em {
+        color: #ffd8e4;
+      }
+
+      .about-video-hero .about-kicker {
+        max-width: 720px;
+        color: rgba(255, 255, 255, 0.84);
+      }
+
+      .about-video-hero .btn-secondary {
+        border-color: rgba(255, 255, 255, 0.42);
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+      }
+
+      .about-video-hero .btn-secondary:hover {
+        border-color: #ffffff;
+        color: var(--ink);
+        background: #ffffff;
+      }
+
+      .about-story .section-label {
+        margin: 0 0 0.55rem;
+        color: var(--clay);
+        font-size: 0.78rem;
+        font-weight: 950;
+        line-height: 1.2;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .about-kicker {
+        max-width: 760px;
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(22px, 2.3vw, 34px);
+        line-height: 1.18;
+        letter-spacing: -0.045em;
+      }
+
+      .about-section {
+        display: grid;
+        grid-template-columns: minmax(280px, 0.92fr) minmax(0, 1.08fr);
+        gap: clamp(22px, 4vw, 58px);
+        align-items: center;
+      }
+
+      .about-section:nth-child(even) .about-media {
+        order: 2;
+      }
+
+      .about-section:nth-child(even) .about-copy {
+        order: 1;
+      }
+
+      .about-media {
+        aspect-ratio: 1;
+        overflow: hidden;
+        border-radius: var(--radius-lg);
+        background: var(--milk);
+      }
+
+      .about-media img {
+        transition: transform 0.7s cubic-bezier(0.3, 1, 0.3, 1);
+      }
+
+      .about-section:hover .about-media img {
+        transform: scale(1.035);
+      }
+
+      .about-copy {
+        display: grid;
+        gap: 18px;
+      }
+
+      .about-copy h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(34px, 4vw, 58px);
+        line-height: 0.98;
+        letter-spacing: -0.06em;
+      }
+
+      .about-copy p:not(.section-label) {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .about-list {
+        display: grid;
+        gap: 14px;
+        margin-top: 4px;
+      }
+
+      .about-list article {
+        display: grid;
+        grid-template-columns: 36px minmax(0, 1fr);
+        gap: 14px;
+        align-items: start;
+      }
+
+      .about-check {
+        width: 36px;
+        height: 36px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: #ffffff;
+        background: var(--caramel);
+        font-weight: 900;
+      }
+
+      .about-list h3 {
+        margin: 0 0 5px;
+        color: var(--ink);
+        font-size: 18px;
+        line-height: 1.15;
+        letter-spacing: -0.025em;
+      }
+
+      .about-moment-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+        gap: clamp(14px, 2vw, 22px);
+        align-items: stretch;
+      }
+
+      .about-moment-stack {
+        display: grid;
+        gap: clamp(14px, 2vw, 22px);
+      }
+
+      .about-moment-card {
+        position: relative;
+        min-height: 250px;
+        display: grid;
+        align-content: end;
+        overflow: hidden;
+        padding: clamp(22px, 3vw, 34px);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: #ffffff;
+      }
+
+      .about-moment-card--large {
+        min-height: 420px;
+        color: #ffffff;
+        background:
+          linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.72)),
+          url("https://shopzool.oss-accelerate.aliyuncs.com/resources/north-star/theme/theme_section_image/2026/06/02/asset_img_089da5dddb3c430684962601c6d551a8-about-us-3.webp?x-oss-process=image%2Fresize%2Cm_lfit%2Cw_960%2Fformat%2Cwebp") center / cover;
+      }
+
+      .about-moment-card:nth-child(2) {
+        background:
+          radial-gradient(circle at 88% 12%, rgba(247, 154, 183, 0.24), transparent 30%),
+          var(--milk);
+      }
+
+      .about-moment-card:nth-child(3) {
+        background:
+          radial-gradient(circle at 12% 18%, rgba(203, 233, 224, 0.65), transparent 34%),
+          #fff1f5;
+      }
+
+      .about-moment-icon {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 22px;
+        border-radius: 50%;
+        color: #ffffff;
+        background: var(--ink);
+        font-size: 22px;
+      }
+
+      .about-moment-card--large .about-moment-icon {
+        color: var(--ink);
+        background: #ffffff;
+      }
+
+      .about-moment-tag {
+        width: fit-content;
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        margin-bottom: 18px;
+        padding: 7px 12px;
+        border-radius: var(--radius-pill);
+        background: rgba(255, 255, 255, 0.84);
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .about-moment-card--large .about-moment-tag {
+        background: rgba(255, 255, 255, 0.92);
+      }
+
+      .about-moment-card h3 {
+        margin: 0 0 10px;
+        color: var(--ink);
+        font-size: clamp(25px, 3vw, 44px);
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+      }
+
+      .about-moment-card--large h3,
+      .about-moment-card--large p {
+        color: #ffffff;
+      }
+
+      .about-moment-card p {
+        max-width: 520px;
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .about-process-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
+        gap: clamp(22px, 4vw, 58px);
+        align-items: stretch;
+      }
+
+      .about-process-copy {
+        display: grid;
+        align-content: center;
+        gap: 18px;
+      }
+
+      .about-process-copy h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(40px, 5.4vw, 82px);
+        line-height: 0.92;
+        letter-spacing: -0.07em;
+      }
+
+      .about-process-copy > p:not(.section-label) {
+        max-width: 680px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .about-process-steps {
+        display: grid;
+        gap: 12px;
+        padding: clamp(18px, 2.4vw, 26px);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background:
+          linear-gradient(135deg, #ffffff 0%, #fff9ef 100%);
+      }
+
+      .about-process-step {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 16px;
+        align-items: start;
+        padding: 18px;
+        border-radius: var(--radius-md);
+        background: #ffffff;
+      }
+
+      .about-process-step b {
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: #ffffff;
+        background: var(--ink);
+      }
+
+      .about-process-step h3 {
+        margin: 0 0 6px;
+        color: var(--ink);
+        font-size: clamp(19px, 1.8vw, 26px);
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+      }
+
+      .about-process-step p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .about-process-media {
+        min-height: 520px;
+        overflow: hidden;
+        border-radius: var(--radius-lg);
+        background: var(--milk);
+      }
+
+      .about-process-media img {
+        transition: transform 0.7s cubic-bezier(0.3, 1, 0.3, 1);
+      }
+
+      .about-process-panel:hover .about-process-media img {
+        transform: scale(1.035);
+      }
+
+      .about-mission {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.75fr);
+        gap: clamp(22px, 4vw, 58px);
+        align-items: center;
+        padding: clamp(28px, 5vw, 64px);
+        border-radius: var(--radius-lg);
+        background: var(--ink);
+        color: #ffffff;
+      }
+
+      .about-mission h2,
+      .about-mission p {
+        color: inherit;
+      }
+
+      .about-story .about-mission .section-label {
+        color: #ffffff;
+      }
+
+      .about-mission p {
+        opacity: 0.78;
+      }
+
+      .about-mission .btn-primary {
+        justify-self: flex-start;
+        color: var(--ink);
+        background: #ffffff;
+      }
+
+      .about-mission .btn-primary:hover {
+        color: #ffffff;
+        background: var(--caramel);
+      }
+
+      .about-quote {
+        padding: clamp(22px, 3vw, 42px);
+        border-radius: var(--radius-lg);
+        background: #ffffff;
+        color: var(--ink);
+        font-size: clamp(26px, 3vw, 46px);
+        line-height: 1.02;
+        letter-spacing: -0.06em;
+      }
+
+      @media (max-width: 920px) {
+        .about-section,
+        .about-process-panel,
+        .about-mission {
+          grid-template-columns: 1fr;
+        }
+
+        .about-section:nth-child(even) .about-media,
+        .about-section:nth-child(even) .about-copy {
+          order: initial;
+        }
+
+        .about-moment-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .about-process-media {
+          min-height: 360px;
+        }
+
+        .about-video-hero {
+          min-height: 540px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .about-video-hero {
+          min-height: 500px;
+        }
+
+        .about-video-hero__content {
+          padding-top: 58px;
+          padding-bottom: 58px;
+        }
+      }
+    </style>
   </head>
-  <body>
+  <body class="about-page">
 
     <div class="offer" aria-label="Store announcements">
       <div class="offer-track">
-        <div class="offer-slide">Free shipping over $59 <span>·</span> Personalize every detail before checkout</div>
-        <div class="offer-slide offer-slide--pink">Special Offer: 20% code GIFT20! <u>Shop Now</u></div>
-      </div>
+        <a class="offer-slide" href="pebble-products-listing-preview.html">Free shipping over $59 <span>·</span> Personalize every detail before checkout<button class="offer-close" type="button" aria-label="Close announcement"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.2 2.2l7.6 7.6M9.8 2.2 2.2 9.8"/></svg></button></a>
+        <a class="offer-slide offer-slide--pink" href="pebble-collection-preview.html">Special Offer: 20% code GIFT20! <u>Shop Now</u><button class="offer-close" type="button" aria-label="Close announcement"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.2 2.2l7.6 7.6M9.8 2.2 2.2 9.8"/></svg></button></a></div>
     </div>
     <header class="header">
       <nav class="nav" aria-label="Main navigation">
@@ -20,7 +573,7 @@
           <a class="nav-trigger" href="pebble-custom-gifting-home-preview.html">Shop</a>
           <a class="nav-trigger" href="pebble-collection-preview.html">Collections</a>
           <a class="nav-trigger" href="pebble-theme-pages-preview.html">Pages</a>
-          <a class="nav-trigger" href="pebble-faq-preview.html">Help</a>
+          <a class="nav-trigger" href="pebble-faq-preview.html">Features</a>
         </div>
         <a class="brand" href="pebble-custom-gifting-home-preview.html" aria-label="Milagift home"><img src="assets/milalogo.svg" alt="Milagift" /></a>
         <div class="nav-right">
@@ -30,8 +583,113 @@
         </div>
       </nav>
     </header>
+    <main class="shell about-story">
+      <section class="about-video-hero reveal is-visible">
+        <video autoplay muted loop playsinline poster="https://shopzool.oss-accelerate.aliyuncs.com/resources/north-star/theme/theme_section_image/2026/06/02/asset_img_323a0cbdbea4456188978e19ea21e3a9-about-us-2.webp?x-oss-process=image%2Fresize%2Cm_lfit%2Cw_1600%2Fformat%2Cwebp">
+          <source src="assets/about-hero.webm" type="video/webm" />
+        </video>
+        <div class="about-video-hero__content">
+          <p class="section-label">About MilaGift</p>
+          <h1 class="page-title">We don’t just make gifts. We make proof that <em>someone matters.</em></h1>
+          <p class="about-kicker">At MilaGift, personalization is not a feature. It is the feeling behind every name, every photo, every tiny detail someone chooses with intention.</p>
+          <div class="cta-stack">
+            <a class="btn btn-primary" href="pebble-collection-preview.html">Explore gifts <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" /></span></a>
+            <a class="btn btn-secondary" href="pebble-products-listing-preview.html">All products</a>
+          </div>
+        </div>
+      </section>
+      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="pebble-custom-gifting-home-preview.html">Home</a></li><li><span>Company</span></li><li><span aria-current="page">About Us</span></li></ol></nav>
 
-    <main class="shell"><section class="hero-panel reveal is-visible"><div class="hero-copy-panel"><p class="eyebrow">Our story</p><h1 class="page-title">We turn little memories into <em>daily objects.</em></h1><p class="section-lede">About uses the same product-forward language as the store: previews, names, photos, materials and support.</p></div><div class="hero-media-panel"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260421/dab12eff706b31963a8fd2957448e2cd.jpg?d=900" alt="Personalized gifts on a table" /></div></section><section class="value-grid reveal"><article class="panel-card"><h2>Preview first</h2><p>Every custom gift should make the buyer feel confident before checkout.</p></article><article class="panel-card"><h2>Gift-ready</h2><p>Square media, clear options and warm copy keep decisions simple.</p></article><article class="panel-card"><h2>Recoverable</h2><p>Orders, tracking and payment states always provide a next step.</p></article></section></main>
+
+      <section class="about-section reveal">
+        <div class="about-media">
+          <img src="https://shopzool.oss-accelerate.aliyuncs.com/resources/north-star/theme/theme_section_image/2026/06/02/asset_img_089da5dddb3c430684962601c6d551a8-about-us-3.webp?x-oss-process=image%2Fresize%2Cm_lfit%2Cw_960%2Fformat%2Cwebp" alt="Custom keepsake gift details" />
+        </div>
+        <div class="about-copy">
+          <p class="section-label">Why people choose MilaGift</p>
+          <h2>Personal from beginning to end.</h2>
+          <p>There are thousands of gift stores online. People choose MilaGift because they want something that feels personal from the first idea to the moment the package is opened.</p>
+          <div class="about-list">
+            <article><span class="about-check">✓</span><div><h3>Thoughtful Personalization</h3><p>Easy-to-use customization tools that turn ideas into meaningful products within minutes.</p></div></article>
+            <article><span class="about-check">✓</span><div><h3>Designs Made to Feel Human</h3><p>Not generic templates, but artwork and layouts created to feel emotional, expressive and memorable.</p></div></article>
+            <article><span class="about-check">✓</span><div><h3>Quality That Lasts</h3><p>Premium materials, professional printing and careful production standards for keepsakes people actually want to keep.</p></div></article>
+            <article><span class="about-check">✓</span><div><h3>Support by Real People</h3><p>Behind every order is a team that understands these gifts matter emotionally, not just commercially.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <div class="section-head">
+          <p class="section-label">What we create</p>
+          <h2>Moments people want to keep.</h2>
+          <p>These are not just products. They are birthday gifts, memorial keepsakes, pet portraits, family traditions and everyday reminders of connection.</p>
+        </div>
+        <div class="about-moment-grid">
+          <article class="about-moment-card about-moment-card--large">
+            <span class="about-moment-tag">Milestones</span>
+            <span class="about-moment-icon">✦</span>
+            <h3>The Big Moments</h3>
+            <p>Birthdays, weddings, graduations, anniversaries, holidays and all the days people plan for.</p>
+          </article>
+          <div class="about-moment-stack">
+            <article class="about-moment-card">
+              <span class="about-moment-tag">Everyday</span>
+              <span class="about-moment-icon">♡</span>
+              <h3>The Everyday Moments</h3>
+              <p>Matching hoodies, family mugs, pet illustrations and small surprises “just because.”</p>
+            </article>
+            <article class="about-moment-card">
+              <span class="about-moment-tag">Meaning</span>
+              <span class="about-moment-icon">＋</span>
+              <h3>The Emotional Moments</h3>
+              <p>Memorial keepsakes, long-distance gifts and photos that deserve more than a phone gallery.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-process-panel reveal">
+        <div class="about-process-copy">
+          <p class="section-label">How it works</p>
+          <h2>Choose, make it yours, then deliver a moment.</h2>
+          <p>Explore collections inspired by relationships, memories, hobbies, pets, milestones and everyday life. Add names, photos, dates, messages or custom details that transform a product into your version of it.</p>
+          <div class="about-process-steps">
+            <article class="about-process-step"><b>1</b><div><h3>Find something that feels right</h3><p>Browse by story, occasion, recipient or interest.</p></div></article>
+            <article class="about-process-step"><b>2</b><div><h3>Make it yours</h3><p>Add names, photos, dates or messages that make the product personal.</p></div></article>
+            <article class="about-process-step"><b>3</b><div><h3>We bring it to life</h3><p>Our team creates, prints, prepares and checks every order.</p></div></article>
+            <article class="about-process-step"><b>4</b><div><h3>Deliver a moment</h3><p>The best part is the reaction after the gift is opened.</p></div></article>
+          </div>
+        </div>
+        <div class="about-process-media">
+          <img src="https://shopzool.oss-accelerate.aliyuncs.com/resources/north-star/theme/theme_section_image/2026/06/02/asset_img_54e0f487132343a4b007fa8e518d0aea-5467.webp?x-oss-process=image%2Fresize%2Cm_lfit%2Cw_960%2Fformat%2Cwebp" alt="MilaGift personalized product collection" />
+        </div>
+      </section>
+
+      <section class="about-mission reveal">
+        <div class="about-copy">
+          <p class="section-label">Our mission</p>
+          <h2>To make gifting feel personal again.</h2>
+          <p>To help people celebrate relationships, memories and milestones through custom products that carry real emotional meaning. Because long after the product itself exists, the feeling behind it remains.</p>
+          <a class="btn btn-primary" href="pebble-product-detail-preview.html">Start with a gift <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" /></span></a>
+        </div>
+        <div class="about-quote">Every name has a story. Every photo holds a memory. Every gift says something.</div>
+      </section>
+
+      <section class="about-section reveal">
+        <div class="about-media">
+          <img src="https://shopzool.oss-accelerate.aliyuncs.com/resources/north-star/theme/theme_section_image/2026/06/02/asset_img_9dd5d816d57443b0afd21a2ae3f6b560-9075.webp?x-oss-process=image%2Fresize%2Cm_lfit%2Cw_960%2Fformat%2Cwebp" alt="Meaningful MilaGift custom gift" />
+        </div>
+        <div class="about-copy">
+          <p class="section-label">Let’s create something meaningful</p>
+          <h2>Welcome to MilaGift.</h2>
+          <p>We are here to help you turn those feelings into something real: a gift made for one person, one story and one moment that deserves to be remembered.</p>
+          <div class="cta-stack">
+            <a class="btn btn-primary" href="pebble-collection-preview.html">Shop collections <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" /></span></a>
+            <a class="btn btn-secondary" href="pebble-contact-preview.html">Contact us</a>
+          </div>
+        </div>
+      </section>
+    </main>
 
     <footer class="site-footer">
       <div class="footer-brand"><strong>We are obsessed with building the best custom gifts.</strong><p>Milagift turns photos, names, dates and little memories into warm, gift-ready pieces.</p></div>

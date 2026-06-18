@@ -10,6 +10,44 @@ const showToast = (text) => {
   window.__toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 1800);
 };
 
+const initOfferBar = () => {
+  const offer = $(".offer");
+  if (!offer) return;
+  const storageKey = "milagiftOfferClosed";
+  const syncOfferState = () => document.body.classList.toggle("offer-hidden", offer.classList.contains("is-hidden"));
+  try {
+    if (localStorage.getItem(storageKey) === "true") {
+      offer.classList.add("is-hidden");
+    }
+  } catch (error) {
+    // Local files can disable storage in some browsers; the close button still works for this view.
+  }
+  syncOfferState();
+  $$(".offer-close", offer).forEach((button) => button.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    offer.classList.add("is-hidden");
+    syncOfferState();
+    try {
+      localStorage.setItem(storageKey, "true");
+    } catch (error) {}
+  }));
+};
+
+initOfferBar();
+
+const initAboutHeader = () => {
+  if (!document.body.classList.contains("about-page")) return;
+  const update = () => {
+    document.body.classList.toggle("is-scrolled", window.scrollY > 4);
+  };
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+};
+
+initAboutHeader();
+
 const ensureAuthModal = () => {
   if ($("#auth-modal")) return $("#auth-modal");
   const modal = document.createElement("div");
@@ -171,6 +209,52 @@ $$("[data-toggle-group] button, .option-card, .payment-method").forEach((button)
   });
 });
 
+$$("[data-filter-menu]").forEach((menu) => {
+  const trigger = $(".filter-menu__button", menu);
+  const label = $("strong", trigger);
+  const options = $$(".filter-menu__panel button", menu);
+  const close = () => {
+    menu.classList.remove("is-open");
+    trigger?.setAttribute("aria-expanded", "false");
+  };
+  trigger?.addEventListener("click", () => {
+    const isOpen = menu.classList.toggle("is-open");
+    trigger.setAttribute("aria-expanded", String(isOpen));
+  });
+  options.forEach((option, index) => {
+    option.classList.toggle("is-active", index === 0);
+    option.toggleAttribute("aria-current", index === 0);
+    option.addEventListener("click", () => {
+      options.forEach((item) => {
+        item.classList.remove("is-active");
+        item.removeAttribute("aria-current");
+      });
+      option.classList.add("is-active");
+      option.setAttribute("aria-current", "true");
+      if (label) label.textContent = option.textContent.trim();
+      close();
+    });
+  });
+  document.addEventListener("click", (event) => {
+    if (!menu.contains(event.target)) close();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") close();
+  });
+});
+
+$$(".listing-shortcuts__shell").forEach((shell) => {
+  const rail = $(".shortcut-rail", shell);
+  const prev = $(".shortcut-arrow--prev", shell);
+  const next = $(".shortcut-arrow--next", shell);
+  const scrollByPage = (direction) => {
+    if (!rail) return;
+    rail.scrollBy({ left: direction * rail.clientWidth * 0.72, behavior: "smooth" });
+  };
+  prev?.addEventListener("click", () => scrollByPage(-1));
+  next?.addEventListener("click", () => scrollByPage(1));
+});
+
 $$(".accordion button, .faq-row button").forEach((button) => {
   button.addEventListener("click", () => button.parentElement.classList.toggle("is-open"));
 });
@@ -186,6 +270,25 @@ $$(".js-pay-state").forEach((button) => {
     showToast(button.dataset.toast || "Payment state updated.");
   });
 });
+
+const ensureBackToTop = () => {
+  let button = $(".back-to-top");
+  if (!button) {
+    button = document.createElement("button");
+    button.className = "back-to-top";
+    button.type = "button";
+    button.setAttribute("aria-label", "Back to top");
+    button.innerHTML = '<img class="svg-icon" src="assets/icon-arrow.svg?v=2" alt="" aria-hidden="true" />';
+    document.body.appendChild(button);
+  }
+  const update = () => button.classList.toggle("is-visible", window.scrollY > Math.min(520, window.innerHeight * 0.72));
+  button.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+};
+
+ensureBackToTop();
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {

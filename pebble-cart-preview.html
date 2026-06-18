@@ -163,9 +163,8 @@
   <body>
     <div class="offer" aria-label="Store announcements">
       <div class="offer-track">
-        <div class="offer-slide">Free shipping over $59 <span>·</span> Personalize every detail before checkout</div>
-        <div class="offer-slide offer-slide--pink">Special Offer: 20% code GIFT20! <u>Shop Now</u></div>
-      </div>
+        <a class="offer-slide" href="pebble-products-listing-preview.html">Free shipping over $59 <span>·</span> Personalize every detail before checkout<button class="offer-close" type="button" aria-label="Close announcement"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.2 2.2l7.6 7.6M9.8 2.2 2.2 9.8"/></svg></button></a>
+        <a class="offer-slide offer-slide--pink" href="pebble-collection-preview.html">Special Offer: 20% code GIFT20! <u>Shop Now</u><button class="offer-close" type="button" aria-label="Close announcement"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.2 2.2l7.6 7.6M9.8 2.2 2.2 9.8"/></svg></button></a></div>
     </div>
     <header class="header">
       <nav class="nav" aria-label="Main navigation">
@@ -182,9 +181,7 @@
           <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><img src="assets/icon-cart.svg?v=2" alt="" aria-hidden="true" /></a>
         </div>
       </nav>
-    </header>
-
-    <main class="shell">
+    </header>    <main class="shell">
       <section class="cart-hero reveal">
         <div>
           <p class="eyebrow">Shopping cart</p>
@@ -193,6 +190,8 @@
         </div>
         <a class="btn btn-secondary" href="pebble-product-detail-preview.html">Continue shopping <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" aria-hidden="true" /></span></a>
       </section>
+      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="pebble-custom-gifting-home-preview.html">Home</a></li><li><span aria-current="page">Cart</span></li></ol></nav>
+
 
       <section class="cart-layout">
         <div>
@@ -298,6 +297,23 @@
     <div class="toast" id="toast">Cart updated.</div>
 
     <script>
+      const initOfferBar = () => {
+        const offer = document.querySelector('.offer');
+        if (!offer) return;
+        const storageKey = 'milagiftOfferClosed';
+        try {
+          if (localStorage.getItem(storageKey) === 'true') offer.classList.add('is-hidden');
+        } catch (error) {}
+        offer.querySelectorAll('.offer-close').forEach((button) => button.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          offer.classList.add('is-hidden');
+          try { localStorage.setItem(storageKey, 'true'); } catch (error) {}
+        }));
+      };
+
+      initOfferBar();
+
       const $ = (selector, root = document) => root.querySelector(selector);
       const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
       const toast = $("#toast");
@@ -326,6 +342,26 @@
         if (entry.isIntersecting) entry.target.classList.add("is-visible");
       }), { threshold: 0.14 });
       $$(".reveal").forEach((item) => observer.observe(item));
+
+
+      const initBackToTop = () => {
+        let button = document.querySelector('.back-to-top');
+        if (!button) {
+          button = document.createElement('button');
+          button.className = 'back-to-top';
+          button.type = 'button';
+          button.setAttribute('aria-label', 'Back to top');
+          button.innerHTML = '<img class="svg-icon" src="assets/icon-arrow.svg?v=2" alt="" aria-hidden="true" />';
+          document.body.appendChild(button);
+        }
+        const updateBackToTop = () => button.classList.toggle('is-visible', window.scrollY > Math.min(520, window.innerHeight * 0.72));
+        button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        window.addEventListener('scroll', updateBackToTop, { passive: true });
+        window.addEventListener('resize', updateBackToTop);
+        updateBackToTop();
+      };
+
+      initBackToTop();
     </script>
   </body>
 </html>
