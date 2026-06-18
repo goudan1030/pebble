@@ -1598,11 +1598,9 @@
         display: grid;
         grid-template-columns: 1.1fr 1.6fr;
         gap: 48px;
-        width: min(100%, calc(var(--site-width) - (var(--site-gutter) * 2)));
-        margin-left: auto;
-        margin-right: auto;
+        width: 100%;
         margin-top: 80px;
-        padding: 56px var(--site-gutter) 28px;
+        padding: 56px max(var(--site-gutter), calc((100vw - var(--site-width)) / 2 + var(--site-gutter))) 28px;
         border-radius: 20px 20px 0 0;
         background: rgb(238, 238, 238);
         text-align: left;

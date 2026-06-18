@@ -324,32 +324,150 @@
         margin-top: 22px;
       }
 
-      .trust-row {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        margin-top: 18px;
-      }
-
-      .trust-row span {
-        min-height: 72px;
-        display: grid;
-        align-content: center;
-        gap: 4px;
-        padding: 13px;
-        border-radius: var(--radius-md);
-        background: var(--milk);
-        color: var(--muted);
-        font-size: 12px;
-      }
-
-      .trust-row b {
-        color: var(--ink);
-        font-size: 13px;
-      }
-
       .pdp-section {
         margin-top: clamp(54px, 7vw, 98px);
+      }
+
+      .pdp-info-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        overflow: hidden;
+        border-radius: var(--radius-lg);
+        background: var(--milk);
+      }
+
+      .pdp-info-tab {
+        position: relative;
+        min-height: 50px;
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        font-size: 15px;
+        font-weight: 900;
+        letter-spacing: -0.035em;
+        transition: color 0.2s ease, background 0.2s ease;
+      }
+
+      .pdp-info-tab::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 58px;
+        height: 3px;
+        border-radius: var(--radius-pill);
+        background: transparent;
+        transform: translateX(-50%);
+      }
+
+      .pdp-info-tab:hover,
+      .pdp-info-tab.is-active {
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.55);
+      }
+
+      .pdp-info-tab.is-active::after {
+        background: var(--ink);
+      }
+
+      .pdp-info-panel {
+        margin: 18px auto 0;
+        max-width: 920px;
+        padding: clamp(18px, 3vw, 28px);
+        background: var(--milk);
+      }
+
+      .pdp-info-content[hidden] {
+        display: none;
+      }
+
+      .info-block + .info-block {
+        margin-top: 26px;
+      }
+
+      .info-block h3 {
+        margin: 0 0 12px;
+        color: var(--soft-ink);
+        font-size: 15px;
+        letter-spacing: -0.02em;
+      }
+
+      .info-table {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: #ffffff;
+      }
+
+      .info-row {
+        display: grid;
+        grid-template-columns: 170px 1fr;
+        min-height: 52px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .info-row:last-child {
+        border-bottom: 0;
+      }
+
+      .info-row b,
+      .info-row span {
+        display: flex;
+        align-items: center;
+        padding: 14px 16px;
+      }
+
+      .info-row b {
+        border-right: 1px solid var(--line);
+        color: var(--soft-ink);
+      }
+
+      .info-row span {
+        color: var(--muted);
+      }
+
+      .milagift-detail-list {
+        display: grid;
+        gap: clamp(18px, 3vw, 34px);
+      }
+
+      .milagift-detail-item {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 12px;
+        align-items: start;
+      }
+
+      .milagift-detail-icon {
+        width: 22px;
+        height: 22px;
+        display: grid;
+        place-items: center;
+        margin-top: 4px;
+        border: 2px solid var(--ink);
+        border-radius: 50%;
+        background: #ffffff;
+      }
+
+      .milagift-detail-icon img {
+        width: 12px;
+        height: 12px;
+        filter: sepia(1) saturate(6) hue-rotate(345deg);
+      }
+
+      .milagift-detail-item h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(18px, 1.8vw, 24px);
+        line-height: 1.16;
+        letter-spacing: -0.045em;
+      }
+
+      .milagift-detail-item p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: clamp(14px, 1.25vw, 16px);
+        line-height: 1.5;
       }
 
       .review-grid {
@@ -507,9 +625,21 @@
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        .trust-row,
         .review-grid {
           grid-template-columns: 1fr;
+        }
+
+        .pdp-info-tabs {
+          grid-template-columns: 1fr;
+        }
+
+        .info-row {
+          grid-template-columns: 1fr;
+        }
+
+        .info-row b {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
         }
 
         .related-head {
@@ -634,28 +764,52 @@
             </div>
           </div>
 
-          <div class="trust-row">
-            <span><b>Square media</b>No padding, full-bleed product images.</span>
-            <span><b>POD safe</b>Preview required before cart.</span>
-            <span><b>Gift ready</b>Message and packaging options.</span>
-          </div>
-
-          <div class="accordion is-open">
-            <button type="button">Product details <span>+</span></button>
-            <p>Large capacity corduroy tote with personalized birth flower artwork and custom name. Designed for daily carry, birthday gifting, bridesmaids and teacher appreciation.</p>
-          </div>
-          <div class="accordion">
-            <button type="button">Shipping and returns <span>+</span></button>
-            <p>Personalized products enter production after design confirmation. Estimated production is 3-5 business days before carrier pickup.</p>
-          </div>
-          <div class="accordion">
-            <button type="button">Personalization guide <span>+</span></button>
-            <p>Use 2-12 characters for the name and choose the birth flower that matches the recipient month. Preview spelling before adding to cart.</p>
-          </div>
         </article>
       </section>
-      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="pebble-custom-gifting-home-preview.html">Home</a></li><li><span>Products</span></li><li><span aria-current="page">Personalized Gift</span></li></ol></nav>
-
+      <section class="pdp-section reveal" aria-label="Product information">
+        <div class="pdp-info-tabs" role="tablist" aria-label="Product detail tabs">
+          <button class="pdp-info-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="product-info-panel" data-info-tab="product">Product Info</button>
+          <button class="pdp-info-tab" type="button" role="tab" aria-selected="false" aria-controls="gift-details-panel" data-info-tab="gift">Gift Details</button>
+        </div>
+        <div class="pdp-info-panel card">
+          <div class="pdp-info-content" id="product-info-panel" role="tabpanel" data-info-panel="product">
+            <div class="info-block">
+              <p class="eyebrow">Specification</p>
+              <div class="info-table">
+                <div class="info-row"><b>Material</b><span>Corduroy</span></div>
+                <div class="info-row"><b>Measurement</b><span>10.8&quot; × 11.8&quot; × 5.5&quot; (27.5cm × 30cm × 14cm)</span></div>
+                <div class="info-row"><b>Feature</b><span>Thick and durable, non-fading print, personalized birth flower design</span></div>
+              </div>
+            </div>
+            <div class="info-block">
+              <p class="eyebrow">Note</p>
+              <div class="info-table">
+                <div class="info-row"><b>Custom area</b><span>Front white ink heat transfer</span></div>
+                <div class="info-row"><b>Care</b><span>Wash inside with cold water. Tumble dry on low heat. Do not iron the printed area. Do not bleach or dry clean.</span></div>
+                <div class="info-row"><b>Warm tips</b><span>Preview colors may vary slightly due to lighting and display settings. Measurements may have small manual differences.</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="pdp-info-content" id="gift-details-panel" role="tabpanel" data-info-panel="gift" hidden>
+            <div class="milagift-detail-list">
+              <article class="milagift-detail-item">
+                <span class="milagift-detail-icon"><img src="assets/icon-checkmark.svg?v=2" alt="" aria-hidden="true" /></span>
+                <div>
+                  <h3>Personalized Gift Ready</h3>
+                  <p>Add names, initials, or meaningful details to make the item feel personal before checkout.</p>
+                </div>
+              </article>
+              <article class="milagift-detail-item">
+                <span class="milagift-detail-icon"><img src="assets/icon-checkmark.svg?v=2" alt="" aria-hidden="true" /></span>
+                <div>
+                  <h3>Gift Notes</h3>
+                  <p>Use the gift details tab for care notes, recipient guidance, packaging copy, or occasion-specific highlights.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section class="pdp-section reveal">
         <h2 class="section-title">Customer notes that feel like the real store.</h2>
@@ -838,7 +992,18 @@
       updateNameCount();
       updateQuantity(1);
 
-      $$(".accordion button").forEach((button) => button.addEventListener("click", () => button.parentElement.classList.toggle("is-open")));
+      $$(".pdp-info-tab").forEach((tab) => tab.addEventListener("click", () => {
+        const target = tab.dataset.infoTab;
+        $$(".pdp-info-tab").forEach((item) => {
+          const isActive = item === tab;
+          item.classList.toggle("is-active", isActive);
+          item.setAttribute("aria-selected", String(isActive));
+        });
+        $$(".pdp-info-content").forEach((panel) => {
+          panel.hidden = panel.dataset.infoPanel !== target;
+        });
+      }));
+
       const relatedTrack = $(".related-track");
       const relatedCards = $$(".related-track .product-card");
       const relatedPrev = $(".related-prev");

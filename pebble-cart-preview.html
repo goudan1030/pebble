@@ -6,31 +6,146 @@
     <title>Milagift Cart Preview</title>
     <link rel="stylesheet" href="pebble-commerce-preview.css" />
     <style>
-      .cart-hero {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 24px;
-        align-items: end;
-        margin-bottom: 28px;
-      }
-
       .cart-layout {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 410px;
+        grid-template-columns: minmax(0, 0.78fr) minmax(460px, 0.52fr);
         gap: clamp(22px, 3vw, 36px);
         align-items: start;
       }
 
-      .cart-list {
-        display: grid;
-        gap: 14px;
+      .cart-layout .reveal {
+        opacity: 1;
+        transform: none;
       }
 
-      .custom-tags {
+      .cart-list {
+        display: grid;
+        gap: 18px;
+      }
+
+      .cart-item-card {
+        padding: clamp(18px, 2.4vw, 28px);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: #ffffff;
+      }
+
+      .cart-item-card__top {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .cart-item-card__title {
+        margin: 0;
+        font-size: clamp(16px, 1.25vw, 20px);
+        line-height: 1.22;
+        letter-spacing: -0.045em;
+      }
+
+      .cart-item-card__price {
+        display: inline-block;
+        margin-top: 14px;
+        color: #ff951f;
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      .cart-item-card__sku {
+        display: grid;
+        grid-template-columns: minmax(180px, auto) 1fr;
+        gap: 18px;
+        margin-top: 18px;
+        color: #999999;
+        font-size: 16px;
+        font-weight: 800;
+      }
+
+      .cart-item-card__sku b {
+        color: var(--ink);
+      }
+
+      .cart-item-card__divider {
+        margin: 24px 0 26px;
+        border: 0;
+        border-top: 1px dashed #a7a7a7;
+      }
+
+      .cart-item-card__media {
+        position: relative;
+        display: block;
+        overflow: hidden;
+        border-radius: var(--radius-sm);
+        background: var(--milk);
+      }
+
+      .cart-item-card__media::before {
+        content: "";
+        display: block;
+        aspect-ratio: 1 / 1;
+      }
+
+      .cart-item-card__media img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .cart-item-card__preview {
+        position: absolute;
+        left: 50%;
+        bottom: 14px;
+        transform: translateX(-50%);
+        min-width: 112px;
+        height: 34px;
+        display: inline-grid;
+        place-items: center;
+        border: 1px solid rgba(46, 46, 46, 0.28);
+        border-radius: var(--radius-pill);
+        background: rgba(255, 255, 255, 0.82);
+        color: var(--ink);
+        font-size: 15px;
+        font-weight: 800;
+      }
+
+      .cart-item-card__actions {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 12px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .cart-item-card__edit {
+        min-height: 44px;
+        padding: 10px 18px;
+        font-size: 15px;
+      }
+
+      .cart-item-card__remove {
+        width: 44px;
+        height: 44px;
+        display: inline-grid;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-pill);
+        background: #ffffff;
+        transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+      }
+
+      .cart-item-card__remove:hover {
+        border-color: var(--ink);
+        background: var(--milk);
+        transform: translateY(-1px);
+      }
+
+      .cart-item-card__remove img {
+        width: 20px;
+        height: 20px;
       }
 
       .cart-tools {
@@ -53,6 +168,37 @@
 
       .link-button:hover {
         color: var(--ink);
+      }
+
+      .cart-qty {
+        display: grid;
+        grid-template-columns: 48px 64px 48px;
+        height: 46px;
+        overflow: hidden;
+        border-radius: 8px;
+        background: #f1f1f1;
+      }
+
+      .cart-qty button {
+        border: 0;
+        background: #eeeeee;
+        color: var(--ink);
+        font-size: 22px;
+        font-weight: 800;
+      }
+
+      .cart-qty button:disabled {
+        cursor: not-allowed;
+        color: rgba(46, 46, 46, 0.28);
+        background: #f4f4f4;
+      }
+
+      .cart-qty span {
+        display: grid;
+        place-items: center;
+        background: #ffffff;
+        font-size: 18px;
+        font-weight: 900;
       }
 
       .coupon-shelf {
@@ -94,68 +240,711 @@
         background: var(--ink);
       }
 
-      .mini-feedback {
+      .cart-summary {
+        padding: 26px;
+        border-radius: var(--radius-lg);
+      }
+
+      .cart-summary__title {
+        margin: 0 0 22px;
+        font-size: 24px;
+        line-height: 1.12;
+        letter-spacing: -0.045em;
+      }
+
+      .cart-summary__lines {
         display: grid;
-        grid-template-columns: auto 1fr;
+        gap: 12px;
+      }
+
+      .cart-summary__line {
+        display: grid;
+        grid-template-columns: minmax(105px, 1fr) auto;
+        gap: 14px;
+        align-items: baseline;
+        font-size: 16px;
+        line-height: 1.25;
+      }
+
+      .cart-summary__line span {
+        color: var(--ink);
+      }
+
+      .cart-summary__line strong {
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .cart-summary__line small {
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 700;
+        text-align: right;
+      }
+
+      .cart-summary__line.is-total {
+        margin-top: 6px;
+      }
+
+      .cart-summary__line.is-total strong {
+        color: #ff951f;
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: -0.035em;
+        white-space: nowrap;
+      }
+
+      .cart-points {
+        margin: 22px 0 18px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        background: #f4f4f4;
+        color: #8f8f8f;
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .cart-points b {
+        color: #ff951f;
+      }
+
+      .cart-summary__actions {
+        display: grid;
+        gap: 10px;
+      }
+
+      .cart-summary__actions .btn {
+        width: 100%;
+        min-height: 50px;
+        justify-content: center;
+        border-radius: 8px;
+        font-size: 16px;
+      }
+
+      .paypal-button {
+        min-height: 50px;
+        border: 0;
+        border-radius: 8px;
+        background: #ffc439;
+        color: var(--ink);
+        font-size: 16px;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        transition: transform 0.2s ease, filter 0.2s ease;
+      }
+
+      .paypal-button:hover {
+        transform: translateY(-2px);
+        filter: brightness(0.98);
+      }
+
+      .paypal-button em {
+        color: #1f53a4;
+        font-style: italic;
+      }
+
+      .accept-divider {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
         gap: 12px;
         align-items: center;
-        padding: 16px;
-        margin-bottom: 16px;
-        border-radius: var(--radius-lg);
-        background: var(--mint);
+        margin: 24px 0 14px;
+        color: #989898;
+        font-size: 13px;
+        font-weight: 800;
       }
 
-      .mini-feedback span:first-child {
-        width: 42px;
-        height: 42px;
+      .accept-divider::before,
+      .accept-divider::after {
+        content: "";
+        height: 1px;
+        background: var(--line);
+      }
+
+      .payment-badges {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .payment-badges span {
+        min-height: 32px;
         display: grid;
         place-items: center;
-        border-radius: var(--radius-pill);
+        padding: 0 6px;
+        border: 1px solid #d9d9d9;
+        border-radius: 6px;
         background: #ffffff;
+        color: var(--ink);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
       }
 
-      .mini-feedback p {
-        margin: 2px 0 0;
-        color: rgba(46, 46, 46, 0.7);
+      .payment-badges .is-paypal {
+        color: #1f53a4;
+        font-style: italic;
       }
 
-      .recommend-strip {
-        margin-top: clamp(54px, 7vw, 88px);
+      .payment-badges .is-klarna {
+        background: #ffb3c7;
       }
 
-      .recommend-grid {
+      .payment-badges .is-apple {
+        border-color: var(--ink);
+        font-size: 12px;
+      }
+
+      .payment-badges .is-cash {
+        color: #16a34a;
+      }
+
+      body.confirm-open {
+        overflow: hidden;
+      }
+
+      .confirm-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 95;
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
+        place-items: center;
+        padding: 24px;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.24s ease, visibility 0.24s ease;
+      }
+
+      body.confirm-open .confirm-modal {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .confirm-modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 20, 20, 0.58);
+        backdrop-filter: blur(2px);
+      }
+
+      .confirm-modal__panel {
+        position: relative;
+        width: min(430px, 100%);
+        border-radius: 20px;
+        padding: 24px;
+        background: #ffffff;
+        box-shadow: 0 28px 70px rgba(0, 0, 0, 0.22);
+        transform: translateY(14px) scale(0.98);
+        transition: transform 0.28s cubic-bezier(0.3, 1, 0.3, 1);
+      }
+
+      body.confirm-open .confirm-modal__panel {
+        transform: translateY(0) scale(1);
+      }
+
+      .confirm-modal__close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border: 0;
+        border-radius: 50%;
+        background: var(--milk);
+        color: var(--ink);
+        cursor: pointer;
+        font-size: 1.45rem;
+        line-height: 1;
+      }
+
+      .confirm-modal__eyebrow {
+        display: inline-grid;
+        margin-bottom: 12px;
+        border-radius: 999px;
+        padding: 6px 10px;
+        background: #f7f1e9;
+        color: var(--clay);
+        font-size: 12px;
+        font-weight: 950;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .confirm-modal__panel h2 {
+        margin: 0;
+        padding-right: 38px;
+        font-size: 24px;
+        line-height: 1.12;
+        letter-spacing: -0.045em;
+      }
+
+      .confirm-modal__panel p {
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .confirm-modal__product {
+        display: block;
+        margin-top: 12px;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 900;
+        line-height: 1.35;
+      }
+
+      .confirm-modal__actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
         margin-top: 22px;
       }
 
-      @media (max-width: 1080px) {
-        .cart-layout,
-        .cart-hero {
-          grid-template-columns: 1fr;
-        }
+      .confirm-modal__actions .btn {
+        min-height: 50px;
+        justify-content: center;
+        border-radius: 999px;
+        font-size: 15px;
+      }
 
-        .recommend-grid {
-          grid-template-columns: repeat(2, 1fr);
+      .confirm-modal__remove {
+        border-color: var(--ink);
+        color: #ffffff;
+        background: var(--ink);
+      }
+
+      body.design-open {
+        overflow: hidden;
+      }
+
+      .design-drawer {
+        position: fixed;
+        inset: 0;
+        z-index: 90;
+        display: grid;
+        justify-items: end;
+        width: auto;
+        height: auto;
+        overflow: hidden;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        background: transparent;
+        transform: none;
+        transition: opacity 0.28s ease, visibility 0.28s ease;
+      }
+
+      body.design-open .design-drawer {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+      }
+
+      .design-drawer__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 20, 20, 0.62);
+        backdrop-filter: blur(2px);
+      }
+
+      .design-drawer__panel {
+        position: relative;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        width: min(520px, calc(100vw - 28px));
+        height: calc(100dvh - 48px);
+        margin: 24px 32px 24px 0;
+        overflow: hidden;
+        border-radius: 24px;
+        background: #ffffff;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.24);
+        transform: translateX(36px);
+        transition: transform 0.34s cubic-bezier(0.3, 1, 0.3, 1);
+      }
+
+      body.design-open .design-drawer__panel {
+        transform: translateX(0);
+      }
+
+      .design-drawer__close {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        z-index: 5;
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border: 0;
+        border-radius: 50%;
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.92);
+        cursor: pointer;
+        font-size: 1.75rem;
+        line-height: 1;
+      }
+
+      .design-drawer__head {
+        padding: 0 0 14px;
+      }
+
+      .design-drawer__badge {
+        display: inline-grid;
+        margin-bottom: 0.7rem;
+        border-radius: 999px;
+        padding: 0.38rem 0.7rem;
+        color: #ffffff;
+        background: #52a967;
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .design-drawer__title {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        margin: 0;
+        padding-right: 42px;
+        color: var(--ink);
+        font-size: clamp(1.08rem, 1.45vw, 1.28rem);
+        letter-spacing: -0.035em;
+        line-height: 1.12;
+      }
+
+      .design-drawer__price {
+        margin-top: 0.7rem;
+        color: var(--ink);
+        font-size: 1.08rem;
+        font-weight: 900;
+      }
+
+      .design-drawer__body {
+        overflow: auto;
+        padding: 24px 28px 28px;
+      }
+
+      .design-gallery {
+        display: contents;
+      }
+
+      .design-gallery__main {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        overflow: hidden;
+        margin: 0 -2px;
+        border-radius: 18px;
+        background: #f3f5f6;
+        box-shadow: 0 10px 18px rgba(16, 24, 39, 0.08);
+      }
+
+      .design-gallery__main img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+      }
+
+      .design-gallery__thumbs {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        margin: 12px -2px 18px;
+      }
+
+      .design-thumb {
+        overflow: hidden;
+        border: 1px solid #dfe6ef;
+        border-radius: 12px;
+        padding: 0;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .design-thumb:hover {
+        border-color: #101827;
+        transform: translateY(-1px);
+      }
+
+      .design-thumb.is-active {
+        border-color: #101827;
+        box-shadow: 0 0 0 2px #101827 inset;
+      }
+
+      .design-thumb img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+      }
+
+      .design-progress {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 12px;
+        margin: 0 0 24px;
+        color: var(--muted);
+        font-weight: 800;
+      }
+
+      .design-progress span:nth-child(2) {
+        height: 2px;
+        background: linear-gradient(90deg, var(--ink) 0 36%, rgba(46, 46, 46, 0.12) 36% 100%);
+      }
+
+      .design-progress__icons {
+        width: 34px;
+        height: 16px;
+        background: url("assets/icon-double-chevron.svg?v=2") center / contain no-repeat;
+      }
+
+      .design-option {
+        margin-top: 24px;
+      }
+
+      .design-option__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 10px;
+        color: #2b3c55;
+        font-size: 1.05rem;
+        font-weight: 800;
+      }
+
+      .design-option__head b {
+        color: #c91f1f;
+        font-size: 1.08em;
+        font-weight: 900;
+      }
+
+      .design-choices {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .design-choice {
+        position: relative;
+        display: grid;
+        min-height: 116px;
+        place-items: center;
+        border: 1px solid #dfe6ef;
+        border-radius: 8px;
+        padding: 10px;
+        background: #ffffff;
+        color: #2b3c55;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+        transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .design-choice:hover {
+        border-color: #101827;
+        transform: translateY(-1px);
+      }
+
+      .design-choice.is-selected {
+        border: 2px solid #101827;
+      }
+
+      .design-choice.is-selected::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px 0 6px 0;
+        background: #101827 url("assets/icon-checkmark.svg?v=2") center / 18px 18px no-repeat;
+      }
+
+      .design-choice img {
+        display: block;
+        width: 78%;
+        max-height: 58px;
+        object-fit: contain;
+      }
+
+      .design-input {
+        position: relative;
+        display: block;
+      }
+
+      .design-input input {
+        width: 100%;
+        height: 58px;
+        border: 1px solid #cfd8e5;
+        border-radius: 7px;
+        padding: 0 86px 0 14px;
+        font: inherit;
+        transition: border-color 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .design-input input:focus {
+        border-color: #101827;
+        box-shadow: 0 0 0 3px rgba(16, 24, 39, 0.08);
+        outline: 0;
+      }
+
+      .design-option.is-error .design-input input {
+        border-color: #c91f1f;
+        box-shadow: 0 0 0 3px rgba(201, 31, 31, 0.08);
+      }
+
+      .design-input span {
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        color: #8798b2;
+        font-weight: 800;
+      }
+
+      .design-flowers {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .design-flowers .design-choice {
+        min-height: 86px;
+      }
+
+      .design-error {
+        display: none;
+        margin: 18px 0 0;
+        color: #c91f1f;
+        font-size: 1.05rem;
+        font-weight: 900;
+      }
+
+      .design-option.is-error .design-error {
+        display: block;
+      }
+
+      .design-quantity {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 24px;
+        color: #2b3c55;
+        font-weight: 800;
+      }
+
+      .design-stepper {
+        display: inline-grid;
+        grid-template-columns: 44px 58px 44px;
+        align-items: center;
+        height: 48px;
+        border: 1px solid #d9e2ee;
+        border-radius: 8px;
+        overflow: hidden;
+        text-align: center;
+      }
+
+      .design-stepper button {
+        height: 100%;
+        border: 0;
+        background: #ffffff;
+        color: #65758e;
+        cursor: pointer;
+        font-size: 1.4rem;
+      }
+
+      .design-stepper button:disabled {
+        opacity: 0.34;
+        cursor: not-allowed;
+      }
+
+      .design-drawer__foot {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        border-top: 1px solid #eceff3;
+        padding: 14px 28px 18px;
+        background: #ffffff;
+      }
+
+      .design-add {
+        min-height: 54px;
+        border: 0;
+        border-radius: 12px;
+        color: #ffffff;
+        background: #101827;
+        cursor: pointer;
+        font-size: 1.05rem;
+        font-weight: 900;
+        transition: background-color 0.22s ease, transform 0.22s ease;
+      }
+
+      .design-add:hover {
+        transform: translateY(-1px);
+      }
+
+      .design-more {
+        color: var(--ink);
+        text-align: center;
+        font-weight: 900;
+      }
+
+      .design-more span {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin-left: 0.35rem;
+        vertical-align: -3px;
+        background: url("assets/icon-arrow.svg?v=2") center / contain no-repeat;
+      }
+
+
+      @media (max-width: 1080px) {
+        .cart-layout {
+          grid-template-columns: 1fr;
         }
       }
 
       @media (max-width: 680px) {
-        .line-item {
+        .cart-item-card__top {
           grid-template-columns: 1fr;
         }
 
-        .line-thumb {
-          width: 100%;
-        }
-
-        .line-item > strong {
-          grid-column: auto;
-        }
-
-        .recommend-grid {
+        .cart-item-card__sku {
           grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .payment-badges {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .design-drawer__panel {
+          width: 100vw;
+          height: 100dvh;
+          margin: 0;
+          border-radius: 0;
+        }
+
+        .design-drawer__head,
+        .design-drawer__body,
+        .design-drawer__foot {
+          padding-left: 18px;
+          padding-right: 18px;
+        }
+
+        .design-choices,
+        .design-flowers {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
       }
     </style>
@@ -182,75 +971,140 @@
         </div>
       </nav>
     </header>    <main class="shell">
-      <section class="cart-hero reveal">
-        <div>
-          <p class="eyebrow">Shopping cart</p>
-          <h1 class="page-title">Ready for a <em>giftable</em> checkout.</h1>
-          <p class="section-lede">Cart keeps the POD customization compact: show the item, personalization details, quantity and the next action. No oversized success animation here.</p>
-        </div>
-        <a class="btn btn-secondary" href="pebble-product-detail-preview.html">Continue shopping <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" aria-hidden="true" /></span></a>
-      </section>
-      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="pebble-custom-gifting-home-preview.html">Home</a></li><li><span aria-current="page">Cart</span></li></ol></nav>
-
-
       <section class="cart-layout">
         <div>
-          <div class="mini-feedback reveal">
-            <span><img class="svg-icon" src="assets/icon-checkmark.svg" alt="" aria-hidden="true" /></span>
-            <div><b>Added after customization.</b><p>Personalized tote · Name: Emma · June Rose · Camel corduroy</p></div>
-          </div>
-
           <div class="cart-list reveal">
-            <article class="line-item">
-              <a class="line-thumb" href="pebble-product-detail-preview.html"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="Birth flower tote" /></a>
-              <div class="line-copy">
-                <h3>Personalized Birth Flower Corduroy Large Capacity Tote Bag with Name Birthday Gift for Her</h3>
-                <p>$23.00 · Custom design attached</p>
-                <div class="custom-tags"><span class="status-chip paid">Name: Emma</span><span class="status-chip paid">Flower: June Rose</span><span class="status-chip paid">Color: Camel</span></div>
-                <div class="cart-tools"><div class="stepper"><button type="button" data-step="-1">-</button><span>1</span><button type="button" data-step="1">+</button></div><button class="link-button js-toast" type="button">Edit design</button></div>
+            <article class="cart-item-card" data-cart-item data-title="Personalized Birth Flower Corduroy Large Capacity Tote Bag with Name Birthday Gift for Her" data-price="$23.00" data-sku-label="Selected design:" data-sku-value="Name: Emma · Flower: June Rose · Color: Camel" data-name="Emma" data-flower="June Rose" data-color="Camel" data-quantity="1" data-image="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600">
+              <div class="cart-item-card__top">
+                <div>
+                  <h3 class="cart-item-card__title">Personalized Birth Flower Corduroy Large Capacity Tote Bag with Name Birthday Gift for Her</h3>
+                  <span class="cart-item-card__price">$23.00</span>
+                </div>
+                <div class="cart-qty" aria-label="Quantity selector">
+                  <button type="button" data-cart-step="-1" aria-label="Decrease quantity">-</button>
+                  <span data-cart-quantity>1</span>
+                  <button type="button" data-cart-step="1" aria-label="Increase quantity">+</button>
+                </div>
               </div>
-              <strong>$23.00</strong>
+              <div class="cart-item-card__sku"><span>Selected design:</span><b data-cart-sku>Name: Emma · Flower: June Rose · Color: Camel</b></div>
+              <hr class="cart-item-card__divider" />
+              <a class="cart-item-card__media" href="pebble-product-detail-preview.html"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="Birth flower tote" /><span class="cart-item-card__preview">Preview</span></a>
+              <div class="cart-item-card__actions">
+                <button class="btn btn-secondary cart-item-card__edit" type="button" data-cart-edit>Edit design <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg?v=2" alt="" aria-hidden="true" /></span></button>
+                <button class="cart-item-card__remove" type="button" data-cart-remove aria-label="Remove item"><img src="assets/icon-delete.svg?v=2" alt="" aria-hidden="true" /></button>
+              </div>
             </article>
 
-            <article class="line-item">
-              <a class="line-thumb" href="#"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260604/f9162689ec6b51d4411fe07b2af098ff.jpg?d=600" alt="Name embroidered makeup bag" /></a>
-              <div class="line-copy">
-                <h3>Personalized Name Embroidered Makeup Bag Bridesmaid Proposal Gift</h3>
-                <p>$19.00 · Gift wrap selected</p>
-                <div class="custom-tags"><span class="status-chip paid">Name: Olivia</span><span class="status-chip">Gift wrap</span></div>
-                <div class="cart-tools"><div class="stepper"><button type="button" data-step="-1">-</button><span>1</span><button type="button" data-step="1">+</button></div><button class="link-button js-toast" type="button">Remove</button></div>
+            <article class="cart-item-card" data-cart-item data-title="Personalized Name Embroidered Makeup Bag Bridesmaid Proposal Gift" data-price="$19.00" data-sku-label="Selected design:" data-sku-value="Name: Olivia · Thread: Cream · Gift wrap" data-name="Olivia" data-flower="Cream Thread" data-color="Natural" data-quantity="1" data-image="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260604/f9162689ec6b51d4411fe07b2af098ff.jpg?d=600">
+              <div class="cart-item-card__top">
+                <div>
+                  <h3 class="cart-item-card__title">Personalized Name Embroidered Makeup Bag Bridesmaid Proposal Gift</h3>
+                  <span class="cart-item-card__price">$19.00</span>
+                </div>
+                <div class="cart-qty" aria-label="Quantity selector">
+                  <button type="button" data-cart-step="-1" aria-label="Decrease quantity">-</button>
+                  <span data-cart-quantity>1</span>
+                  <button type="button" data-cart-step="1" aria-label="Increase quantity">+</button>
+                </div>
               </div>
-              <strong>$19.00</strong>
+              <div class="cart-item-card__sku"><span>Selected design:</span><b data-cart-sku>Name: Olivia · Thread: Cream · Gift wrap</b></div>
+              <hr class="cart-item-card__divider" />
+              <a class="cart-item-card__media" href="pebble-product-detail-preview.html"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260604/f9162689ec6b51d4411fe07b2af098ff.jpg?d=600" alt="Name embroidered makeup bag" /><span class="cart-item-card__preview">Preview</span></a>
+              <div class="cart-item-card__actions">
+                <button class="btn btn-secondary cart-item-card__edit" type="button" data-cart-edit>Edit design <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg?v=2" alt="" aria-hidden="true" /></span></button>
+                <button class="cart-item-card__remove" type="button" data-cart-remove aria-label="Remove item"><img src="assets/icon-delete.svg?v=2" alt="" aria-hidden="true" /></button>
+              </div>
             </article>
           </div>
         </div>
 
-        <aside class="summary-card card reveal">
-          <p class="eyebrow">Order summary</p>
-          <div class="coupon-box"><input id="coupon" value="WELCOME10" aria-label="Coupon code" /><button class="js-coupon" type="button">Apply</button></div>
-          <div class="coupon-shelf">
-            <div class="coupon-card is-applied"><div><b>WELCOME10 applied</b><p>10% off personalized gift orders.</p></div><button type="button">Applied</button></div>
-            <div class="coupon-card"><div><b>FREESHIP</b><p>Free shipping over $59.</p></div><button class="js-coupon" type="button">Use</button></div>
+        <aside class="summary-card cart-summary card reveal">
+          <h2 class="cart-summary__title">Order Summary</h2>
+          <div class="cart-summary__lines">
+            <div class="cart-summary__line"><span>Subtotal:</span><strong>$42.00</strong></div>
+            <div class="cart-summary__line"><span>Shipping fee:</span><small>calculated at checkout</small></div>
+            <div class="cart-summary__line"><span>Tax:</span><small>calculated at checkout</small></div>
+            <div class="cart-summary__line is-total"><span>Total (2):</span><strong>USD $42.00</strong></div>
           </div>
-          <div class="summary-line"><span>Subtotal</span><strong>$42.00</strong></div>
-          <div class="summary-line"><span>Promotion</span><strong>-$4.20</strong></div>
-          <div class="summary-line"><span>Estimated shipping</span><strong>$6.00</strong></div>
-          <div class="summary-line"><span>Gift packaging</span><strong>$3.00</strong></div>
-          <div class="summary-line summary-total"><span>Total</span><strong>$46.80</strong></div>
-          <div class="cta-stack"><a class="btn btn-primary" href="pebble-checkout-preview.html">Checkout securely <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" aria-hidden="true" /></span></a><button class="btn btn-secondary js-toast" type="button">Save cart <span class="dot"><img class="svg-icon" src="assets/icon-checkmark.svg" alt="" aria-hidden="true" /></span></button></div>
+          <div class="cart-points">Get <b>42 points</b> when you place an order for a cart purchase</div>
+          <div class="cart-summary__actions">
+            <a class="btn btn-primary" href="pebble-checkout-preview.html">Checkout</a>
+            <button class="paypal-button js-toast" type="button"><em>PayPal</em> Checkout</button>
+          </div>
+          <div class="accept-divider">We Accept</div>
+          <div class="payment-badges" aria-label="Accepted payment methods">
+            <span>PCI DSS</span><span>VISA</span><span>Mastercard</span><span>AMEX</span>
+            <span>Discover</span><span>Diners</span><span>JCB</span><span class="is-paypal">PayPal</span>
+            <span>Afterpay</span><span class="is-klarna">Klarna</span><span class="is-apple">Apple Pay</span><span class="is-cash">Cash App</span>
+          </div>
         </aside>
       </section>
 
-      <section class="recommend-strip reveal">
-        <h2 class="section-title">Small add-ons that still use square product media.</h2>
-        <div class="recommend-grid">
-          <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260211/1fca807160e445521524a5f8e9d60ab5.jpg?d=600" alt="" /></div><div class="product-info"><b>Personalized Cartoon Couple Character Cruise Fridge Magnet Anniversary Gift</b><span>$16.00</span></div></article>
-          <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/a2c4169dd120352b4f807c55c3be2ca2.jpg?d=600" alt="" /></div><div class="product-info"><b>Custom Photo Collage Soft Fleece Blanket Family Memory Gift</b><span>$29.00</span></div></article>
-          <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20241215/4e82dd57d4f4605f90c11b1fe9e0129c.jpg?d=600" alt="" /></div><div class="product-info"><b>Personalized Travel Jewelry Box with Initials Birthday Gift for Her</b><span>$22.00</span></div></article>
-          <article class="product-card"><div class="product-media"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260610/382075a2790188a275fd728407a96b57.jpg?d=600" alt="" /></div><div class="product-info"><b>Custom Photo Projection Bracelet Romantic Anniversary Gift</b><span>$18.00</span></div></article>
-        </div>
-      </section>
     </main>
+
+    <aside class="design-drawer" aria-hidden="true" aria-label="Personalized product designer">
+      <div class="design-drawer__backdrop"></div>
+      <section class="design-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="design-title">
+        <button class="design-drawer__close" type="button" aria-label="Close designer">×</button>
+        <div class="design-drawer__body">
+          <header class="design-drawer__head">
+            <span class="design-drawer__badge">Personalized</span>
+            <h2 class="design-drawer__title" id="design-title">Personalized Birth Flower Corduroy Large Capacity Tote Bag with Name Birthday Gift for Her</h2>
+            <div class="design-drawer__price">$23.00</div>
+          </header>
+          <div class="design-gallery" aria-label="Product images">
+            <div class="design-gallery__main">
+              <img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="Personalized product preview" />
+            </div>
+            <div class="design-gallery__thumbs" aria-label="Product image thumbnails">
+              <button class="design-thumb is-active" type="button" aria-label="Show image 1"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="" /></button>
+              <button class="design-thumb" type="button" aria-label="Show image 2"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/0e0fd6be-c762-4b9f-9f1a-1b0557903608.png" alt="" /></button>
+              <button class="design-thumb" type="button" aria-label="Show image 3"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/68ca9779-7513-4388-b426-d69445624566.png" alt="" /></button>
+              <button class="design-thumb" type="button" aria-label="Show image 4"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/ee4e1bd6-32fd-4514-8320-2b7478fc9731.png" alt="" /></button>
+            </div>
+          </div>
+          <div class="design-progress"><span>1 / 4</span><span></span><span class="design-progress__icons"></span></div>
+
+          <div class="design-option" data-design-field="color" data-required="true">
+            <div class="design-option__head"><span>Color <b aria-label="required">*</b></span></div>
+            <div class="design-choices">
+              <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/0e0fd6be-c762-4b9f-9f1a-1b0557903608.png" alt="" /><span>White</span></button>
+              <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/c9f16c7d-2150-4e5a-877a-3f680cc66366.png" alt="" /><span>Black</span></button>
+              <button class="design-choice is-selected" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/68ca9779-7513-4388-b426-d69445624566.png" alt="" /><span>Camel</span></button>
+              <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/ee4e1bd6-32fd-4514-8320-2b7478fc9731.png" alt="" /><span>Army Green</span></button>
+            </div>
+          </div>
+
+          <div class="design-option" data-design-field="name" data-required="true">
+            <div class="design-option__head"><span>Name <b aria-label="required">*</b></span></div>
+            <label class="design-input">
+              <input class="design-name-input" type="text" maxlength="13" aria-label="Name personalization" required />
+              <span class="design-count">13 Left</span>
+            </label>
+            <p class="design-error">Name is required</p>
+          </div>
+
+          <div class="design-option" data-design-field="flower" data-required="true">
+            <div class="design-option__head"><span>Flower <b aria-label="required">*</b></span></div>
+            <div class="design-choices design-flowers">
+              <button class="design-choice is-selected" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/640105c7-9de8-4794-ab79-5dc5ba4008b0.jpg" alt="Sunflower flower design" /><span>June Rose</span></button>
+              <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/eb8a2157-d367-4c46-aa59-afb55e3ea47f.jpg" alt="Pink flower design" /><span>Sunflower</span></button>
+              <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/6348add4-aac2-48df-96d7-5ae6fe179f55.jpg" alt="Berry flower design" /><span>Cream Thread</span></button>
+              <button class="design-choice" type="button"><img src="https://oss.teemdrop.com/goods-admin/2026/06/10/df49e25a-04f9-45ad-8c82-512fd6fd12c6.jpg" alt="Blue flower design" /><span>Pink Flower</span></button>
+            </div>
+          </div>
+
+          <div class="design-quantity">
+            <span>Quantity</span>
+            <div class="design-stepper" aria-label="Quantity selector"><button class="design-qty-minus" type="button">-</button><span class="design-qty-value">1</span><button class="design-qty-plus" type="button">+</button></div>
+          </div>
+        </div>
+        <footer class="design-drawer__foot">
+          <button class="design-add" type="button" aria-disabled="false">Save design</button>
+          <a class="design-more" href="https://www.milagift.com/products/personalized-birth-flower-corduroy-large-capacity-tote-bag-with-name-birthday-gift-for-her">View more details <span></span></a>
+        </footer>
+      </section>
+    </aside>
 
     <footer class="site-footer">
       <div class="footer-brand">
@@ -294,6 +1148,21 @@
       </div>
     </div>
 
+    <div class="confirm-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="remove-confirm-title">
+      <div class="confirm-modal__backdrop" data-confirm-cancel></div>
+      <section class="confirm-modal__panel">
+        <button class="confirm-modal__close" type="button" aria-label="Close confirmation" data-confirm-cancel>×</button>
+        <span class="confirm-modal__eyebrow">Remove item</span>
+        <h2 id="remove-confirm-title">Remove this custom gift?</h2>
+        <p>This will remove the product and its saved personalization from your cart.</p>
+        <strong class="confirm-modal__product" data-confirm-product>Personalized gift</strong>
+        <div class="confirm-modal__actions">
+          <button class="btn btn-secondary" type="button" data-confirm-cancel>Cancel</button>
+          <button class="btn btn-primary confirm-modal__remove" type="button" data-confirm-remove>Remove</button>
+        </div>
+      </section>
+    </div>
+
     <div class="toast" id="toast">Cart updated.</div>
 
     <script>
@@ -328,15 +1197,183 @@
       $(".search-panel").addEventListener("click", (event) => {
         if (event.target.classList.contains("search-panel")) document.body.classList.remove("search-open");
       });
-      $$(".stepper button").forEach((button) => button.addEventListener("click", () => {
-        const value = button.parentElement.querySelector("span");
-        value.textContent = Math.max(1, Number(value.textContent) + Number(button.dataset.step));
+      const updateCartItemQuantity = (item, nextQuantity) => {
+        const quantity = Math.max(1, Math.min(99, nextQuantity));
+        item.dataset.quantity = String(quantity);
+        item.querySelector("[data-cart-quantity]").textContent = String(quantity);
+        const minusButton = item.querySelector('[data-cart-step="-1"]');
+        if (minusButton) minusButton.disabled = quantity <= 1;
+        const total = $(".cart-summary__line.is-total span");
+        if (total) {
+          const count = $$("[data-cart-item]").reduce((sum, cartItem) => sum + Number(cartItem.dataset.quantity || 1), 0);
+          total.textContent = `Total (${count}):`;
+        }
+        return quantity;
+      };
+
+      $$("[data-cart-step]").forEach((button) => button.addEventListener("click", () => {
+        const item = button.closest("[data-cart-item]");
+        updateCartItemQuantity(item, Number(item.dataset.quantity || 1) + Number(button.dataset.cartStep));
         showToast("Quantity updated.");
       }));
+      $$("[data-cart-item]").forEach((item) => updateCartItemQuantity(item, Number(item.dataset.quantity || 1)));
+      const confirmModal = $(".confirm-modal");
+      const confirmProduct = $("[data-confirm-product]");
+      let pendingRemoveItem = null;
+      const updateCartCount = () => {
+        const total = $(".cart-summary__line.is-total span");
+        if (total) {
+          const count = $$("[data-cart-item]").reduce((sum, cartItem) => sum + Number(cartItem.dataset.quantity || 1), 0);
+          total.textContent = `Total (${count}):`;
+        }
+      };
+      const openRemoveConfirm = (item) => {
+        pendingRemoveItem = item;
+        if (confirmProduct) confirmProduct.textContent = item?.dataset.title || "Personalized gift";
+        document.body.classList.add("confirm-open");
+        confirmModal?.setAttribute("aria-hidden", "false");
+      };
+      const closeRemoveConfirm = () => {
+        document.body.classList.remove("confirm-open");
+        confirmModal?.setAttribute("aria-hidden", "true");
+        pendingRemoveItem = null;
+      };
+      $$("[data-cart-remove]").forEach((button) => button.addEventListener("click", () => {
+        openRemoveConfirm(button.closest("[data-cart-item]"));
+      }));
+      $$("[data-confirm-cancel]").forEach((button) => button.addEventListener("click", closeRemoveConfirm));
+      $("[data-confirm-remove]")?.addEventListener("click", () => {
+        pendingRemoveItem?.remove();
+        updateCartCount();
+        closeRemoveConfirm();
+        showToast("Item removed.");
+      });
       $$(".js-coupon").forEach((button) => button.addEventListener("click", () => showToast("Coupon interaction is ready.")));
       $$(".js-toast").forEach((button) => button.addEventListener("click", () => showToast(button.textContent.trim() + " clicked.")));
+
+      const designDrawer = $(".design-drawer");
+      const designBackdrop = $(".design-drawer__backdrop");
+      const designClose = $(".design-drawer__close");
+      const designTitle = $("#design-title");
+      const designPrice = $(".design-drawer__price");
+      const designGallery = $(".design-gallery");
+      const designBody = $(".design-drawer__body");
+      const designNameInput = $(".design-name-input");
+      const designCount = $(".design-count");
+      const designAdd = $(".design-add");
+      const designQtyMinus = $(".design-qty-minus");
+      const designQtyPlus = $(".design-qty-plus");
+      const designQtyValue = $(".design-qty-value");
+      let activeCartItem = null;
+      let designQuantity = 1;
+
+      const getSelectedDesignText = (field) => {
+        const selected = document.querySelector(`[data-design-field="${field}"] .design-choice.is-selected span:last-child`);
+        return selected?.textContent?.trim() || "";
+      };
+
+      const selectDesignChoice = (field, value) => {
+        const choices = $$(`[data-design-field="${field}"] .design-choice`);
+        choices.forEach((choice) => {
+          const label = choice.querySelector("span:last-child")?.textContent?.trim();
+          choice.classList.toggle("is-selected", label === value);
+        });
+      };
+
+      const updateDesignQuantity = (nextQuantity) => {
+        designQuantity = Math.max(1, Math.min(99, nextQuantity));
+        if (designQtyValue) designQtyValue.textContent = String(designQuantity);
+        if (designQtyMinus) designQtyMinus.disabled = designQuantity <= 1;
+      };
+
+      const updateNameCount = () => {
+        const maxLength = Number(designNameInput?.getAttribute("maxlength") || 13);
+        const remaining = Math.max(0, maxLength - (designNameInput?.value.length || 0));
+        if (designCount) designCount.textContent = `${remaining} Left`;
+      };
+
+      const openCartDesigner = (item) => {
+        activeCartItem = item;
+        designTitle.textContent = item.dataset.title || "Edit custom design";
+        designPrice.textContent = item.dataset.price || "";
+        if (designNameInput) designNameInput.value = item.dataset.name || "";
+        updateNameCount();
+        updateDesignQuantity(Number(item.dataset.quantity || 1));
+        selectDesignChoice("flower", item.dataset.flower || "");
+        selectDesignChoice("color", item.dataset.color || "");
+        if (designGallery) {
+          const src = item.dataset.image || "";
+          const alt = item.dataset.title || "Personalized product preview";
+          const images = [
+            { src, alt },
+            { src: "https://oss.teemdrop.com/goods-admin/2026/06/10/0e0fd6be-c762-4b9f-9f1a-1b0557903608.png", alt: "White preview" },
+            { src: "https://oss.teemdrop.com/goods-admin/2026/06/10/68ca9779-7513-4388-b426-d69445624566.png", alt: "Camel preview" },
+            { src: "https://oss.teemdrop.com/goods-admin/2026/06/10/ee4e1bd6-32fd-4514-8320-2b7478fc9731.png", alt: "Army green preview" }
+          ];
+          designGallery.innerHTML = `
+            <div class="design-gallery__main"><img src="${images[0].src}" alt="${images[0].alt}" /></div>
+            <div class="design-gallery__thumbs" aria-label="Product image thumbnails">
+              ${images.map((image, index) => `<button class="design-thumb${index === 0 ? " is-active" : ""}" type="button" aria-label="Show image ${index + 1}" data-src="${image.src}" data-alt="${image.alt}"><img src="${image.src}" alt="" /></button>`).join("")}
+            </div>
+          `;
+          bindDesignGallery();
+        }
+        designBody?.scrollTo({ top: 0, behavior: "instant" });
+        document.body.classList.add("design-open");
+        designDrawer?.setAttribute("aria-hidden", "false");
+      };
+
+      const closeCartDesigner = () => {
+        document.body.classList.remove("design-open");
+        designDrawer?.setAttribute("aria-hidden", "true");
+        activeCartItem = null;
+      };
+
+      const bindDesignGallery = () => {
+        const mainImage = designGallery?.querySelector(".design-gallery__main img");
+        designGallery?.querySelectorAll(".design-thumb").forEach((thumb) => {
+          thumb.addEventListener("click", () => {
+            const src = thumb.getAttribute("data-src");
+            const alt = thumb.getAttribute("data-alt") || "";
+            if (src && mainImage) mainImage.src = src;
+            if (mainImage) mainImage.alt = alt;
+            designGallery.querySelectorAll(".design-thumb").forEach((item) => item.classList.remove("is-active"));
+            thumb.classList.add("is-active");
+          });
+        });
+      };
+
+      $$("[data-cart-edit]").forEach((button) => button.addEventListener("click", () => openCartDesigner(button.closest("[data-cart-item]"))));
+      designClose?.addEventListener("click", closeCartDesigner);
+      designBackdrop?.addEventListener("click", closeCartDesigner);
+      $$(".design-choice").forEach((button) => button.addEventListener("click", () => {
+        const group = button.closest(".design-choices");
+        group?.querySelectorAll(".design-choice").forEach((choice) => choice.classList.remove("is-selected"));
+        button.classList.add("is-selected");
+      }));
+      designNameInput?.addEventListener("input", updateNameCount);
+      designQtyMinus?.addEventListener("click", () => updateDesignQuantity(designQuantity - 1));
+      designQtyPlus?.addEventListener("click", () => updateDesignQuantity(designQuantity + 1));
+      designAdd?.addEventListener("click", () => {
+        if (!activeCartItem) return;
+        const name = designNameInput?.value.trim() || "Name";
+        const flower = getSelectedDesignText("flower") || activeCartItem.dataset.flower || "Custom";
+        const color = getSelectedDesignText("color") || activeCartItem.dataset.color || "Custom";
+        activeCartItem.dataset.name = name;
+        activeCartItem.dataset.flower = flower;
+        activeCartItem.dataset.color = color;
+        activeCartItem.dataset.skuValue = `Name: ${name} · ${flower.includes("Thread") ? "Thread" : "Flower"}: ${flower} · Color: ${color}`;
+        activeCartItem.querySelector("[data-cart-sku]").textContent = activeCartItem.dataset.skuValue;
+        updateCartItemQuantity(activeCartItem, designQuantity);
+        closeCartDesigner();
+        showToast("Design updated.");
+      });
       document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") document.body.classList.remove("search-open");
+        if (event.key === "Escape") {
+          document.body.classList.remove("search-open");
+          closeCartDesigner();
+          closeRemoveConfirm();
+        }
       });
       const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
         if (entry.isIntersecting) entry.target.classList.add("is-visible");

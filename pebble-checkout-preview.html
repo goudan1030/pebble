@@ -6,389 +6,674 @@
     <title>Milagift Checkout Preview</title>
     <link rel="stylesheet" href="pebble-commerce-preview.css" />
     <style>
+      body {
+        min-height: 100vh;
+        background: linear-gradient(90deg, #ffffff 0 calc(50% + 106px), #f5f5f5 calc(50% + 106px) 100%);
+      }
+
+      body > .shell {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+      }
+
       .checkout-layout {
+        width: min(1320px, calc(100vw - 48px));
+        min-height: 100vh;
+        margin: 0 auto;
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 430px;
-        gap: clamp(22px, 3vw, 38px);
+        grid-template-columns: minmax(560px, 1fr) minmax(460px, 520px);
+        gap: 40px;
         align-items: start;
       }
 
       .checkout-stack {
-        display: grid;
-        gap: 18px;
-      }
-
-      .checkout-card {
-        padding: clamp(18px, 3vw, 26px);
-      }
-
-      .checkout-card__head {
+        min-height: 100vh;
         display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 56px 34px 72px 0;
+      }
+
+      .checkout-nav {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 28px;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .checkout-back {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        min-height: 50px;
+        border: 2px solid var(--ink);
+        background: #ffffff;
+        font-size: 20px;
+      }
+
+      .checkout-nav b {
+        color: var(--ink);
+      }
+
+      .checkout-nav i {
+        width: 1px;
+        height: 20px;
+        background: var(--line);
+      }
+
+      .checkout-flow {
+        display: grid;
+        gap: 14px;
+      }
+
+      .checkout-step {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
         align-items: start;
+      }
+
+      .checkout-step + .checkout-step {
+        margin-top: 24px;
+      }
+
+      .checkout-step.is-muted {
+        opacity: 0.42;
+      }
+
+      .checkout-step.is-collapsed {
+        opacity: 0.62;
+      }
+
+      .checkout-step[hidden] {
+        display: none;
+      }
+
+      .checkout-step__num {
+        margin-top: 6px;
+        white-space: nowrap;
+      }
+
+      .checkout-step__head {
+        display: flex;
+        align-items: center;
         justify-content: space-between;
         gap: 18px;
-        margin-bottom: 18px;
+        min-height: 40px;
+        margin-bottom: 14px;
       }
 
-      .checkout-card h2 {
+      .checkout-step h2 {
         margin: 0;
-        font-size: 24px;
-        letter-spacing: -0.05em;
+        font-size: clamp(20px, 1.7vw, 26px);
+        line-height: 1.12;
+        letter-spacing: -0.045em;
       }
 
-      .form-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+      .checkout-step.is-collapsed .checkout-step__head {
+        margin-bottom: 8px;
+      }
+
+      .checkout-step.is-collapsed .checkout-step__body {
+        display: none;
+      }
+
+      .checkout-step__summary {
+        display: none;
+        padding: 14px 18px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .checkout-step.is-collapsed .checkout-step__summary {
+        display: block;
+      }
+
+      .checkout-step__head .btn,
+      .shipping-panel__head .btn {
+        font-size: 14px;
+      }
+
+      .checkout-panel {
+        padding: 18px 20px;
+      }
+
+      .checkout-form {
+        display: none;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
       }
 
-      .form-grid .field {
-        margin: 0;
+      .checkout-form.is-visible {
+        display: grid;
       }
 
-      .form-grid .is-wide {
+      .checkout-form .field {
+        margin-top: 0;
+      }
+
+      .checkout-form .is-wide {
         grid-column: 1 / -1;
       }
 
-      .select-like {
-        height: 46px;
+      .checkout-address.is-editing .checkout-address__saved {
+        display: none;
+      }
+
+      .checkout-address b {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--soft-ink);
+        font-size: 14px;
+      }
+
+      .checkout-address p,
+      .shipping-panel p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .shipping-panel {
+        padding: 20px 22px;
+      }
+
+      .shipping-panel__head {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 14px;
-        border: 1px solid var(--line);
-        border-radius: var(--radius-sm);
-        background: #ffffff;
+        gap: 16px;
+        margin-bottom: 18px;
       }
 
-      .shipping-options,
-      .payment-stack {
-        display: grid;
-        gap: 10px;
+      .shipping-panel h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+        letter-spacing: -0.035em;
       }
 
-      .option-card,
-      .payment-method {
-        width: 100%;
+      .shipping-options {
         display: grid;
-        grid-template-columns: auto 1fr auto auto;
         gap: 12px;
-        align-items: center;
-        min-height: 72px;
-        padding: 14px;
-        border: 1px solid var(--line);
-        border-radius: var(--radius-md);
-        background: #ffffff;
-        text-align: left;
-        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+        margin-top: 18px;
       }
 
-      .option-card:hover,
-      .option-card.is-selected,
-      .payment-method:hover,
-      .payment-method.is-selected {
+      .shipping-option {
+        width: 100%;
+        padding: 14px;
+        text-align: left;
+        transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .shipping-option:hover,
+      .shipping-option.is-selected {
         border-color: var(--ink);
         transform: translateY(-1px);
       }
 
-      .radio-dot {
-        width: 18px;
-        height: 18px;
-        border: 1px solid var(--ink);
-        border-radius: var(--radius-pill);
-      }
-
-      .is-selected .radio-dot {
-        border: 5px solid var(--ink);
-      }
-
-      .payment-logo {
-        min-width: 52px;
-        height: 36px;
+      .shipping-option {
         display: grid;
-        place-items: center;
-        border-radius: 10px;
-        background: var(--milk);
-        font-weight: 900;
-      }
-
-      .option-card span,
-      .payment-method span span {
-        color: var(--muted);
-      }
-
-      .payment-method {
-        grid-template-columns: auto 1fr auto;
-      }
-
-      .review-line {
-        display: grid;
-        grid-template-columns: 72px 1fr auto;
+        grid-template-columns: 1fr auto auto;
         gap: 12px;
         align-items: center;
-        padding: 12px 0;
-        border-bottom: 1px solid var(--line);
       }
 
-      .review-thumb {
-        aspect-ratio: 1;
-        overflow: hidden;
-        border-radius: var(--radius-md);
-        background: var(--milk);
+      .shipping-option p {
+        margin-top: 6px;
       }
 
-      .secure-strip {
+      .shipping-option .status-chip {
+        visibility: hidden;
+      }
+
+      .shipping-option.is-selected .status-chip {
+        visibility: visible;
+      }
+
+      .shipping-price {
+        color: var(--ink);
+        font-size: 18px;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+      }
+
+      .checkout-step-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 14px;
+      }
+
+      .checkout-step-actions .btn {
+        min-width: 160px;
+      }
+
+      .review-panel {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        margin-top: 18px;
+        gap: 12px;
+        padding: 18px 20px;
       }
 
-      .secure-strip span {
-        padding: 12px;
-        border-radius: var(--radius-md);
-        background: var(--milk);
+      .review-panel .summary-line {
+        margin-top: 0;
+      }
+
+      .checkout-mini-footer {
+        display: flex;
+        gap: 24px;
+        margin-top: auto;
+        border-top: 1px solid var(--line);
+        padding-top: 22px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .checkout-summary-zone {
+        min-height: 100vh;
+        padding: 48px 0 72px;
+      }
+
+      .checkout-summary {
+        position: static;
+        background: #ffffff;
+      }
+
+      .checkout-summary__title {
+        margin: 0 0 22px;
+        font-size: 24px;
+        line-height: 1.12;
+        letter-spacing: -0.045em;
+      }
+
+      .checkout-summary .summary-line {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 18px;
+      }
+
+      .checkout-summary .summary-total strong {
+        color: #ff8a14;
+      }
+
+      .checkout-summary__divider {
+        height: 1px;
+        margin: 18px 0;
+        background: var(--line);
+      }
+
+      .checkout-summary .coupon-box {
+        margin: 10px 0 0;
+      }
+
+      .coupon-choice-row {
+        display: grid;
+        gap: 8px;
+      }
+
+      .coupon-choice {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 14px;
+        text-align: left;
+      }
+
+      .coupon-choice b {
+        display: block;
+        color: var(--ink);
+        font-size: 13px;
+      }
+
+      .coupon-choice small {
+        display: block;
+        margin-top: 4px;
         color: var(--muted);
         font-size: 12px;
       }
 
-      .pay-state {
-        display: none;
-        margin-top: 14px;
-        padding: 14px;
-        border-radius: var(--radius-md);
+      .coupon-choice.is-selected {
+        border-color: var(--ink);
+        background: var(--milk);
+      }
+
+      .coupon-choice .status-chip {
+        color: var(--muted);
+        background: var(--milk);
+      }
+
+      .coupon-choice.is-selected .status-chip {
+        color: #2b5a46;
         background: var(--mint);
       }
 
-      .pay-state.is-visible {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+      .checkout-summary .line-item {
+        grid-template-columns: 64px minmax(0, 1fr) auto;
+        gap: 12px;
+        padding: 12px;
       }
 
-      .loader {
-        width: 18px;
-        height: 18px;
-        border: 2px solid rgba(46, 46, 46, 0.22);
-        border-top-color: var(--ink);
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
+      .checkout-summary .line-item + .line-item {
+        margin-top: 10px;
       }
 
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
+      .checkout-summary .line-thumb {
+        width: 64px;
+        height: 64px;
+        border-radius: var(--radius-sm);
+      }
+
+      .checkout-summary .line-copy h3 {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        font-size: 13px;
+        line-height: 1.25;
+      }
+
+      .checkout-summary .line-copy p {
+        margin-top: 6px;
+        font-size: 12px;
+      }
+
+      .checkout-summary .line-item > strong {
+        font-size: 13px;
+      }
+
+      .toast {
+        bottom: 24px;
+      }
+
+      @media (max-width: 960px) {
+        body {
+          background: #ffffff;
         }
-      }
 
-      @media (max-width: 1080px) {
         .checkout-layout {
+          width: min(680px, calc(100vw - 32px));
           grid-template-columns: 1fr;
+          gap: 0;
         }
-      }
 
-      @media (max-width: 680px) {
-        .form-grid,
-        .secure-strip {
-          grid-template-columns: 1fr;
+        .checkout-summary-zone {
+          min-height: auto;
+          margin: 0 -16px;
+          padding: 24px 16px 48px;
+          background: #f5f5f5;
         }
       }
     </style>
   </head>
   <body>
-    <div class="offer" aria-label="Store announcements">
-      <div class="offer-track">
-        <a class="offer-slide" href="pebble-products-listing-preview.html">Free shipping over $59 <span>·</span> Personalize every detail before checkout<button class="offer-close" type="button" aria-label="Close announcement"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.2 2.2l7.6 7.6M9.8 2.2 2.2 9.8"/></svg></button></a>
-        <a class="offer-slide offer-slide--pink" href="pebble-collection-preview.html">Special Offer: 20% code GIFT20! <u>Shop Now</u><button class="offer-close" type="button" aria-label="Close announcement"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.2 2.2l7.6 7.6M9.8 2.2 2.2 9.8"/></svg></button></a></div>
-    </div>
-    <header class="header">
-      <nav class="nav" aria-label="Main navigation">
-        <div class="nav-left">
-          <a class="nav-trigger" href="pebble-custom-gifting-home-preview.html">Shop</a>
-          <a class="nav-trigger" href="pebble-collection-preview.html">Collections</a>
-          <a class="nav-trigger" href="pebble-theme-pages-preview.html">Pages</a>
-          <a class="nav-trigger" href="pebble-faq-preview.html">Features</a>
-        </div>
-        <a class="brand" href="pebble-custom-gifting-home-preview.html" aria-label="Milagift home"><img src="assets/milalogo.svg" alt="Milagift" /></a>
-        <div class="nav-right">
-          <button class="icon search-pill" type="button" aria-label="Open search" aria-controls="search-panel" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5" stroke-width="2.2"/><path d="M15 15l4 4" stroke-width="2.2" stroke-linecap="round"/></svg></button>
-          <button class="icon" type="button" aria-label="Account" data-open-auth data-auth-mode="login"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-          <a class="icon" href="pebble-cart-preview.html" aria-label="Gift bag"><img src="assets/icon-cart.svg?v=2" alt="" aria-hidden="true" /></a>
-        </div>
-      </nav>
-    </header>    <main class="shell">
-      <section class="cart-hero reveal" style="display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:28px">
-        <p class="eyebrow">Checkout</p>
-        <h1 class="page-title">Keep payment <em>direct</em>, calm and recoverable.</h1>
-        <p class="section-lede">This page turns the design document's ecommerce components into a realistic checkout flow: address, shipping, payment, coupon, order summary and a visible payment processing state.</p>
-      </section>
-      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="pebble-custom-gifting-home-preview.html">Home</a></li><li><span aria-current="page">Checkout</span></li></ol></nav>
-
-
+    <main class="shell">
       <section class="checkout-layout">
         <div class="checkout-stack">
-          <article class="checkout-card card reveal">
-            <div class="checkout-card__head"><div><p class="eyebrow">Step 1</p><h2>Contact and shipping address</h2></div><span class="status-chip paid">Saved</span></div>
-            <div class="form-grid">
-              <div class="field is-wide"><label>Email</label><input value="emma@example.com" /></div>
-              <div class="field"><label>First name</label><input value="Emma" /></div>
-              <div class="field"><label>Last name</label><input value="Taylor" /></div>
-              <div class="field is-wide"><label>Address</label><input value="128 Garden Lane" /></div>
-              <div class="field"><label>City</label><input value="San Jose" /></div>
-              <div class="field"><label>State</label><div class="select-like">California <img class="svg-icon" src="assets/icon-caret.svg" alt="" aria-hidden="true" /></div></div>
-              <div class="field"><label>ZIP code</label><input value="95112" /></div>
-              <div class="field"><label>Phone</label><input value="+1 408 555 0198" /></div>
-            </div>
-          </article>
+          <nav class="checkout-nav" aria-label="Checkout progress">
+            <a class="icon checkout-back" href="pebble-cart-preview.html" aria-label="Back to cart">‹</a>
+            <i></i>
+            <a href="pebble-cart-preview.html">Shopping Cart</a>
+            <span>/</span>
+            <b>Checkout</b>
+          </nav>
 
-          <article class="checkout-card card reveal">
-            <div class="checkout-card__head"><div><p class="eyebrow">Step 2</p><h2>Shipping method</h2></div></div>
-            <div class="shipping-options">
-              <button class="option-card is-selected" type="button"><span class="payment-logo">Std</span><span><b>Standard shipping</b><span>Arrives Jun 25-28 after production</span></span><strong>$6.00</strong><i class="radio-dot"></i></button>
-              <button class="option-card" type="button"><span class="payment-logo">Exp</span><span><b>Express shipping</b><span>Arrives Jun 23-25 after production</span></span><strong>$14.00</strong><i class="radio-dot"></i></button>
-            </div>
-          </article>
+          <div class="checkout-flow">
+            <section class="checkout-step reveal" data-step="address">
+              <span class="checkout-step__num status-chip paid">1</span>
+              <div>
+                <div class="checkout-step__head"><h2>Shipping Address</h2><button class="btn btn-secondary js-edit-address" type="button">Edit shipping</button></div>
+                <div class="checkout-step__summary card" id="address-summary">Emma Taylor · 128 Garden Lane, San Jose, CA 95112, United States</div>
+                <div class="checkout-step__body">
+                  <div class="checkout-panel checkout-address card" id="address-panel">
+                    <div class="checkout-address__saved">
+                      <b id="saved-name">Emma Taylor</b>
+                      <p id="saved-address">128 Garden Lane, San Jose, CA 95112, United States</p>
+                    </div>
+                    <div class="checkout-form" id="address-form">
+                      <div class="field"><label>First name</label><input id="first-name" value="Emma" /></div>
+                      <div class="field"><label>Last name</label><input id="last-name" value="Taylor" /></div>
+                      <div class="field is-wide"><label>Address</label><input id="street-address" value="128 Garden Lane" /></div>
+                      <div class="field"><label>City</label><input id="city" value="San Jose" /></div>
+                      <div class="field"><label>State</label><input id="state" value="CA" /></div>
+                      <div class="field"><label>ZIP code</label><input id="zip" value="95112" /></div>
+                      <div class="field is-wide"><label>Country</label><input id="country" value="United States" /></div>
+                    </div>
+                  </div>
+                  <div class="checkout-step-actions checkout-address-actions" hidden>
+                    <button class="btn btn-secondary js-cancel-address" type="button">Cancel</button>
+                    <button class="btn btn-primary js-save-address" type="button">Save address</button>
+                  </div>
+                </div>
+              </div>
+            </section>
 
-          <article class="checkout-card card reveal">
-            <div class="checkout-card__head"><div><p class="eyebrow">Step 3</p><h2>Payment</h2></div><span class="status-chip pending">Payment required</span></div>
-            <div class="payment-stack">
-              <button class="payment-method is-selected" type="button"><span class="payment-logo">Visa</span><span><b>•••• 4242</b><span>Expires 08/28</span></span><i class="radio-dot"></i></button>
-              <button class="payment-method" type="button"><span class="payment-logo">Pay</span><span><b>PayPal</b><span>Connected wallet</span></span><i class="radio-dot"></i></button>
-              <button class="payment-method" type="button"><span class="payment-logo">+</span><span><b>Add payment method</b><span>Credit card or wallet</span></span><i class="radio-dot"></i></button>
-            </div>
-          </article>
+            <section class="checkout-step is-collapsed reveal" data-step="shipping">
+              <span class="checkout-step__num status-chip paid">2</span>
+              <div>
+                <div class="checkout-step__head"><h2>Shipping Method</h2></div>
+                <div class="checkout-step__summary card" id="shipping-summary">Standard shipping · Free</div>
+                <div class="checkout-step__body">
+                  <div class="checkout-panel shipping-panel card">
+                    <div class="shipping-panel__head">
+                      <div><h3>Shipping method</h3><p>Delivery time = Production time + Shipping time</p></div>
+                      <button class="btn btn-secondary js-refresh" type="button">Refresh</button>
+                    </div>
+                    <div class="shipping-options" id="shipping-options">
+                      <button class="shipping-option card is-selected" type="button" data-name="Standard shipping" data-fee="$0.00" data-review="Standard · Free">
+                        <div><b>Standard shipping</b><p>8-12 business days after production</p></div>
+                        <strong class="shipping-price">Free</strong>
+                        <span class="status-chip paid">Selected</span>
+                      </button>
+                      <button class="shipping-option card" type="button" data-name="Priority shipping" data-fee="$6.99" data-review="Priority · $6.99">
+                        <div><b>Priority shipping</b><p>5-8 business days after production</p></div>
+                        <strong class="shipping-price">$6.99</strong>
+                        <span class="status-chip paid">Selected</span>
+                      </button>
+                      <button class="shipping-option card" type="button" data-name="Express shipping" data-fee="$14.99" data-review="Express · $14.99">
+                        <div><b>Express shipping</b><p>3-5 business days after production</p></div>
+                        <strong class="shipping-price">$14.99</strong>
+                        <span class="status-chip paid">Selected</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="checkout-step-actions">
+                    <button class="btn btn-secondary js-back-address" type="button">Back to address</button>
+                    <button class="btn btn-primary js-continue" type="button">Continue</button>
+                  </div>
+                  <div class="pay-state" id="pay-state"><span class="loader"></span><b>Checking shipping method. Please wait.</b></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="checkout-step is-muted is-collapsed reveal" data-step="review">
+              <span class="checkout-step__num status-chip">3</span>
+              <div>
+                <div class="checkout-step__head"><h2>Review &amp; Pay</h2></div>
+                <div class="checkout-step__summary card">Review address, shipping and payment</div>
+                <div class="checkout-step__body">
+                  <div class="review-panel card">
+                    <div class="summary-line"><span>Ship to</span><strong id="review-name">Emma Taylor</strong></div>
+                    <div class="summary-line"><span>Shipping</span><strong id="review-shipping">Standard · Free</strong></div>
+                    <div class="summary-line"><span>Payment</span><strong>Ready to pay</strong></div>
+                    <button class="btn btn-primary js-place-order" type="button">Place order</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="checkout-mini-footer">
+            <a href="pebble-about-preview.html">About Us</a>
+            <a href="pebble-contact-preview.html">Contact Us</a>
+            <a href="#">Terms and Conditions</a>
+            <a href="#">Blog</a>
+          </div>
         </div>
 
-        <aside class="summary-card card reveal">
-          <p class="eyebrow">Review order</p>
-          <div class="review-line"><span class="review-thumb"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="" /></span><div><b>Birth Flower Tote Bag</b><span class="status-chip paid">Name: Emma</span></div><strong>$23.00</strong></div>
-          <div class="review-line"><span class="review-thumb"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260604/f9162689ec6b51d4411fe07b2af098ff.jpg?d=600" alt="" /></span><div><b>Name Embroidered Makeup Bag</b><span class="status-chip paid">Name: Olivia</span></div><strong>$19.00</strong></div>
-          <div class="coupon-box"><input value="WELCOME10" aria-label="Coupon code" /><button class="js-coupon" type="button">Apply</button></div>
-          <div class="summary-line"><span>Subtotal</span><strong>$42.00</strong></div>
-          <div class="summary-line"><span>Coupon</span><strong>-$4.20</strong></div>
-          <div class="summary-line"><span>Shipping</span><strong>$6.00</strong></div>
-          <div class="summary-line"><span>Gift packaging</span><strong>$3.00</strong></div>
-          <div class="summary-line summary-total"><span>Total</span><strong>$46.80</strong></div>
-          <button class="btn btn-primary js-pay" type="button" style="width:100%;margin-top:20px">Pay $46.80 now <span class="dot"><img class="svg-icon" src="assets/icon-arrow.svg" alt="" aria-hidden="true" /></span></button>
-          <div class="pay-state" id="pay-state"><span class="loader"></span><b>Processing payment. Please do not close this page.</b></div>
-          <div class="secure-strip"><span><b>SSL secured</b><br />Payment fields stay high contrast.</span><span><b>Recoverable</b><br />Failed payment keeps action visible.</span><span><b>Gift data</b><br />Customization remains attached.</span></div>
+        <aside class="checkout-summary-zone">
+          <section class="summary-card checkout-summary reveal">
+            <h2 class="checkout-summary__title">Order summary</h2>
+            <p class="eyebrow">Coupon</p>
+            <div class="coupon-choice-row">
+              <button class="coupon-choice card js-coupon-choice" type="button" data-code="WELCOME10" data-discount="4.20">
+                <span><b>WELCOME10</b><small>Save $4.20 on this order</small></span>
+                <span class="status-chip paid">Select</span>
+              </button>
+              <button class="coupon-choice card js-coupon-choice" type="button" data-code="GIFT20" data-discount="8.40">
+                <span><b>GIFT20</b><small>Best value · Save $8.40</small></span>
+                <span class="status-chip paid">Select</span>
+              </button>
+            </div>
+            <div class="coupon-box"><input id="coupon-code" placeholder="Enter coupon code" aria-label="Coupon code" /><button class="js-coupon" type="button">Apply</button></div>
+            <div class="checkout-summary__divider"></div>
+            <div class="summary-line"><span>Subtotal:</span><strong>$42.00</strong></div>
+            <div class="summary-line"><span>Shipping fee:</span><strong id="summary-shipping-fee">$0.00</strong></div>
+            <div class="summary-line"><span>Coupon:</span><strong id="summary-discount">$0.00</strong></div>
+            <div class="summary-line"><span>Tax:</span><small>Calculated based on shipping address</small></div>
+            <div class="summary-line summary-total"><span>Total (2):</span><strong id="summary-total">USD $42.00</strong></div>
+            <div class="checkout-summary__divider"></div>
+            <article class="line-item">
+              <span class="line-thumb"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="" /></span>
+              <div class="line-copy"><h3>Personalized Birth Flower Corduroy Large Capacity Tote Bag with Name Birthday Gift for Her</h3><p>Camel · Personalized item · QTY 1 · 1 Subtotal</p></div>
+              <strong>$23.00</strong>
+            </article>
+            <article class="line-item">
+              <span class="line-thumb"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260604/f9162689ec6b51d4411fe07b2af098ff.jpg?d=600" alt="" /></span>
+              <div class="line-copy"><h3>Personalized Name Embroidered Makeup Bag Bridesmaid Proposal Gift</h3><p>Natural · Personalized item · QTY 1 · 1 Subtotal</p></div>
+              <strong>$19.00</strong>
+            </article>
+            <div class="checkout-summary__divider"></div>
+            <div class="field">
+              <label class="eyebrow">Order remark</label>
+              <textarea placeholder="Add delivery or handling notes for this order"></textarea>
+            </div>
+          </section>
         </aside>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="footer-brand">
-        <strong>We are obsessed with building the best custom gifts.</strong>
-        <p>Milagift turns photos, names, dates and little memories into warm, gift-ready pieces.</p>
-      </div>
-      <div class="footer-columns">
-        <div><h4>Company</h4><a href="#">Our Story</a><a href="#">Journal</a><a href="#">Reviews</a><a href="#">Contact</a></div>
-        <div><h4>Collections</h4><a href="#">Father's Day</a><a href="#">Graduation Gifts</a><a href="#">Wedding Gifts</a><a href="#">Pet Memorials</a></div>
-        <div><h4>Get Help</h4><a href="#">Shipping</a><a href="#">Personalization</a><a href="#">Returns</a><a href="#">Help Center</a></div>
-      </div>
-      <div class="footer-bottom">
-        <div class="footer-socials" aria-label="Social links"><a href="#" aria-label="X">X</a><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="TikTok">TT</a><a href="#" aria-label="Pinterest">P</a></div>
-        <div class="footer-policies"><a href="#">Accessibility</a><a href="#">Terms of Service</a><a href="#">Privacy Policy</a></div>
-      </div>
-      <div class="footer-legal">
-        <span>© 2026 Milagift, preview powered by Shopify-style theme design</span>
-        <div class="footer-payments" aria-label="Payment methods"><button class="currency-pill" type="button"><b>*</b> USD / EN</button><span class="payment-card">VISA</span><span class="payment-card">MC</span><span class="payment-card">AMEX</span><span class="payment-card">PayPal</span></div>
-      </div>
-    </footer>
-
-    <div class="search-panel" id="search-panel" role="dialog" aria-modal="true" aria-label="Search panel">
-      <div class="search-backdrop"></div>
-      <div class="search-surface">
-        <div class="search-input-row">
-          <span class="brand search-brand"><img src="assets/milalogo.svg" alt="Milagift" /></span>
-          <div class="search-input-shell"><input value="What are you looking for?" aria-label="Search" /><button class="search-close" type="button" aria-label="Close search">×</button></div>
-          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 12.5c2.35 0 4.25-1.9 4.25-4.25S14.35 4 12 4 7.75 5.9 7.75 8.25 9.65 12.5 12 12.5Z" stroke-width="1.8"/><path d="M4.8 20c.85-3.75 3.25-5.6 7.2-5.6s6.35 1.85 7.2 5.6" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 9h10l-.75 11H7.75L7 9Z" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9c0-2.8 1.15-4.2 3-4.2s3 1.4 3 4.2" stroke-width="1.8" stroke-linecap="round"/><path d="M12 9v11M8.2 14h7.6" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-        </div>
-        <div class="search-content">
-          <h3>Popular Search</h3>
-          <div class="search-tags"><a href="#">Graduation</a><a href="#">Father's Day</a><a href="#">Golf</a><a href="#">Mahjong</a><a href="#">Wedding</a></div>
-          <h3>Featured Products</h3>
-          <div class="search-products">
-            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260605/1db7eeea7e7d5c27a6ffedd7492865ab.jpg?d=600" alt="" /></span><strong>Personalized Artistic Name Waterproof Sandproof Beach Bag Pool Bag Summer Vacation Party Gift for Women</strong><b>$18.00</b></a>
-            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260311/9ecd6e6c0ca58fc235cb1765fcc0a7f1.jpg?d=600" alt="" /></span><strong>Personalized Multicolor Acrylic Mahjong Line Reader with Rules and Name Mahjong Game Night Birthday Gift for Mahjong Lover</strong><b>$15.00</b></a>
-            <a href="#"><span><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260508/b9d6fc5f0ff32035c279d9d1d077984e.png?d=600" alt="" /></span><strong>Personalized Cartoon Couple Character Cruise Fridge Magnet with Name Home Decor Birthday Summer Travel Gift for Couple Newlyweds</strong><b>$15.00</b></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="toast" id="toast">Checkout interaction ready.</div>
 
     <script>
-      const initOfferBar = () => {
-        const offer = document.querySelector('.offer');
-        if (!offer) return;
-        const storageKey = 'milagiftOfferClosed';
-        try {
-          if (localStorage.getItem(storageKey) === 'true') offer.classList.add('is-hidden');
-        } catch (error) {}
-        offer.querySelectorAll('.offer-close').forEach((button) => button.addEventListener('click', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          offer.classList.add('is-hidden');
-          try { localStorage.setItem(storageKey, 'true'); } catch (error) {}
-        }));
-      };
-
-      initOfferBar();
-
       const $ = (selector, root = document) => root.querySelector(selector);
       const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
       const toast = $("#toast");
+      const checkoutState = {
+        subtotal: 42,
+        shipping: 0,
+        discount: 0
+      };
+      const formatMoney = (value) => `$${value.toFixed(2)}`;
+      const syncTotals = () => {
+        $("#summary-shipping-fee").textContent = formatMoney(checkoutState.shipping);
+        $("#summary-discount").textContent = checkoutState.discount > 0 ? `-${formatMoney(checkoutState.discount)}` : "$0.00";
+        const total = Math.max(0, checkoutState.subtotal + checkoutState.shipping - checkoutState.discount);
+        $("#summary-total").textContent = `USD ${formatMoney(total)}`;
+      };
       const showToast = (text) => {
         toast.textContent = text;
         toast.classList.add("is-visible");
         window.clearTimeout(window.__toastTimer);
         window.__toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 1800);
       };
-      $$(".search-pill").forEach((button) => button.addEventListener("click", () => document.body.classList.add("search-open")));
-      $$(".search-close, .search-backdrop").forEach((button) => button.addEventListener("click", () => document.body.classList.remove("search-open")));
-      $(".search-panel").addEventListener("click", (event) => {
-        if (event.target.classList.contains("search-panel")) document.body.classList.remove("search-open");
+      const applyCoupon = (code, discount) => {
+        checkoutState.discount = discount;
+        syncTotals();
+        showToast(`${code} applied.`);
+      };
+      const syncCouponSelection = (code) => {
+        $$(".coupon-choice").forEach((item) => {
+          const isSelected = item.dataset.code === code;
+          item.classList.toggle("is-selected", isSelected);
+          $(".status-chip", item).textContent = isSelected ? "Selected" : "Select";
+        });
+      };
+      const setActiveStep = (stepName) => {
+        $$(".checkout-step").forEach((step) => {
+          const isActive = step.dataset.step === stepName;
+          step.classList.toggle("is-collapsed", !isActive);
+          step.classList.toggle("is-muted", step.dataset.step === "review" && stepName !== "review");
+        });
+      };
+      $(".js-coupon").addEventListener("click", () => {
+        const code = $("#coupon-code").value.trim().toUpperCase() || "CUSTOM CODE";
+        const discount = code === "GIFT20" ? 8.4 : code === "WELCOME10" ? 4.2 : 5;
+        syncCouponSelection(code);
+        applyCoupon(code, discount);
       });
-      $$(".option-card, .payment-method").forEach((button) => button.addEventListener("click", () => {
-        const stack = button.parentElement;
-        $$("button", stack).forEach((item) => item.classList.remove("is-selected"));
-        button.classList.add("is-selected");
+      $$(".js-coupon-choice").forEach((choice) => choice.addEventListener("click", () => {
+        $("#coupon-code").value = choice.dataset.code;
+        syncCouponSelection(choice.dataset.code);
+        applyCoupon(choice.dataset.code, Number(choice.dataset.discount));
       }));
-      $(".js-pay").addEventListener("click", () => {
-        $("#pay-state").classList.add("is-visible");
-        showToast("Payment processing state is visible.");
+      const addressPanel = $("#address-panel");
+      const addressForm = $("#address-form");
+      const addressActions = $(".checkout-address-actions");
+      const editAddress = (isEditing) => {
+        addressPanel.classList.toggle("is-editing", isEditing);
+        addressForm.classList.toggle("is-visible", isEditing);
+        addressActions.hidden = !isEditing;
+        if (isEditing) setActiveStep("address");
+      };
+      $(".js-edit-address").addEventListener("click", () => editAddress(true));
+      $(".js-cancel-address").addEventListener("click", () => editAddress(false));
+      $(".js-save-address").addEventListener("click", () => {
+        const first = $("#first-name").value.trim();
+        const last = $("#last-name").value.trim();
+        const street = $("#street-address").value.trim();
+        const city = $("#city").value.trim();
+        const state = $("#state").value.trim();
+        const zip = $("#zip").value.trim();
+        const country = $("#country").value.trim();
+        $("#saved-name").textContent = `${first} ${last}`.trim() || "Guest";
+        $("#saved-address").textContent = [street, city, state && zip ? `${state} ${zip}` : state || zip, country].filter(Boolean).join(", ");
+        $("#address-summary").textContent = `${$("#saved-name").textContent} · ${$("#saved-address").textContent}`;
+        $("#review-name").textContent = $("#saved-name").textContent;
+        editAddress(false);
+        setActiveStep("shipping");
+        showToast("Shipping address saved.");
       });
-      $(".js-coupon").addEventListener("click", () => showToast("Coupon applied."));
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") document.body.classList.remove("search-open");
+      $(".js-back-address").addEventListener("click", () => {
+        editAddress(true);
+        showToast("Address step opened.");
+      });
+      $$(".shipping-option").forEach((option) => option.addEventListener("click", () => {
+        $$(".shipping-option").forEach((item) => item.classList.remove("is-selected"));
+        option.classList.add("is-selected");
+        $("#review-shipping").textContent = option.dataset.review;
+        $("#shipping-summary").textContent = `${option.dataset.name} · ${option.dataset.review.replace(" · ", " ")}`;
+        checkoutState.shipping = Number(option.dataset.fee.replace("$", ""));
+        syncTotals();
+        showToast(`${option.dataset.name} selected.`);
+      }));
+      $(".js-refresh").addEventListener("click", () => {
+        showToast("Shipping methods refreshed.");
+      });
+      $(".js-continue").addEventListener("click", () => {
+        $("#pay-state").classList.add("is-visible");
+        window.setTimeout(() => {
+          $("#pay-state").classList.remove("is-visible");
+          setActiveStep("review");
+          showToast("Review step is ready.");
+        }, 650);
+      });
+      $(".js-place-order").addEventListener("click", () => {
+        showToast("Order submitted. Payment state shown.");
       });
       const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
         if (entry.isIntersecting) entry.target.classList.add("is-visible");
       }), { threshold: 0.14 });
       $$(".reveal").forEach((item) => observer.observe(item));
+      editAddress(true);
+      setActiveStep("address");
 
-
-      const initBackToTop = () => {
-        let button = document.querySelector('.back-to-top');
-        if (!button) {
-          button = document.createElement('button');
-          button.className = 'back-to-top';
-          button.type = 'button';
-          button.setAttribute('aria-label', 'Back to top');
-          button.innerHTML = '<img class="svg-icon" src="assets/icon-arrow.svg?v=2" alt="" aria-hidden="true" />';
-          document.body.appendChild(button);
-        }
-        const updateBackToTop = () => button.classList.toggle('is-visible', window.scrollY > Math.min(520, window.innerHeight * 0.72));
-        button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-        window.addEventListener('scroll', updateBackToTop, { passive: true });
-        window.addEventListener('resize', updateBackToTop);
-        updateBackToTop();
-      };
-
-      initBackToTop();
     </script>
   </body>
 </html>

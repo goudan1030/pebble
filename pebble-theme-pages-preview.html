@@ -2650,21 +2650,166 @@
       }
 
       .toast-spec {
-        opacity: 0.72;
+        display: grid;
+        gap: 10px;
+      }
+
+      .toast-pill {
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        align-items: center;
+        gap: 10px;
+        min-height: 46px;
         border-radius: 16px;
-        padding: 0.9rem 1rem;
+        padding: 0.76rem 0.95rem;
         color: #ffffff;
         background: var(--ink);
+        font-size: 0.9rem;
+        font-weight: 850;
+        line-height: 1.28;
+        box-shadow: 0 16px 34px rgba(0, 0, 0, 0.16);
         transition:
           opacity 0.22s ease,
           transform 0.22s ease,
           background-color 0.22s ease;
       }
 
-      .toast-spec.is-live {
-        opacity: 1;
+      .toast-pill::before {
+        content: "";
+        display: grid;
+        width: 22px;
+        height: 22px;
+        place-items: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 14px 14px;
+      }
+
+      .toast-pill.is-success::before {
+        background-image: url("assets/icon-checkmark.svg?v=2");
+        filter: brightness(0) invert(1);
+      }
+
+      .toast-pill.is-error {
+        background: #9f4e2f;
+      }
+
+      .toast-pill.is-error::before {
+        background-image: url("assets/icon-error.svg?v=2");
+        filter: brightness(0) invert(1);
+      }
+
+      .toast-pill.is-loading::before {
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #ffffff;
+        background: transparent;
+        animation: spin 0.9s linear infinite;
+      }
+
+      .toast-pill.is-info {
         background: var(--clay);
+      }
+
+      .toast-spec.is-live .toast-pill:first-child,
+      .toast-pill:hover {
         transform: translateY(-2px);
+      }
+
+      .toast-rule-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 0.86rem;
+        line-height: 1.5;
+      }
+
+      .toast-rule-list span {
+        display: block;
+        border-radius: 12px;
+        padding: 8px 10px;
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .confirm-spec {
+        position: relative;
+        display: grid;
+        min-height: 260px;
+        place-items: center;
+        overflow: hidden;
+        border-radius: 20px;
+        padding: 18px;
+        background: rgba(20, 20, 20, 0.58);
+      }
+
+      .confirm-spec__panel {
+        width: min(100%, 360px);
+        border-radius: 20px;
+        padding: 22px;
+        background: #ffffff;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+      }
+
+      .confirm-spec__eyebrow {
+        display: inline-grid;
+        margin-bottom: 10px;
+        border-radius: 999px;
+        padding: 6px 10px;
+        background: #f7f1e9;
+        color: var(--clay);
+        font-size: 12px;
+        font-weight: 950;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .confirm-spec__panel h3 {
+        margin: 0;
+        font-size: 24px;
+        line-height: 1.12;
+        letter-spacing: -0.045em;
+      }
+
+      .confirm-spec__panel p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .confirm-spec__product {
+        display: block;
+        margin-top: 10px;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 900;
+        line-height: 1.35;
+      }
+
+      .confirm-spec__actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .confirm-spec__actions button {
+        min-height: 50px;
+        border: 1px solid var(--ink);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        font: inherit;
+        font-size: 15px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .confirm-spec__actions .is-danger {
+        color: #ffffff;
+        background: var(--ink);
       }
 
       .state-actions {
@@ -4742,6 +4887,7 @@
               <div class="rule"><b>Product labels and colors</b><span>Do not show sale/new/best-seller badges or color swatches on product cards by default, including homepage product cards. Keep cards focused on square image, title, price and hover Start Design action.</span></div>
               <div class="rule"><b>Reviews</b><span>Review sections use the latest muted beige/grey block, white quote cards, rounded 20px, and visible carousel controls.</span></div>
               <div class="rule"><b>FAQ module</b><span>Place homepage FAQ between reviews and newsletter. Use a large rounded light-grey block, left intro copy, right accordion rows, and assets plus/minus icons.</span></div>
+              <div class="rule"><b>Toast feedback</b><span>All pages use the shared bottom-center toast for non-blocking feedback. Variants: success, error, loading and info. Keep text short, avoid stacking more than three, and never replace required confirmation modals with a toast.</span></div>
             </div>
           </section>
 
@@ -4912,7 +5058,40 @@
                 <div class="state-spec">
                   <div class="stepper"><button type="button" aria-label="Decrease quantity">-</button><span>1</span><button type="button" aria-label="Increase quantity">+</button></div>
                   <div class="state-row"><span class="status-chip paid">Paid</span><span class="status-chip pending">Payment required</span></div>
-                  <div class="toast-spec">Added to cart. Ready to checkout.</div>
+                  <div class="toast-spec">
+                    <div class="toast-pill is-success">Added to cart. Ready to checkout.</div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="specimen-card specimen-card--wide">
+                <div class="specimen-kicker">Toast feedback</div>
+                <div class="toast-spec">
+                  <div class="toast-pill is-success">Design saved. Cart item updated.</div>
+                  <div class="toast-pill is-error">Something went wrong. Please try again.</div>
+                  <div class="toast-pill is-loading">Saving your personalized design...</div>
+                  <div class="toast-pill is-info">Coupon applied to this order.</div>
+                  <div class="toast-rule-list">
+                    <span>Position fixed at bottom center on desktop and bottom 20px with page gutter on mobile. Keep width between 280px and 420px.</span>
+                    <span>Use for non-blocking feedback after add to cart, save design, coupon apply, newsletter submit, quantity update and cart remove. Do not use toast for destructive confirmation; use the confirmation modal first.</span>
+                    <span>Motion: enter from 12px below with fade, stay around 1800-2400ms, then fade out. Loading toast may persist until the async step resolves.</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="specimen-card">
+                <div class="specimen-kicker">Delete confirmation modal</div>
+                <div class="confirm-spec">
+                  <div class="confirm-spec__panel">
+                    <span class="confirm-spec__eyebrow">Remove item</span>
+                    <h3>Remove this custom gift?</h3>
+                    <p>Confirm before deleting cart items, saved designs, addresses or payment drafts.</p>
+                    <strong class="confirm-spec__product">Personalized Birth Flower Corduroy Large Capacity Tote Bag</strong>
+                    <div class="confirm-spec__actions">
+                      <button type="button">Cancel</button>
+                      <button class="is-danger" type="button">Remove</button>
+                    </div>
+                  </div>
                 </div>
               </article>
 
@@ -5287,7 +5466,7 @@
               <div class="rule"><b>Header on dark hero</b><span>Pages with a full-width dark/video hero may place the header over the hero with fixed positioning. Remove header background and blur, remove border, use white nav text, white filtered logo and white filtered icons. As soon as the page starts scrolling, switch back to the default white header and pin it to the top of the viewport without reserving offer-bar space.</span></div>
               <div class="rule"><b>Logo</b><span>Use provided <code>milalogo.svg</code>. Width clamps from 104px to 146px.</span></div>
               <div class="rule"><b>Search</b><span>Use a global overlay with backdrop. Clicking backdrop or empty overlay area closes it. Do not place the mask inside the header.</span></div>
-              <div class="rule"><b>Breadcrumb</b><span>Place a low-emphasis breadcrumb directly below the hero or first screen module on every inner page. Use <code>Home / Current page</code>, 13px bold text, muted links, slash separator, centered alignment and no pill/background treatment. Use compact balanced spacing, typically <code>padding: 10px 0</code>. Inside shell layouts it should align to the same content width without adding a second horizontal gutter.</span></div>
+              <div class="rule"><b>Breadcrumb</b><span>Place a low-emphasis breadcrumb directly below the hero or first screen module on browsing/content/account inner pages. Use <code>Home / Current page</code>, 13px bold text, muted links, slash separator, centered alignment and no pill/background treatment. Use compact balanced spacing, typically <code>padding: 10px 0</code>. Inside shell layouts it should align to the same content width without adding a second horizontal gutter. Do not show breadcrumbs on cart or checkout pages.</span></div>
               <div class="rule"><b>Back to top</b><span>Fixed bottom-right circular control, 54px, black fill, white rotated arrow. Hidden on first screen, appears after scroll and returns smoothly to top.</span></div>
               <div class="rule"><b>Footer</b><span>White footer with strong brand sentence, three link columns, social icons with black hover, policy links and payment chips. Inner pages should keep footer close to the final content: content shell bottom padding 40-64px and footer top margin 28px, not a large empty spacer.</span></div>
             </div>
@@ -5405,8 +5584,8 @@ if ("IntersectionObserver" in window) {
               <article class="page-blueprint">
                 <div class="page-blueprint__meta"><span>P1 browsing</span><h3>Collection</h3><code>collection.default</code><a href="pebble-collection-preview.html">Preview</a></div>
                 <div class="page-blueprint__rules">
-                  <div class="page-rule-row"><b>Structure</b><p>White hero with collection title, short description and optional category chips. Product grid uses 4 columns desktop, 2 mobile.</p></div>
-                  <div class="page-rule-row"><b>Components</b><p>Filter chips, sort control, square product cards, carousel/loading controls and empty collection state. Product cards should not show badges or color swatches by default.</p></div>
+                  <div class="page-rule-row"><b>Structure</b><p>Collection pages should mirror the products listing structure: shortcut carousel, breadcrumb, collection title, filters, sort, 12-item product grid and pagination. Do not use the old large hero.</p></div>
+                  <div class="page-rule-row"><b>Components</b><p>Same as products listing, plus a centered collection title block between breadcrumb and filters. Product cards should not show badges or color swatches by default.</p></div>
                   <div class="page-rule-row"><b>Cards</b><p>Product image fills a square card. Product title and price are always visible below the image. Hover reveals Start Design pill over the image without hiding title or price.</p></div>
                   <div class="page-rule-row"><b>State</b><p>Filters should show active state as black pill. Empty results should suggest clearing filters or browsing best sellers.</p></div>
                 </div>
@@ -5426,12 +5605,14 @@ if ("IntersectionObserver" in window) {
               </article>
 
               <article class="page-blueprint">
-                <div class="page-blueprint__meta"><span>P1 checkout</span><h3>Cart</h3><code>cart</code></div>
+                <div class="page-blueprint__meta"><span>P1 checkout</span><h3>Cart</h3><code>cart</code><a href="pebble-cart-preview.html">Filled</a><a href="pebble-cart-empty-preview.html">Empty</a></div>
                 <div class="page-blueprint__rules">
-                  <div class="page-rule-row"><b>Structure</b><p>Cart lines left, order summary right. Use white cards and thin dividers, not heavy grey panels.</p></div>
-                  <div class="page-rule-row"><b>Components</b><p>Line item media, long product title, personalization summary, quantity stepper, remove/save actions, coupon input, checkout CTA.</p></div>
-                  <div class="page-rule-row"><b>Buttons</b><p>Checkout is black primary. Continue shopping is secondary text/pill. Quantity buttons are compact outlined controls.</p></div>
-                  <div class="page-rule-row"><b>Empty</b><p>Empty cart should include a calm message, best-seller product suggestions and a Shop gifts CTA.</p></div>
+                  <div class="page-rule-row"><b>Structure</b><p>Start directly with cart lines left and order summary right. Do not add breadcrumbs, a cart hero, page title, intro copy or marketing text above the cart content.</p></div>
+                  <div class="page-rule-row"><b>Components</b><p>Filled cart item cards use title, price, selected SKU/customization line, quantity stepper, large square main image and Edit button. The right summary title is 24px, amount rows are 16px, shipping/tax helper text is 13px, orange total is 22px, points notice is 13px, and payment badges are small 11px chips.</p></div>
+                  <div class="page-rule-row"><b>Edit design</b><p>Edit must reuse the homepage <code>design-drawer</code> component and <code>design-open</code> overlay behavior, not a new modal pattern. Customers can update customization details and quantity, then Save design writes the selected SKU line back to the cart card and closes the drawer.</p></div>
+                  <div class="page-rule-row"><b>Delete confirmation</b><p>Deleting a cart item must open the shared confirmation modal first. Use a full-page dark translucent backdrop, centered 20px-radius white panel, compact eyebrow, 24px title, 15px body copy, product name preview, and two 50px pill buttons: Cancel and Remove. Backdrop, close button and Escape cancel the action.</p></div>
+                  <div class="page-rule-row"><b>Buttons</b><p>Checkout is black primary at the shared 50px height with 16px text. PayPal Checkout uses a yellow payment button at the same height and text size. Quantity buttons are compact outlined controls.</p></div>
+                  <div class="page-rule-row"><b>States</b><p>Cart needs two standalone previews: filled cart and empty cart. Filled cart must not show product recommendations below the cart. Empty cart uses the 3D Mila shopping cart illustration, a calm message, Shop gifts CTA and product recommendations below.</p></div>
                 </div>
                 <div class="page-blueprint__wire"><div class="wire-grid-2"><div><span class="wire-card"></span><br><span class="wire-card"></span></div><div><span class="wire-card"></span><br><span class="wire-button"></span></div></div></div>
               </article>
@@ -5439,9 +5620,10 @@ if ("IntersectionObserver" in window) {
               <article class="page-blueprint">
                 <div class="page-blueprint__meta"><span>P1 checkout</span><h3>Checkout</h3><code>checkout</code></div>
                 <div class="page-blueprint__rules">
-                  <div class="page-rule-row"><b>Structure</b><p>Two-column checkout: forms left, summary right. Steps should feel clear but not like a SaaS dashboard.</p></div>
-                  <div class="page-rule-row"><b>Components</b><p>Contact, shipping address, delivery method, payment method, billing address, order summary, trust/support note.</p></div>
-                  <div class="page-rule-row"><b>Forms</b><p>Use custom input/select style. No raw browser dropdowns in design comps. Focus ring uses clay.</p></div>
+                  <div class="page-rule-row"><b>Structure</b><p>Checkout is an independent split layout, not a normal theme inner page. Hide the marketing header, offer bar, footer, breadcrumbs, cart hero and page title. Use a full-height left white workflow area and a right light-grey order-summary area.</p></div>
+                  <div class="page-rule-row"><b>Components</b><p>Do not handwrite a new component system for checkout. The split layout is checkout-specific, but internal parts must reuse design-language components: <code>.btn</code>, <code>.card</code>, <code>.coupon-box</code>, <code>.summary-line</code>, <code>.status-chip</code>, global toast and shared product-card media rules.</p></div>
+                  <div class="page-rule-row"><b>Forms</b><p>Use the shared field/input language for editable areas. Checkout may be denser than marketing pages, but labels, focus states, borders and radii still follow the global form component instead of raw custom controls.</p></div>
+                  <div class="page-rule-row"><b>Summary</b><p>Order summary sits inside the right grey column in a white card. Totals use shared summary rows, total amount is orange, coupon uses the shared coupon component, product rows are white cards with square thumbnails, long product titles, variant/customization text, quantity and subtotal rows.</p></div>
                   <div class="page-rule-row"><b>State</b><p>Errors are inline and specific. Payment loading should keep the summary visible.</p></div>
                 </div>
                 <div class="page-blueprint__wire"><div class="wire-grid-2"><div><span class="wire-line short"></span><br><span class="wire-card"></span><br><span class="wire-card"></span><br><span class="wire-card"></span></div><div><span class="wire-card"></span><br><span class="wire-line"></span><br><span class="wire-button"></span></div></div></div>
@@ -5450,8 +5632,8 @@ if ("IntersectionObserver" in window) {
               <article class="page-blueprint">
                 <div class="page-blueprint__meta"><span>P2 discovery</span><h3>Search results</h3><code>search</code><a href="pebble-search-results-preview.html">Preview</a></div>
                 <div class="page-blueprint__rules">
-                  <div class="page-rule-row"><b>Structure</b><p>Search page extends the overlay language: large search field, centered breadcrumb, result count, right-aligned filter dropdown, 12-item product grid and pagination.</p></div>
-                  <div class="page-rule-row"><b>Components</b><p>Search input, result count text, “Sort By” filter button, dropdown options, square product cards, pagination, no-result state and popular collections. Populated results should not show left-side category/tag chips.</p></div>
+                  <div class="page-rule-row"><b>Structure</b><p>Search page extends the overlay language: full-width light-blue search result hero, centered breadcrumb, result count, right-aligned filter dropdown, 12-item product grid and pagination.</p></div>
+                  <div class="page-rule-row"><b>Components</b><p>Full-width flat light-blue search result background, compact search title, search input, result count text, “Sort By” filter button, dropdown options, square product cards, pagination, no-result state and popular collections. Do not place the search title inside a white card. Populated results should not show left-side category/tag chips.</p></div>
                   <div class="page-rule-row"><b>Pagination</b><p>Default search results page size is 12 products. Pagination shows “Showing 1-12 of 24” style summary, current page as black pill, disabled previous state and next/page links on the right.</p></div>
                   <div class="page-rule-row"><b>State</b><p>No-result state should offer alternate keywords and “Shop best sellers”.</p></div>
                   <div class="page-rule-row"><b>Motion</b><p>Typing suggestions can fade in. Product cards use same hover as collection pages.</p></div>
