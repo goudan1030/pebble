@@ -9,7 +9,7 @@ Build a complete static HTML design system and page preview set for the new Mila
 1. Complete homepage polish and keep it as the visual source of truth.
 2. Maintain the design language page with typography, colors, radius, spacing, buttons, forms, states, ecommerce components, responsive rules, and scroll interactions.
 3. Build high-priority commerce pages first: product detail, cart, and checkout.
-4. Continue remaining page previews: collection/listing, search results, account orders, unpaid order payment entry, tracking, auth pages, and system result pages.
+4. Continue remaining page previews: collection/listing, search results, account orders, unpaid order payment entry, tracking, and system result pages.
 5. After HTML design approval, translate the patterns into the actual theme implementation.
 
 ## Current Page Coverage
@@ -21,7 +21,7 @@ Build a complete static HTML design system and page preview set for the new Mila
 - Checkout: active draft with address, delivery, payment, coupon, and order summary flows.
 - Collection/product listing: static previews with filters, sorting, square product cards, hover CTAs, and active chip states.
 - Search results: static preview with query shell, suggestions, result grid, and no-result recovery guidance.
-- Auth/account/payment/tracking: static previews for login/register/recovery, account order list, unpaid payment recovery, and logistics timeline.
+- Account/payment/tracking: modal flows for login/register/recovery, plus static previews for account order list, unpaid payment recovery, and logistics timeline.
 - Content/support/system: static previews for FAQ, about, contact, blog list, article, 404, and payment success/failure/pending states.
 
 ## Remaining HTML Pages

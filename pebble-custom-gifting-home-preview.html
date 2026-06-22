@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Milagift Custom Gifting Home Preview</title>
+    <link rel="stylesheet" href="pebble-commerce-preview.css" />
     <style>
       @font-face {
         font-family: "Instrument Sans";
@@ -2355,7 +2356,8 @@
         display: grid;
         grid-template-columns: 1.1fr 1.6fr;
         gap: 48px;
-        width: 100%;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
         margin-top: 80px;
         padding: 56px max(var(--site-gutter), calc((100vw - var(--site-width)) / 2 + var(--site-gutter))) 28px;
         border-radius: 20px 20px 0 0;
@@ -3679,7 +3681,7 @@
                 <div class="mega-copy"><h3>Preview the full theme flow from one place.</h3><p>Jump into the latest static HTML pages for discovery, product detail, checkout, account, support, content and system states.</p></div>
                 <a class="mega-card" href="pebble-theme-pages-preview.html"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260421/dab12eff706b31963a8fd2957448e2cd.jpg?d=600" alt="" /><span>Design Language <b></b></span></a>
                 <a class="mega-card" href="pebble-product-detail-preview.html"><img src="https://d3ouql8tmwncoe.cloudfront.net/uploads/20260609/ec7b2ad5903b04d48710d888e85811cb.png?d=600" alt="" /><span>Product Detail <b></b></span></a>
-                <div class="mega-links"><a href="pebble-custom-gifting-home-preview.html">Homepage</a><a href="pebble-collection-preview.html">Collection</a><a href="pebble-products-listing-preview.html">All Products</a><a href="pebble-search-results-preview.html">Search Results</a><a href="pebble-product-detail-preview.html">Product Detail</a><a href="pebble-cart-preview.html">Cart</a><a href="pebble-checkout-preview.html">Checkout</a><a href="pebble-auth-preview.html">Auth</a><a href="pebble-account-orders-preview.html">Account Orders</a><a href="pebble-payment-entry-preview.html">Payment Entry</a><a href="pebble-tracking-preview.html">Tracking</a><a href="pebble-faq-preview.html">FAQ</a><a href="pebble-about-preview.html">About</a><a href="pebble-contact-preview.html">Contact</a><a href="pebble-blog-preview.html">Blog</a><a href="pebble-article-preview.html">Article</a><a href="pebble-404-preview.html">404</a><a href="pebble-payment-success-preview.html">Payment Success</a><a href="pebble-payment-failure-preview.html">Payment Failure</a><a href="pebble-payment-pending-preview.html">Payment Pending</a><a href="pebble-theme-pages-preview.html">Design Language</a><a href="pebble-custom-gifting-home-preview-search-open.html">Search Open</a></div>
+                <div class="mega-links"><a href="pebble-custom-gifting-home-preview.html">Homepage</a><a href="pebble-collection-preview.html">Collection</a><a href="pebble-products-listing-preview.html">All Products</a><a href="pebble-search-results-preview.html">Search Results</a><a href="pebble-product-detail-preview.html">Product Detail</a><a href="pebble-cart-preview.html">Cart</a><a href="pebble-checkout-preview.html">Checkout</a><a href="pebble-account-orders-preview.html">Account Orders</a><a href="pebble-payment-entry-preview.html">Payment Entry</a><a href="pebble-tracking-preview.html">Tracking</a><a href="pebble-faq-preview.html">FAQ</a><a href="pebble-about-preview.html">About</a><a href="pebble-contact-preview.html">Contact</a><a href="pebble-blog-preview.html">Blog</a><a href="pebble-article-preview.html">Article</a><a href="pebble-404-preview.html">404</a><a href="pebble-payment-success-preview.html">Payment Success</a><a href="pebble-payment-failure-preview.html">Payment Failure</a><a href="pebble-payment-pending-preview.html">Payment Pending</a><a href="pebble-theme-pages-preview.html">Design Language</a><a href="pebble-custom-gifting-home-preview-search-open.html">Search Open</a></div>
               </div>
             </div>
           </div>
@@ -4359,6 +4361,9 @@
       </section>
     </aside>
     <script>
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
       const initOfferBar = () => {
         const offer = document.querySelector('.offer');
         if (!offer) return;
@@ -4839,6 +4844,8 @@
       };
 
       initBackToTop();
+
     </script>
+    <script src="pebble-auth-modal.js"></script>
   </body>
 </html>

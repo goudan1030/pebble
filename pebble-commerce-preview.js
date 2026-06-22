@@ -173,7 +173,7 @@ $$("[aria-label='Account']").forEach((link) => {
   });
 });
 
-$$("a[href='pebble-auth-preview.html'], button[data-open-auth]").forEach((trigger) => {
+$$("button[data-open-auth]").forEach((trigger) => {
   trigger.addEventListener("click", (event) => {
     event.preventDefault();
     openAuth(trigger.dataset.authMode || "login");

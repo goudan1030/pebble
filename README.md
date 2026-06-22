@@ -15,7 +15,6 @@ This repository is intentionally scoped to design deliverables only: preview HTM
 - `pebble-search-results-preview.html` - search results page with query field, suggestion chips, and no-result reference.
 - `pebble-cart-preview.html` - cart page with POD item details, coupons, summary, and checkout entry.
 - `pebble-checkout-preview.html` - checkout page with address, delivery, payment, coupon, and order summary components.
-- `pebble-auth-preview.html` - login/register/recovery state preview.
 - `pebble-account-orders-preview.html` - account center and order list preview.
 - `pebble-payment-entry-preview.html` - unpaid order payment recovery preview.
 - `pebble-tracking-preview.html` - order tracking lookup and timeline preview.

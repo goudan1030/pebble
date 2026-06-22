@@ -7,7 +7,7 @@
 - Added Shopify-style SVG icons under `assets/` and standardized icon rendering in the design drafts.
 - Added independent product detail, cart, and checkout preview pages.
 - Added collection, all-products listing, and search results preview pages.
-- Added auth, account orders, unpaid payment entry, tracking, support/content, and system/payment result preview pages.
+- Added account orders, unpaid payment entry, tracking, support/content, and system/payment result preview pages; login/register/recovery now live in the shared account modal.
 - Added shared commerce preview CSS for inner-page patterns.
 - Added shared commerce preview JS for search overlay, reveal behavior, toggles, accordions, toast, and payment-state demos.
 - Updated inner pages to use the same header/search/footer language as the homepage.

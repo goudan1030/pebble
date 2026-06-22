@@ -18,20 +18,28 @@
         top: 112px;
         display: grid;
         grid-template-columns: 92px minmax(0, 1fr);
-        gap: 14px;
+        gap: 24px;
       }
 
       .gallery-thumbs {
+        position: relative;
         display: flex;
         flex-direction: column;
         max-height: var(--gallery-main-size, 100%);
         overflow-x: hidden;
         overflow-y: auto;
         overscroll-behavior: contain;
-        padding-right: 2px;
+        padding-right: 0;
         gap: 10px;
-        scrollbar-width: thin;
+        scrollbar-width: none;
         cursor: grab;
+        -ms-overflow-style: none;
+        mask-image: linear-gradient(to bottom, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+      }
+
+      .gallery-thumbs::-webkit-scrollbar {
+        width: 0;
+        height: 0;
       }
 
       .gallery-thumbs:active {
@@ -55,6 +63,13 @@
         transition: border-color 0.2s ease, transform 0.2s ease;
       }
 
+      .gallery-thumbs img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
       .gallery-thumbs button:hover,
       .gallery-thumbs button.is-active {
         border-color: var(--ink);
@@ -63,6 +78,7 @@
 
       .gallery-main {
         position: relative;
+        min-width: 0;
         aspect-ratio: 1;
       }
 
@@ -1080,5 +1096,6 @@
 
       initBackToTop();
     </script>
+    <script src="pebble-auth-modal.js"></script>
   </body>
 </html>
