@@ -24,7 +24,7 @@
             <div class="auth-creature auth-creature--orange"><div class="auth-pupil-row"><span class="auth-pupil"></span><span class="auth-pupil"></span></div></div>
             <div class="auth-creature auth-creature--yellow"><div class="auth-pupil-row"><span class="auth-pupil"></span><span class="auth-pupil"></span></div><span class="auth-mouth"></span></div>
           </div>
-          <div class="auth-modal__links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="pebble-contact-preview.html">Contact</a></div>
+          <div class="auth-modal__links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="mila-noir-contact-preview.html">Contact</a></div>
         </section>
         <section class="auth-modal__form">
           <div class="auth-modal__header"><h2>Welcome back!</h2><p>Please enter your details</p></div>

@@ -1,8 +1,8 @@
-# Pebble Theme Plan
+# MilaNoir Theme Plan
 
 ## Goal
 
-Build a complete static HTML design system and page preview set for the new Milagift/Pebble storefront theme before implementing it in the real theme codebase.
+Build a complete static HTML design system and page preview set for the new Milagift/MilaNoir storefront theme before implementing it in the real theme codebase.
 
 ## Priority
 
@@ -31,7 +31,7 @@ Build a complete static HTML design system and page preview set for the new Mila
 
 ## Working Rules
 
-- Keep all Pebble design deliverables inside this `output` repository.
+- Keep all MilaNoir design deliverables inside this `output` repository.
 - Do not modify MilaGift application/theme implementation code while iterating on static HTML drafts.
 - Keep page headers, search overlay behavior, footer, radius scale, button styles, and mobile rules aligned with the homepage and design language page.
-- When a shared pattern changes in a page draft, update `pebble-theme-pages-preview.html` as the design-language record.
+- When a shared pattern changes in a page draft, update `mila-noir-theme-pages-preview.html` as the design-language record.
