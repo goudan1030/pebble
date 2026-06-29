@@ -263,6 +263,51 @@ $$(".js-toast").forEach((button) => {
   button.addEventListener("click", () => showToast(button.dataset.toast || `${button.textContent.trim()} ready.`));
 });
 
+const initArticleShares = () => {
+  $$(".article-share").forEach((share) => {
+    let pageUrl = window.location.href.split("#")[0];
+    try {
+      const url = new URL(window.location.href);
+      url.hash = "";
+      pageUrl = url.toString();
+    } catch (error) {}
+
+    const article = share.closest(".article-detail") || document;
+    const title = share.dataset.shareTitle || $(".article-title", article)?.textContent.trim() || document.title;
+    const media = share.dataset.shareMedia || $(".article-inline-media img", article)?.currentSrc || $(".article-inline-media img", article)?.src || "";
+    const encodedUrl = encodeURIComponent(pageUrl);
+    const encodedTitle = encodeURIComponent(title);
+    const encodedMedia = encodeURIComponent(media);
+
+    const shareUrls = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+      pinterest: `https://www.pinterest.com/pin/create/button/?url=${encodedUrl}${media ? `&media=${encodedMedia}` : ""}&description=${encodedTitle}`,
+      x: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+      email: `mailto:?subject=${encodedTitle}&body=${encodeURIComponent(`${title}\n\n${pageUrl}`)}`
+    };
+
+    $$("a", share).forEach((link) => {
+      const label = `${link.dataset.sharePlatform || link.getAttribute("aria-label") || link.textContent}`.toLowerCase();
+      const platform = label.includes("facebook") ? "facebook"
+        : label.includes("pinterest") ? "pinterest"
+          : label.includes("email") ? "email"
+            : label.includes("x") || label.includes("twitter") ? "x"
+              : "";
+      if (!platform || !shareUrls[platform]) return;
+      link.href = shareUrls[platform];
+      if (platform === "email") {
+        link.removeAttribute("target");
+        link.removeAttribute("rel");
+      } else {
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+      }
+    });
+  });
+};
+
+initArticleShares();
+
 $$(".js-pay-state").forEach((button) => {
   button.addEventListener("click", () => {
     const target = button.dataset.target ? $(button.dataset.target) : null;
