@@ -340,6 +340,20 @@
         margin-top: 22px;
       }
 
+      .pdp-trust-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .pdp-trust-row img {
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        object-fit: contain;
+      }
+
       .pdp-section {
         margin-top: clamp(54px, 7vw, 98px);
       }
@@ -777,6 +791,11 @@
 
             <div class="cta-stack">
               <a class="btn btn-primary" href="pebble-cart-preview.html">Add to cart <span class="dot"><img class="svg-icon" src="assets/icon-cart.svg" alt="" aria-hidden="true" /></span></a>
+              <div class="pdp-trust-row" aria-label="Purchase guarantees">
+                <img src="assets/pdp-trust-guarantee.png" alt="10-day Guarantee" />
+                <img src="assets/pdp-trust-secure-checkout.png" alt="Safe and Protected Checkout" />
+                <img src="assets/pdp-trust-premium-quality.png" alt="Premium Quality" />
+              </div>
             </div>
           </div>
 
